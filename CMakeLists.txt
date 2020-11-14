@@ -7,6 +7,7 @@ add_subdirectory(src/ext)
 include_directories(${PROJECT_SOURCE_DIR}/src
                     ${PROJECT_SOURCE_DIR}/src/ext
                     ${PROJECT_SOURCE_DIR}/src/ext/stb
+                    ${PROJECT_SOURCE_DIR}/src/ext/eigen
 )
 
 set(ext_stb_srcs
