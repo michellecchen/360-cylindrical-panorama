@@ -34,9 +34,32 @@ void testSmartAccessor()
 	clampFalse.write(DIR "/output/smartAccessor_clampFalse.png");
 }
 
+void testHomographyAndWarp()
+{
+	vector<vector<int>> im1Points = {{0,0}, {0,84}, {127,0}, {127,84}};
+	vector<vector<int>> im2Points = {{0,0}, {30,84}, {127,0}, {97,84}};
+	Matrix3f H = computeHomography(im1Points, im2Points);
+	cout << H << endl;
+
+	const FloatImage im(DIR "/input/bear.png"); // 85 by 128
+	FloatImage warpedIm = warpImage(im, H);
+	warpedIm.write(DIR "/output/warped.png");
+}
+
+void testStitch()
+{
+	vector<vector<int>> im1Points = {{0,0}, {0,84}, {127,0}, {127,84}};
+	vector<vector<int>> im2Points = {{0,0}, {30,84}, {127,0}, {97,84}};
+	const FloatImage im(DIR "/input/bear.png"); // 85 by 128
+	FloatImage warpedIm = rectifyImage(im, im1Points, im2Points);
+	warpedIm.write(DIR "/output/warped.png");
+}
+
 // test functions
 int main()
 {
 	// uncomment to test these functions
-    try { testSmartAccessor();}   catch(...) {cout << "testSmartAccessor Failed!" << endl;}
+    // try { testSmartAccessor();}   catch(...) {cout << "testSmartAccessor Failed!" << endl;}
+	// try { testHomographyAndWarp();}   catch(...) {cout << "testHomographyAndWarp Failed!" << endl;}
+	try { testStitch();}   catch(...) {cout << "testStitch Failed!" << endl;}
 }
