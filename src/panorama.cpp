@@ -180,7 +180,8 @@ FloatImage stitch(const FloatImage &im1, const FloatImage &im2, const vector<vec
     return output;
 }
 
-// Stitch 2 images together given 2 sets of corresponding points (warp both images)
+// Stitch 2 images together given 2 sets of corresponding points
+// (same as stitch(), but warp both images)
 // input: im1 and im2 are the left and right images to be stitched together,
 // im1Points and im2Points are n-by-2 matrices holding the (x,y) locations
 // of n point correspondences
@@ -212,6 +213,8 @@ FloatImage stitchWarpBoth(const FloatImage &im1, const FloatImage &im2, const ve
     float tx2 = bbox2[0];
     int width = bbox2[1] - bbox1[0];
     int height = (int) (max(bbox1[3], bbox2[3]) - min(bbox1[2], bbox2[2]));
+
+    // for sigmoid blending
     int overlap_x1 = bbox2[0] - tx1;
     int overlap_x2 = bbox1[1] - tx1;
     float mid = (overlap_x1 + overlap_x2) / 2.f;

@@ -17,3 +17,17 @@ patches, sampled from the larger window, with descriptors bias/gain-normalized.
 ‘matches’; similarity is measured according to a threshold.
 4. Computing a homography: Using a robust method (RANSAC).
 5. Producing a mosaic.
+
+## Credits
+Part A assignment guidelines from https://inst.eecs.berkeley.edu//~cs194-26/fa17/hw/proj6/partA.html
+
+Part B assignment guidelines from https://inst.eecs.berkeley.edu//~cs194-26/fa17/hw/proj6/partB.html
+
+The basecode is written by Wojciech Jarosz, but it is heavily derived from (with permission):
+
+:information_source: MIT's 6.815/6.865 basecode, written and designed by:
+* Frédo Durand
+* Katherine L. Bouman
+* Gaurav Chaurasia
+* Adrian Vasile Dalca
+* Neal Wadhwa
