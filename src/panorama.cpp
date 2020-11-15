@@ -155,6 +155,11 @@ FloatImage stitch(const FloatImage &im1, const FloatImage &im2, const vector<vec
     int width = im2.width() - tx;
     int height = max((int) (bbox1[3] - bbox1[2]), (int) im2.height());
 
+    // for linear/sigmoid blending
+    int overlap_x1 = - tx;
+    int overlap_x2 = bbox1[1] - tx;
+    float mid = (overlap_x1 + overlap_x2) / 2.f;
+
     // combine warped left image and right image to form output image
     FloatImage output(width, height, im1.channels());
     for (int i = 0; i < output.width(); i++) {
@@ -164,7 +169,10 @@ FloatImage stitch(const FloatImage &im1, const FloatImage &im2, const vector<vec
                 float val2 = im2.smartAccessor(i + tx, j + ty, c, false);
 				output(i, j, c) = val1 + val2;
                 if (val1 != 0 && val2 != 0) {
-                    output(i, j, c) /= 2;
+                    // output(i, j, c) = val1; // simple overlap
+                    // float alpha = ((float) i - overlap_x1) / (overlap_x2 - overlap_x1); // linear blend
+                    float alpha = 1 / (1 + exp(mid - i)); // sigmoid blend
+                    output(i, j, c) = val1 * (1 - alpha) + val2 * alpha;
                 }
 			}
 		}
@@ -204,6 +212,9 @@ FloatImage stitchWarpBoth(const FloatImage &im1, const FloatImage &im2, const ve
     float tx2 = bbox2[0];
     int width = bbox2[1] - bbox1[0];
     int height = (int) (max(bbox1[3], bbox2[3]) - min(bbox1[2], bbox2[2]));
+    int overlap_x1 = bbox2[0] - tx1;
+    int overlap_x2 = bbox1[1] - tx1;
+    float mid = (overlap_x1 + overlap_x2) / 2.f;
 
     // combine warped images to form output image
     FloatImage output(width, height, im1.channels());
@@ -214,7 +225,10 @@ FloatImage stitchWarpBoth(const FloatImage &im1, const FloatImage &im2, const ve
                 float val2 = outIm2.smartAccessor(i + tx1 - tx2, j + ty1, c, false);
 				output(i, j, c) = val1 + val2;
                 if (val1 != 0 && val2 != 0) {
-                    output(i, j, c) /= 2;
+                    // output(i, j, c) = val1; // simple overlap
+                    // float alpha = ((float) i - overlap_x1) / (overlap_x2 - overlap_x1); // linear blend
+                    float alpha = 1 / (1 + exp(mid - i)); // sigmoid blend
+                    output(i, j, c) = val1 * (1 - alpha) + val2 * alpha;
                 }
 			}
 		}
