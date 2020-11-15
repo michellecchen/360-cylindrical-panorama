@@ -5,6 +5,7 @@
 #define DIR "../data"
 
 using namespace std;
+using namespace Eigen;
 
 // test the smart accessor function
 void testSmartAccessor()
@@ -48,11 +49,25 @@ void testHomographyAndWarp()
 
 void testStitch()
 {
-	vector<vector<int>> im1Points = {{0,0}, {0,84}, {127,0}, {127,84}};
-	vector<vector<int>> im2Points = {{0,0}, {30,84}, {127,0}, {97,84}};
-	const FloatImage im(DIR "/input/bear.png"); // 85 by 128
-	FloatImage warpedIm = rectifyImage(im, im1Points, im2Points);
-	warpedIm.write(DIR "/output/warped.png");
+	const FloatImage im1(DIR "/input/im1.jpg");
+	const FloatImage im2(DIR "/input/im2.jpg");
+	vector<vector<int>> im1Points = {{190, 81}, {362, 81}, {261, 60}, {294, 136}, {196, 186}, {196, 199}};
+	vector<vector<int>> im2Points = {{31, 81}, {207, 88}, {109, 62}, {143, 140}, {43, 197}, {44, 210}};
+
+	// campanile images from https://inst.eecs.berkeley.edu/~cs194-26/sp20/upload/files/proj5B/cs194-26-aeu/
+	// const FloatImage im1(DIR "/input/campanile1.jpg");
+	// const FloatImage im2(DIR "/input/campanile2.jpg");
+	// vector<vector<int>> im1Points = {{229, 50}, {243, 30}, {270, 38}, {273, 58}, {245, 51}, {262, 261}, {245, 9}, {259, 27}};
+	// vector<vector<int>> im2Points = {{101, 40}, {118, 24}, {140, 42}, {139, 62}, {115, 46}, {85, 262}, {124, 5}, {133, 29}};
+
+	// FloatImage warpedIm = rectifyImage(im1, im1Points, im2Points);
+	// warpedIm.write(DIR "/output/rectified.jpg");
+
+	FloatImage stitchedIm = stitch(im1, im2, im1Points, im2Points);
+	stitchedIm.write(DIR "/output/stitched.jpg");
+
+	stitchedIm = stitchWarpBoth(im1, im2, im1Points, im2Points);
+	stitchedIm.write(DIR "/output/stitched-warp-both.jpg");
 }
 
 // test functions

@@ -7,7 +7,11 @@
 using namespace std;
 using namespace Eigen;
 
-// Recover the homography between two sets of points using least squares
+/**************************************************
+ //              Part A Functions                //
+ **************************************************/
+
+// Recover the homography between 2 sets of corresponding points using least squares
 // input: im1Points and im2Points are n-by-2 matrices holding the (x,y) locations
 // of n point correspondences from the two images
 // output: the recovered 3x3 homography matrix
@@ -47,7 +51,7 @@ Matrix3f computeHomography(const vector<vector<int>> im1Points, const vector<vec
     return H;
 }
 
-// using bilinear interpolation to assign the value of a location from its neighboring pixel values
+// Use bilinear interpolation to assign the value of a location from its neighboring pixel values
 float interpolateLin(const FloatImage &im, float x, float y, int z, bool clamp)
 {
 	// interpolate along x for top left and top right
@@ -69,18 +73,45 @@ float interpolateLin(const FloatImage &im, float x, float y, int z, bool clamp)
     return output;
 }
 
-// Warp an image using a given homography matrix
-// input: im is the input image to be warped and H is the homography
+// Compute the bounding box coordinates of an image after applying a given homography
+// input: width and height of an image and a homography matrix H
+// output: a vector storing [xmin, xmax, ymin, ymax]
+vector<float> computeTransformedBBox(int width, int height, Matrix3f H) {
+    Vector3f topLeft, topRight, bottomLeft, bottomRight;
+    topLeft << 0, 0, 1;
+    topRight << width, 0, 1;
+    bottomLeft << 0, height, 1;
+    bottomRight << width, height, 1;
+    topLeft = H * topLeft;
+    topRight = H * topRight;
+    bottomLeft = H * bottomLeft;
+    bottomRight = H * bottomRight;
+
+    vector<float> result;
+    result.push_back(min(topLeft[0] / topLeft[2], bottomLeft[0] / bottomLeft[2])); // xmin
+    result.push_back(max(topRight[0] / topRight[2], bottomRight[0] / bottomRight[2])); // xmax
+    result.push_back(min(topLeft[1] / topLeft[2], topRight[1] / topRight[2])); // ymin
+    result.push_back(max(bottomLeft[1] / bottomLeft[2], bottomRight[1] / bottomRight[2])); // ymax
+    return result;
+}
+
+// Warp an image using a given homography matrix and bilinear interpolation
+// input: im is the input image to be warped and H is the homography matrix
 // output: the warped image
 FloatImage warpImage(const FloatImage &im, const Matrix3f H)
 {
-    FloatImage output(im.width(), im.height(), im.channels());
+    vector<float> bbox1 = computeTransformedBBox(im.width(), im.height(), H);
+    float tx = bbox1[0];
+    float ty = bbox1[2];
+    int width = (int) (bbox1[1] - bbox1[0]);
+    int height = (int) (bbox1[3] - bbox1[2]);
+    FloatImage output(width, height, im.channels());
 
 	for (int i = 0; i < output.width(); i++) {
 		for (int j = 0; j < output.height(); j++) {
 			for (int c = 0; c < output.channels(); c++) {
                 Vector3f imCoords;
-                imCoords << i, j, 1;
+                imCoords << i + tx, j + ty, 1;
                 Vector3f outCoords = H.inverse() * imCoords; // use inverse warping
 				float x = outCoords(0) / outCoords(2);
                 float y = outCoords(1) / outCoords(2);
@@ -88,23 +119,111 @@ FloatImage warpImage(const FloatImage &im, const Matrix3f H)
 			}
 		}
 	}
-
 	return output;
 }
 
-// Rectify an image given two sets of points
+// Rectify an image given 2 sets of corresponding points
 // input: im is the input image to be rectified, im1Points and im2Points are n-by-2 matrices
 // holding the (x,y) locations of n point correspondences from the two images
 // output: the warped image
 FloatImage rectifyImage(const FloatImage &im, const std::vector<std::vector<int>> im1Points, const std::vector<std::vector<int>> im2Points)
 {
+    if (im1Points.size() != im2Points.size() || im1Points.size() < 4) {
+        throw MismatchedSizeException();
+    }
     Matrix3f H = computeHomography(im1Points, im2Points);
     return warpImage(im, H);
 }
 
-// bounding boxes
-
-// FloatImage stitch(im1, im2, im1Points, im2Points)
-// input: im1 and im2 are the images to be stitched together, im1Points and im2Points are
-// n-by-2 matrices holding the (x,y) locations of n point correspondences
+// Stitch 2 images together given 2 sets of corresponding points (warp the left image)
+// input: im1 and im2 are the left and right images to be stitched together,
+// im1Points and im2Points are n-by-2 matrices holding the (x,y) locations
+// of n point correspondences
 // output: the stitched panorama image
+FloatImage stitch(const FloatImage &im1, const FloatImage &im2, const vector<vector<int>> im1Points, const vector<vector<int>> im2Points)
+{
+    if (im1Points.size() != im2Points.size() || im1Points.size() < 4) {
+        throw MismatchedSizeException();
+    }
+
+    // warp left image and determine output image size
+    Matrix3f H = computeHomography(im1Points, im2Points);
+    FloatImage outIm1 = warpImage(im1, H);
+    vector<float> bbox1 = computeTransformedBBox(im1.width(), im1.height(), H);
+    float tx = bbox1[0];
+    float ty = bbox1[2];
+    int width = im2.width() - tx;
+    int height = max((int) (bbox1[3] - bbox1[2]), (int) im2.height());
+
+    // combine warped left image and right image to form output image
+    FloatImage output(width, height, im1.channels());
+    for (int i = 0; i < output.width(); i++) {
+		for (int j = 0; j < output.height(); j++) {
+			for (int c = 0; c < output.channels(); c++) {
+                float val1 = outIm1.smartAccessor(i, j, c, false);
+                float val2 = im2.smartAccessor(i + tx, j + ty, c, false);
+				output(i, j, c) = val1 + val2;
+                if (val1 != 0 && val2 != 0) {
+                    output(i, j, c) /= 2;
+                }
+			}
+		}
+	}
+    return output;
+}
+
+// Stitch 2 images together given 2 sets of corresponding points (warp both images)
+// input: im1 and im2 are the left and right images to be stitched together,
+// im1Points and im2Points are n-by-2 matrices holding the (x,y) locations
+// of n point correspondences
+// output: the stitched panorama image
+FloatImage stitchWarpBoth(const FloatImage &im1, const FloatImage &im2, const vector<vector<int>> im1Points, const vector<vector<int>> im2Points)
+{
+    if (im1Points.size() != im2Points.size() || im1Points.size() < 4) {
+        throw MismatchedSizeException();
+    }
+
+    // compute the average of the two sets of corresponding points
+    vector<vector<int>> avgPoints;
+    for (int i = 0; i < (int) im1Points.size(); i++) {
+        vector<int> point;
+        point.push_back((im1Points[i][0] + im2Points[i][0]) / 2);
+        point.push_back((im1Points[i][1] + im2Points[i][1]) / 2);
+        avgPoints.push_back(point);
+    }
+
+    // warp both images and determine output image size
+    Matrix3f H1 = computeHomography(im1Points, avgPoints);
+    Matrix3f H2 = computeHomography(im2Points, avgPoints);
+    FloatImage outIm1 = warpImage(im1, H1);
+    FloatImage outIm2 = warpImage(im2, H2);
+    vector<float> bbox1 = computeTransformedBBox(im1.width(), im1.height(), H1);
+    vector<float> bbox2 = computeTransformedBBox(im2.width(), im2.height(), H2);
+    float tx1 = bbox1[0];
+    float ty1 = bbox1[2];
+    float tx2 = bbox2[0];
+    int width = bbox2[1] - bbox1[0];
+    int height = (int) (max(bbox1[3], bbox2[3]) - min(bbox1[2], bbox2[2]));
+
+    // combine warped images to form output image
+    FloatImage output(width, height, im1.channels());
+    for (int i = 0; i < output.width(); i++) {
+		for (int j = 0; j < output.height(); j++) {
+			for (int c = 0; c < output.channels(); c++) {
+                float val1 = outIm1.smartAccessor(i, j, c, false);
+                float val2 = outIm2.smartAccessor(i + tx1 - tx2, j + ty1, c, false);
+				output(i, j, c) = val1 + val2;
+                if (val1 != 0 && val2 != 0) {
+                    output(i, j, c) /= 2;
+                }
+			}
+		}
+	}
+    return output;
+}
+
+
+/**************************************************
+ //              Part B Functions                //
+ **************************************************/
+
