@@ -327,18 +327,27 @@ vector<vector<int>> featureMatching(const FloatImage im1, const FloatImage im2, 
     for (int i = 0; i < keypoints1.size(); i++) {
         
         float smallestDistance = FLT_MAX;
+        float secondSmallest = FLT_MAX;
         
         // Lowe's ratio test? Consider thresholding (recommended starter th=0.5)
         // Lowering this threshold will improve the quality of matches but decrease the overall amount. Optimize for this tradeoff?
         for (int j = 0; j < keypoints2.size(); j++) {
+            
             float ssd = computeSumSquaredDist(descriptors1[i], descriptors2[j]);
+            
             if (ssd < smallestDistance) {
+                secondSmallest = smallestDistance;
                 smallestDistance = ssd;
                 vector<int> indices{ i, j };
                 matchIndices.push_back(indices);
                 matchDistances.push_back(ssd);
             }
+            else if (ssd < secondSmallest && ssd != smallestDistance) {
+                secondSmallest = ssd;
+            }
         }
+
+        float ratio = smallestDistance / secondSmallest; // to b used
     }
 
     // sort matchIndices based on increasing order of their corresponding matchDistances
@@ -355,6 +364,61 @@ float computeSumSquaredDist(vector<float> patch1, vector<float> patch2) {
         sum += pow(patch1[i] - patch2[i], 2);
     }
     return sum;
+}
+
+// RANSAC: RAndom SAmple Consensus
+// Filter matches by randomly selecting 4 feature pairs (matches) and computing a homography from them
+// Then, use this homography to transform all the keypoints, and see if this transformation is valid
+// Count the number of inliers from the transformation
+// The homography with the max. # of inliers is selected; non-adhering points (outliers) are rejected
+vector<vector<float>> RANSAC(const FloatImage im, vector<vector<float>> keypoints1, vector<vector<float>> keypoints2, vector<vector<int>> matchIndices, 
+    int iterations, float epsilon) {
+    
+
+    assert(keypoints1.size() == keypoints2.size());
+    
+    vector<vector<float>> mostInliers;
+    for (int i = 0; i < iterations; i++) {
+        // Select four feature pairs (at random)
+        vector<int> match1 = rand() % matchIndices.size();
+        vector<int> match2 = rand() % matchIndices.size();
+        vector<int> match3 = rand() % matchIndices.size();
+        vector<int> match4 = rand() % matchIndices.size();
+
+        // Compute homography matrix H (exact, no estimate)
+        vector<vector<float>> homography = computeHomography(im, match1, match2, match3, match4);
+        // we also want to use H to get Hp via another perspectiveTransform on keypoints1
+
+        // Compute inliers where SSD(p'_i, Hp_i) < epsilon (=1)
+        vector<vector<float>> inliers;
+        
+        for (int j = 0; j < keypoints1.size(); j++) {
+            float ssd = 0.0;
+            for (int k = 0; k < keypoints2.size(); k++) {
+                ssd += pow(keypoints2[k]-homography[k],2);
+            }
+            if (ssd < epsilon) {
+                inliers.push_back(keypoints1[j], keypoints2[j]);
+            }
+        }
+
+        if (inliers.size() < mostInliers.size()) {
+            mostInliers = inliers;
+        }
+
+        return mostInliers;
+
+        // Preserve largest set of inliers
+
+        // Recompute least-squares H estimate on all the inliers
+
+    }
+}
+
+// basically raw implementation of opencv perspectiveTransform
+vector<vector<float>> computeHomography(const FLoatImage im, vector<int> match1, vector<int> match2, vector<int> match3, vector<int> match4) {
+    // do this later
+    return vector<vector<float>>; // CHANGEME
 }
 
 

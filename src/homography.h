@@ -54,6 +54,9 @@ vector<vector<int>> featureMatching(const FloatImage im1, const FloatImage im2,
 
 float computeSumSquaredDist(vector<float> patch1, vector<float> patch2);
 
+vector<vector<float>> RANSAC(const FloatImage im, vector<vector<float>> keypoints1, vector<vector<float>> keypoints2, vector<vector<int>> matchIndices, 
+    int iterations, float epsilon);
+
 // grayscale 
 FloatImage color2gray(const FloatImage &im, const vector<float> &weights);
 
