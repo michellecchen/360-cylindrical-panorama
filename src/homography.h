@@ -14,8 +14,6 @@
 #include <iostream>
 #include <math.h>
 #include <Eigen/Dense>
-// #include <opencv2/core/mat.hpp>
-// #include <opencv2/imgproc.hpp>
 
 class Filter
 {
@@ -50,6 +48,11 @@ vector<vector<float>> featureDescriptors(const FloatImage im, vector<FloatImage>
 // gaussian pyramid
 vector<FloatImage> grayscalePyramid(const FloatImage &im, int levels);
 vector<FloatImage> gaussianPyramid(const FloatImage &im, float sigma, float truncate, bool clamp, int level);
+
+vector<vector<int>> featureMatching(const FloatImage im1, const FloatImage im2, 
+    vector<vector<float>> keypoints1, vector<vector<float>> keypoints2, vector<vector<float>> descriptors1, vector<vector<float>> descriptors2);
+
+float computeSumSquaredDist(vector<float> patch1, vector<float> patch2);
 
 // grayscale 
 FloatImage color2gray(const FloatImage &im, const vector<float> &weights);
