@@ -9,35 +9,11 @@
 #include <iostream>
 #include <Eigen/Dense>
 
-// #include <opencv2/core/mat.hpp>
-// #include <opencv2/imgproc.hpp>
-
 using namespace std;
 using namespace Eigen;
 using Vec2f = std::array<float, 2>;
-// using namespace cv;
 
 // // ------- STEP 1 -------
-
-// // Implementing Harris Interest Point Detector to find all Harris corners
-// // in the input image; discards corners near the edge.
-// // RETURNS: Coordinates of the remaining corners & 2D array containing
-// // the h-value of every pixel.
-// void harris(const FloatImage im, int edge_discard) {
-//     assert(edge_discard >= 20);
-
-//     // Find harris corners
-//     vector<float> im_array = convert_im_type(im);
-    
-//     // support for color channels?
-//     // may want to consider converting FloatImage to 2d
-//     vector<float> corners(im.width()*im.height()*im.depth(), 0);
-
-//     // ***check params on this***
-//     int blockSize = 7; int apertureSize = 5; float k = 0.05;
-//     cv.cornerHarris(im_array, corners, blockSize, apertureSize, k, BORDER_DEFAULT);
-//     // peak_local_max: https://scikit-image.org/docs/dev/api/skimage.feature.html#skimage.feature.peak_local_max
-// }
 
 // STEP 1: extracts harris interest points
 // INPUT: 
@@ -107,24 +83,6 @@ vector<vector<float>> harris(const FloatImage im, int levels, vector<FloatImage>
     return interestPoints;
 }
 
-// // Convert FloatImage to single-channel floating-point image (cv::InputArray)
-// // cv:InputArray documentation: https://docs.opencv.org/3.4/d4/d32/classcv_1_1__InputArray.html#details
-// vector<float> convert_im_type(const FloatImage im) {
-
-//     vector<float> im_array(im.width()*im.height()*im.depth(), 0);
-    
-//     for (int i = 0; i < im.width(); i++) {
-//         for (int j = 0; j < im.height(); j++) {
-//             for (int z = 0; z < im.depth(); z++) {
-//                 im_array[z*im.width()*im.height()+j*im.width()+i] = im(i,j,z);
-//             }
-//         }
-//     }
-
-//     return im_array;
-
-// }
-
 // *~~~* STEP 2: ADAPTIVE NON-MAXIMAL SUPPRESSION (ANMS) *~~~*
 
 // Interest points are suppressed based on the corner strength;
@@ -159,6 +117,7 @@ vector<vector<float>> suppress(int n, vector<vector<float>> keypoints) {
         radii.push_back(minDistance);
     }
 
+    // Initialize original indices
     vector<int> indices(keypoints.size());
     iota(indices.begin(), indices.end(), 0); // accumulator => original indices
 
@@ -187,14 +146,14 @@ vector<vector<float>> featureDescriptors(const FloatImage im, vector<FloatImage>
 {   
     vector<vector<float>> descriptors;
 
-    // adjust the gaussian pyramid so it has the original image as the first layer for calculation purposes
+    // adjust the Gaussian pyramid so it has the original image as the first layer for calculation purposes
     vector<FloatImage> newPyramid;
     float weight_init[3] = {0.299, 0.587, 0.114};
     newPyramid.push_back(color2gray(im, weight_init));
     newPyramid.insert(newPyramid.end(), pyramid.begin(), pyramid.end());
 
     //////////////////////////////////////////////////////////////////////////
-    // Should probably store sobel + gaussian pyramid on different fucntion 
+    // Should probably store sobel + gaussian pyramid on different function 
     // so calculation doesn't need to be repeated
     //////////////////////////////////////////////////////////////////////////
 
@@ -202,14 +161,14 @@ vector<vector<float>> featureDescriptors(const FloatImage im, vector<FloatImage>
     vector<FloatImage> orientationPyra;
 
     // get the spatially gradiated pyramid again (using the sobel operator)
-    for(int i = 0; i < newPyramid.size(); i++){
+    for (int i = 0; i < newPyramid.size(); i++){
         vector<FloatImage> magOri = gradientMagnitude(newPyramid[i], true);
         newPyramid[i] = magOri[0];
         orientationPyra.push_back(magOri[1]);
     }
 
     // for every keypoint, generate descriptors
-    for(int i = 0; i < keypoints.size(); i++){
+    for (int i = 0; i < keypoints.size(); i++){
         // calculate the values of the 8x8 patches by calculating the mean of the patch
 
         // get the center keypoint and adjust the keypoint's coordinates to a higher layer to avoid anti-aliasing 
@@ -224,13 +183,13 @@ vector<vector<float>> featureDescriptors(const FloatImage im, vector<FloatImage>
         vector<float> patches(64);
 
         // get patch values
-        for(int j = 0; j < 8; j++){
-            for(int k = 0; k < 8; k++){
+        for (int j = 0; j < 8; j++){
+            for (int k = 0; k < 8; k++){
                 // initialize a patch vector
                 vector<float> p(25);
 
-                for(int m = 0; m < 5; m++){
-                    for(int n = 0; n < 5; n++){
+                for (int m = 0; m < 5; m++){
+                    for (int n = 0; n < 5; n++){
                         // calculate the adjusted coordinates accounting for patches
                         int patchX = centerX -16 + j*4 + m;
                         int patchY = centerY -16 + k*4 + n;
@@ -265,31 +224,38 @@ vector<vector<float>> featureDescriptors(const FloatImage im, vector<FloatImage>
         // Method learned from https://people.sc.fsu.edu/~jburkardt/c_src/haar/haar.html 
         vector<float> temp = patches;
         int c = 8;
-        while(1 < c){
+        
+        while (1 < c){
             c = c /2;
-            for(int d = 0; d < 8; d++){
-                for(int e = 0; e < c; e++){
+            
+            for (int d = 0; d < 8; d++){
+                for (int e = 0; e < c; e++){
                     temp[e + 8*d] = (patches[2*e + 8*d] + patches[2*e+1+8*d]) / sqrt(2);
-                    temp[c+e+8*d] = (patches[2*e + 8*d] - patches[2*e+1+8*d]) / sqrt(2);
+                    temp[c + e+8*d] = (patches[2*e + 8*d] - patches[2*e+1+8*d]) / sqrt(2);
                 }
             }
-            for(int d = 0; d < 8; d++){
-                for(int e = 0; e < 2*c; e++){
+            
+            for (int d = 0; d < 8; d++){
+                for (int e = 0; e < 2*c; e++){
                     patches[e + 8*d] = temp[e + 8*d];
                 }
             }
         }
+        
         c = 8;
-        while(1 < c){
-            c = c /2;
-            for(int d = 0; d < 8; d++){
-                for(int e = 0; e < c; e++){
-                    temp[e +   8*d] = (patches[e + 16*d] + patches[e+8*(2*d+1)]) / sqrt(2);
-                    temp[e+8*(c+d)] = (patches[e + 16*d] - patches[e+8*(2*d+1)]) / sqrt(2);
+        
+        while (1 < c) {
+            c = c/2;
+            
+            for (int d = 0; d < 8; d++){
+                for (int e = 0; e < c; e++){
+                    temp[e + 8*d] = (patches[e + 16*d] + patches[e+8*(2*d+1)]) / sqrt(2);
+                    temp[e + 8*(c+d)] = (patches[e + 16*d] - patches[e+8*(2*d+1)]) / sqrt(2);
                 }
             }
-            for(int d = 0; d < 2*c; d++){
-                for(int e = 0; e < 8; e++){
+
+            for (int d = 0; d < 2*c; d++){
+                for (int e = 0; e < 8; e++){
                     patches[e + 8*d] = temp[e + 8*d];
                 }
             }
@@ -329,9 +295,9 @@ vector<FloatImage> gaussianPyramid(const FloatImage &im, float sigma, float trun
         // reduce the scale
         currentLevel = FloatImage(blurImage.width()/2, blurImage.height()/2, blurImage.channels());
 
-        for(int x = 0; x < blurImage.width()/2; x++){
-            for(int y = 0; y < blurImage.height()/2; y++){
-                for(int z = 0; z < blurImage.channels()/2; z++){
+        for (int x = 0; x < blurImage.width()/2; x++){
+            for (int y = 0; y < blurImage.height()/2; y++){
+                for (int z = 0; z < blurImage.channels()/2; z++){
                     // get the doubled coordinates for simplicity
                     currentLevel(x,y,z) = blurImage(min(x*2, blurImage.width()-1),min(y*2,blurImage.height()-1),z);
                 }
@@ -342,6 +308,120 @@ vector<FloatImage> gaussianPyramid(const FloatImage &im, float sigma, float trun
         pyramid.push_back(currentLevel);
     }
 }
+
+
+// Returns indices of matches between keypoints1 & keypoints2,
+// sorted in increasing order by corresponding SSD (Sum of Squared Distance).
+vector<vector<int>> featureMatching(const FloatImage im1, const FloatImage im2, vector<vector<float>> keypoints1, 
+    vector<vector<float>> keypoints2, vector<vector<float>> descriptors1, vector<vector<float>> descriptors2) {
+
+    assert((keypoints1.size() == descriptors1.size()) && (keypoints2.size() == descriptors2.size()) && 
+        (keypoints1.size() == keypoints2.size()));
+
+
+    // Compile indices & distances of tentative matches between keypoints
+    vector<vector<int>> matchIndices;
+    vector<float> matchDistances;
+    
+    // Brute force
+    for (int i = 0; i < keypoints1.size(); i++) {
+        
+        float smallestDistance = FLT_MAX;
+        float secondSmallest = FLT_MAX;
+        
+        // Lowe's ratio test? Consider thresholding (recommended starter th=0.5)
+        // Lowering this threshold will improve the quality of matches but decrease the overall amount. Optimize for this tradeoff?
+        for (int j = 0; j < keypoints2.size(); j++) {
+            
+            float ssd = computeSumSquaredDist(descriptors1[i], descriptors2[j]);
+            
+            if (ssd < smallestDistance) {
+                secondSmallest = smallestDistance;
+                smallestDistance = ssd;
+                vector<int> indices{ i, j };
+                matchIndices.push_back(indices);
+                matchDistances.push_back(ssd);
+            }
+            else if (ssd < secondSmallest && ssd != smallestDistance) {
+                secondSmallest = ssd;
+            }
+        }
+
+        float ratio = smallestDistance / secondSmallest; // to b used
+    }
+
+    // sort matchIndices based on increasing order of their corresponding matchDistances
+    stable_sort(matchIndices.begin(), matchIndices.end(), [matchDistances](float dist1, float dist2) {return matchDistances[dist1] < matchDistances[dist2];});
+
+    return matchIndices;
+
+}
+
+// SSD between two patches (keypoint descriptors)
+float computeSumSquaredDist(vector<float> patch1, vector<float> patch2) {
+    float sum = 0.0;
+    for (int i = 0; i < patch1.size(); i++) {
+        sum += pow(patch1[i] - patch2[i], 2);
+    }
+    return sum;
+}
+
+// RANSAC: RAndom SAmple Consensus
+// Filter matches by randomly selecting 4 feature pairs (matches) and computing a homography from them
+// Then, use this homography to transform all the keypoints, and see if this transformation is valid
+// Count the number of inliers from the transformation
+// The homography with the max. # of inliers is selected; non-adhering points (outliers) are rejected
+vector<vector<float>> RANSAC(const FloatImage im, vector<vector<float>> keypoints1, vector<vector<float>> keypoints2, vector<vector<int>> matchIndices, 
+    int iterations, float epsilon) {
+    
+
+    assert(keypoints1.size() == keypoints2.size());
+    
+    vector<vector<float>> mostInliers;
+    for (int i = 0; i < iterations; i++) {
+        // Select four feature pairs (at random)
+        vector<int> match1 = rand() % matchIndices.size();
+        vector<int> match2 = rand() % matchIndices.size();
+        vector<int> match3 = rand() % matchIndices.size();
+        vector<int> match4 = rand() % matchIndices.size();
+
+        // Compute homography matrix H (exact, no estimate)
+        vector<vector<float>> homography = computeHomography(im, match1, match2, match3, match4);
+        // we also want to use H to get Hp via another perspectiveTransform on keypoints1
+
+        // Compute inliers where SSD(p'_i, Hp_i) < epsilon (=1)
+        vector<vector<float>> inliers;
+        
+        for (int j = 0; j < keypoints1.size(); j++) {
+            float ssd = 0.0;
+            for (int k = 0; k < keypoints2.size(); k++) {
+                ssd += pow(keypoints2[k]-homography[k],2);
+            }
+            if (ssd < epsilon) {
+                inliers.push_back(keypoints1[j], keypoints2[j]);
+            }
+        }
+
+        if (inliers.size() < mostInliers.size()) {
+            mostInliers = inliers;
+        }
+
+        return mostInliers;
+
+        // Preserve largest set of inliers
+
+        // Recompute least-squares H estimate on all the inliers
+
+    }
+}
+
+// basically raw implementation of opencv perspectiveTransform
+vector<vector<float>> computeHomography(const FLoatImage im, vector<int> match1, vector<int> match2, vector<int> match3, vector<int> match4) {
+    // do this later
+    return vector<vector<float>>; // CHANGEME
+}
+
+
 /**********************************************************************************
  //                 GRAYSCALE FUNCTION    *(from assignment 2)              //
  **********************************************************************************/
@@ -373,24 +453,15 @@ vector<FloatImage> gradientMagnitude(const FloatImage &im, bool clamp)
 {
 	FloatImage mag(im);
     FloatImage orientation(im);
-	Filter sobelX(3,3);
-	Filter sobelY(3,3);
+	Filter sobelX(3,3); Filter sobelY(3,3);
 
 	// sobel filtering in x direction
-	sobelX(0,0) = -1;
-	sobelX(0,1) = -2;
-	sobelX(0,2) = -1;
-	sobelX(2,0) = 1;
-	sobelX(2,1) = 2;
-	sobelX(2,2) = 1;
+	sobelX(0,0) = -1; sobelX(0,1) = -2; sobelX(0,2) = -1;
+	sobelX(2,0) = 1; sobelX(2,1) = 2; sobelX(2,2) = 1;
 
 	// sobel filtering in y direction
-	sobelY(0,0) = -1;
-	sobelY(1,0) = -2;
-	sobelY(2,0) = -1;
-	sobelY(0,2) = 1;
-	sobelY(1,2) = 2;
-	sobelY(2,2) = 1;
+	sobelY(0,0) = -1; sobelY(1,0) = -2; sobelY(2,0) = -1;
+	sobelY(0,2) = 1; sobelY(1,2) = 2; sobelY(2,2) = 1;
 
 	// compute squared magnitude
 	FloatImage xMag = sobelX.Convolve(im,clamp);
@@ -408,7 +479,7 @@ vector<FloatImage> gradientMagnitude(const FloatImage &im, bool clamp)
     magOri.push_back(mag);
     magOri.push_back(orientation);
 
-	return magOri;//  CHANGEME
+	return magOri;
 }
 
 /**********************************************************************************
