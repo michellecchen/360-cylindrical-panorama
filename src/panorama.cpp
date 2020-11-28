@@ -239,7 +239,98 @@ FloatImage stitchWarpBoth(const FloatImage &im1, const FloatImage &im2, const ve
     return output;
 }
 
+vector<float> convertToCylinder(float x, float y, int w, int h, float focal, float radius)
+{
+    //center the point at 0,0
+    x = x - floor(w / 2);
+    y = y - floor(h / 2);
 
+    // calculate new coordinate
+    float omega = w/2;
+    float r2 = pow(radius, 2);
+    float z0 = focal - sqrt(r2 - pow(omega, 2));
+    float x2 = pow(x, 2);
+    float f2 = pow(focal, 2);
+    float z02 = pow(z0, 2);
+    float zc = (2 * z0 + sqrt(4 * z02 - 4 * (x2 / f2 + 1) * (z02 - r2))) / (2 * (x2 / (f2 + 1))); 
+    float new_x = x * zc / focal;
+    float new_y= y * zc / focal;
+
+    // reconvert image coordinate
+    new_x += w/2;
+    new_y += h/2;
+
+    vector<float> point;
+    point.push_back(new_x);
+    point.push_back(new_y);
+    return point;
+}
+
+FloatImage warpCylinder(const FloatImage &im, int focal, int radius){
+    FloatImage result(im);
+    for (int x = 0; x < im.width(); x++){
+        for (int y = 0; y < im.height(); y++){
+            for (int z = 0; z < im.depth(); z++){
+                vector<float> new_coodinate = convertToCylinder(x, y, im.width(), im.height(), focal, radius);
+                result(x, y, z) = interpolateLin(im, new_coodinate[0], new_coodinate[1], z, false);
+            }
+        }
+    }   
+    return result;
+}
+
+vector<FloatImage> warpAll(vector<FloatImage> &images, int focal, int radius){
+    vector<FloatImage> warped;
+    for (FloatImage image : images){
+        FloatImage result = warpCylinder(image, focal, radius);
+        warped.push_back(result);
+    }
+    return warped;
+}
+FloatImage stitchCylinder(vector<FloatImage> &images, vector<int> boundaries, int focal){
+    int circumference = calculateCircumference(boundaries);
+    int radius = floor(circumference / (2 * M_PI));
+    FloatImage result(circumference, images[0].height(), images[0].depth());
+    vector<FloatImage> warped = warpAll(images, focal, radius);
+    vector<int> newBoundaries = convertBoundaries(boundaries, radius, focal, images[0].width(), images[0].height());
+    int currentImage = 0;
+    int localX = newBoundaries[0];
+    for (int x = 0; x < result.width(); x ++){
+        if (localX > newBoundaries[currentImage * 2 + 1]){
+            currentImage += 1;
+            localX = newBoundaries[currentImage * 2];
+        }
+        for (int y = 0; y < result.height(); y ++){
+            for (int z = 0; z < result.depth(); z ++){
+                result(x, y, z) = warped[currentImage](localX, y, z);
+            }
+        }
+    }
+    return result;
+}
+
+vector<int> convertBoundaries(vector<int> boundaries, int radius, int focal, int w, int h){
+    vector<int> result;
+    for (int boundary : boundaries){
+        int new_x = convertToCylinder(boundary, 0, w, h, focal, radius)[0];
+        result.push_back(new_x);
+    }
+    return result;
+}
+
+int calculateCircumference(const vector<int> boundaries){
+    int circumference = 0;
+    for (int i = 0; i <= boundaries.size() - 1; i += 2 ){
+        for (int j = 1; j <= boundaries.size(); j += 2 ){
+            circumference += j - i;
+        }
+    }
+    return circumference;
+}
+
+int getFocalLength(float focalMM, float sensorWidth, FloatImage &im){
+    return floor(im.width() * focalMM / sensorWidth);
+}
 /**************************************************
  //              Part B Functions                //
  **************************************************/
