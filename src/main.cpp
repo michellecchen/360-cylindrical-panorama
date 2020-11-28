@@ -4,6 +4,7 @@
 
 #define DIR "../data"
 using namespace Eigen;
+using namespace std;
 
 // test the smart accessor function
 void testSmartAccessor()
