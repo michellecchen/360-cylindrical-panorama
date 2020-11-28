@@ -141,7 +141,7 @@ vector<vector<float>> suppress(int n, vector<vector<float>> keypoints) {
 // - the vector of keypoints
 //
 // OUTPUT:
-// - a vector of 64-dimensional descriptors
+// - a vector of 64-dimensional descriptors in order of the keypoints found
 vector<vector<float>> featureDescriptors(const FloatImage im, vector<FloatImage> pyramid, vector<vector<float>> keypoints)
 {   
     vector<vector<float>> descriptors;
@@ -328,26 +328,33 @@ vector<vector<int>> featureMatching(const FloatImage im1, const FloatImage im2, 
         
         float smallestDistance = FLT_MAX;
         float secondSmallest = FLT_MAX;
+        float ssd = FLT_MAX;
+        vector<int> indices(2);
         
         // Lowe's ratio test? Consider thresholding (recommended starter th=0.5)
         // Lowering this threshold will improve the quality of matches but decrease the overall amount. Optimize for this tradeoff?
         for (int j = 0; j < keypoints2.size(); j++) {
             
-            float ssd = computeSumSquaredDist(descriptors1[i], descriptors2[j]);
-            
+            ssd = computeSumSquaredDist(descriptors1[i], descriptors2[j]);
+
             if (ssd < smallestDistance) {
                 secondSmallest = smallestDistance;
                 smallestDistance = ssd;
-                vector<int> indices{ i, j };
-                matchIndices.push_back(indices);
-                matchDistances.push_back(ssd);
+                indices[0]=i; indices[1]=j;
+                // matchIndices.push_back(indices);
+                // matchDistances.push_back(ssd);
             }
             else if (ssd < secondSmallest && ssd != smallestDistance) {
                 secondSmallest = ssd;
             }
         }
 
+        // utilize lowe's method of determining better quality matches
         float ratio = smallestDistance / secondSmallest; // to b used
+        if (ratio >= 0.5){
+            matchIndices.push_back(indices);
+            matchDistances.push_back(ssd);
+        }
     }
 
     // sort matchIndices based on increasing order of their corresponding matchDistances
@@ -368,59 +375,221 @@ float computeSumSquaredDist(vector<float> patch1, vector<float> patch2) {
 
 // RANSAC: RAndom SAmple Consensus
 // Filter matches by randomly selecting 4 feature pairs (matches) and computing a homography from them
-// Then, use this homography to transform all the keypoints, and see if this transformation is valid
+// Then, use this homography to transform all the MATCHED keypoints, and see if this transformation is valid
 // Count the number of inliers from the transformation
 // The homography with the max. # of inliers is selected; non-adhering points (outliers) are rejected
-vector<vector<float>> RANSAC(const FloatImage im, vector<vector<float>> keypoints1, vector<vector<float>> keypoints2, vector<vector<int>> matchIndices, 
-    int iterations, float epsilon) {
+// 
+// epsilon = limit for ssd
+// thres = limit for # of inliners
+Matrix3f RANSAC(const FloatImage im, vector<vector<float>> keypoints1, vector<vector<float>> keypoints2, vector<vector<int>> matchIndices, 
+    int iterations, float epsilon, float thres) {
     
 
     assert(keypoints1.size() == keypoints2.size());
     
     vector<vector<float>> mostInliers;
+    
+    int maxInliner = 0;
+    Matrix3f bestHomography;
     for (int i = 0; i < iterations; i++) {
         // Select four feature pairs (at random)
-        vector<int> match1 = rand() % matchIndices.size();
-        vector<int> match2 = rand() % matchIndices.size();
-        vector<int> match3 = rand() % matchIndices.size();
-        vector<int> match4 = rand() % matchIndices.size();
+        vector<int> match1 = matchIndices[rand() % matchIndices.size()];
+        vector<int> match2 = matchIndices[rand() % matchIndices.size()];
+        vector<int> match3 = matchIndices[rand() % matchIndices.size()];
+        vector<int> match4 = matchIndices[rand() % matchIndices.size()];
 
         // Compute homography matrix H (exact, no estimate)
-        vector<vector<float>> homography = computeHomography(im, match1, match2, match3, match4);
+        Matrix3f homography = computeHomography(keypoints1, keypoints2, match1, match2, match3, match4);
         // we also want to use H to get Hp via another perspectiveTransform on keypoints1
 
         // Compute inliers where SSD(p'_i, Hp_i) < epsilon (=1)
         vector<vector<float>> inliers;
         
-        for (int j = 0; j < keypoints1.size(); j++) {
+        float inLinerCount = 0;
+        // calculate the total ssd if using the homography matrix
+        for (int j = 0; j < matchIndices.size(); j++) {
+            int index1 = matchIndices[j][0];
+            int index2 = matchIndices[j][1];
+
+            // extract the xy coordinates of pixel 2
+            int pixel2X = (int) keypoints2[index2][1] * pow(2, keypoints2[index2][3] + 1); 
+            int pixel2Y = (int) keypoints2[index2][1] * pow(2, keypoints2[index2][3] + 1); 
+
+            // compute the transformed pixel location
+            MatrixXf pixel1(3,1); 
+            pixel1(0,0) = keypoints1[index1][1] * pow(2, keypoints1[index1][3] + 1); 
+            pixel1(1,0) = keypoints1[index1][2] * pow(2, keypoints1[index1][3] + 1); 
+            pixel1(2,0) = 1;
+
+            MatrixXf transPixel = homography*pixel1;
+
+            int newX = (int) round(transPixel(0,0)/transPixel(2,0));
+            int newY = (int) round(transPixel(1,0)/transPixel(2,0));
+            
+            // sum the rgb differences
             float ssd = 0.0;
-            for (int k = 0; k < keypoints2.size(); k++) {
-                ssd += pow(keypoints2[k]-homography[k],2);
+            for (int k = 0; k < im.channels(); k++) {
+                ssd += pow(im.smartAccessor(pixel2X, pixel2Y, k)- im.smartAccessor(newX, newY, k),2);
             }
+            // ssd doesn't exceed epsilon, increment inliner count
             if (ssd < epsilon) {
-                inliers.push_back(keypoints1[j], keypoints2[j]);
+                inLinerCount++;
             }
         }
-
-        if (inliers.size() < mostInliers.size()) {
-            mostInliers = inliers;
+        // if the current number of inliners exceeds the threshold,
+        // return the current homography matrix
+        if (thres <= inLinerCount/(float) matchIndices.size()) {
+            return homography;
         }
-
-        return mostInliers;
-
-        // Preserve largest set of inliers
-
-        // Recompute least-squares H estimate on all the inliers
-
+        // if not, simply record it as the best homography matrix so far
+        else if (maxInliner < inLinerCount){
+            maxInliner = (int) inLinerCount;
+            bestHomography = homography;
+        }
     }
+    // if none of homography matricies exceeded the threshold, just return the least worse one
+    return bestHomography;
 }
 
 // basically raw implementation of opencv perspectiveTransform
-vector<vector<float>> computeHomography(const FLoatImage im, vector<int> match1, vector<int> match2, vector<int> match3, vector<int> match4) {
-    // do this later
-    return vector<vector<float>>; // CHANGEME
-}
+Matrix3f computeHomography(vector<vector<float>> keypoints1, vector<vector<float>> keypoints2, vector<int> match1, vector<int> match2, vector<int> match3, vector<int> match4) {
+    MatrixXf known(8,9);
 
+    // fill in the known values and adjust the coordinates as they are based on scaled coordinates
+
+    // explanation obtained from original teaching material of project
+
+    // 1st row [-x1, -y1, -1, 0, 0, 0, x1*x1', y1*x1', x1']
+    known(0,0) = -keypoints1[match1[0]][1] * pow(2, keypoints1[match1[0]][3] + 1);
+    known(0,1) = -keypoints1[match1[0]][2] * pow(2, keypoints1[match1[0]][3] + 1);
+    known(0,2) = -1;known(0,3) = 0; known(0,4) = 0;known(0,5) = 0;
+    known(0,6) = keypoints1[match1[0]][1] * pow(2, keypoints1[match1[0]][3] + 1) *
+                    keypoints2[match1[1]][1] * pow(2, keypoints2[match1[1]][3] + 1);
+    known(0,7) = keypoints1[match1[0]][2] * pow(2, keypoints1[match1[0]][3] + 1) *
+                    keypoints2[match1[1]][1] * pow(2, keypoints2[match1[1]][3] + 1);
+    known(0,8) = keypoints2[match1[1]][1] * pow(2, keypoints2[match1[1]][3] + 1);
+
+    // 2nd row [0, 0, 0, -x1, -y1, -1, x1*y1', y1*y1', y1']
+    known(1,0) = 0; known(1,1) = 0; known(1,2) = 0;
+    known(1,3) = -keypoints1[match1[0]][1] * pow(2, keypoints1[match1[0]][3] + 1);
+    known(1,4) = -keypoints1[match1[0]][2] * pow(2, keypoints1[match1[0]][3] + 1);
+    known(1,5) = -1;
+    known(1,6) = keypoints1[match1[0]][1] * pow(2, keypoints1[match1[0]][3] + 1) *
+                    keypoints2[match1[1]][2] * pow(2, keypoints2[match1[1]][3] + 1);
+    known(1,7) = keypoints1[match1[0]][2] * pow(2, keypoints1[match1[0]][3] + 1) *
+                    keypoints2[match1[1]][2] * pow(2, keypoints2[match1[1]][3] + 1);
+    known(1,8) = keypoints2[match1[1]][2] * pow(2, keypoints2[match1[1]][3] + 1);
+
+    // 3rd row [-x2, -y2, -1, 0, 0, 0, x2*x2', y2*x2', x2']
+    known(2,0) = -keypoints1[match2[0]][1] * pow(2, keypoints1[match2[0]][3] + 1);
+    known(2,1) = -keypoints1[match2[0]][2] * pow(2, keypoints1[match2[0]][3] + 1);
+    known(2,2) = -1;known(2,3) = 0; known(2,4) = 0;known(2,5) = 0;
+    known(2,6) = keypoints1[match2[0]][1] * pow(2, keypoints1[match2[0]][3] + 1) *
+                    keypoints2[match2[1]][1] * pow(2, keypoints2[match2[1]][3] + 1);
+    known(2,7) = keypoints1[match2[0]][2] * pow(2, keypoints1[match2[0]][3] + 1) *
+                    keypoints2[match2[1]][1] * pow(2, keypoints2[match2[1]][3] + 1);
+    known(2,8) = keypoints2[match2[1]][1] * pow(2, keypoints2[match2[1]][3] + 1);
+
+    // 4th row [0, 0, 0, -x2, -y2, -1, x2*y2', y2*y2', y2']
+    known(3,0) = 0; known(3,1) = 0; known(3,2) = 0;
+    known(3,3) = -keypoints1[match2[0]][1] * pow(2, keypoints1[match2[0]][3] + 1);
+    known(3,4) = -keypoints1[match2[0]][2] * pow(2, keypoints1[match2[0]][3] + 1);
+    known(3,5) = -1;
+    known(3,6) = keypoints1[match2[0]][1] * pow(2, keypoints1[match2[0]][3] + 1) *
+                    keypoints2[match2[1]][2] * pow(2, keypoints2[match2[1]][3] + 1);
+    known(3,7) = keypoints1[match2[0]][2] * pow(2, keypoints1[match2[0]][3] + 1) *
+                    keypoints2[match2[1]][2] * pow(2, keypoints2[match2[1]][3] + 1);
+    known(3,8) = keypoints2[match2[1]][2] * pow(2, keypoints2[match2[1]][3] + 1);
+
+    // 5th row [-x3, -y3, -1, 0, 0, 0, x3*x3', y3*x3', x3']
+    known(4,0) = -keypoints1[match3[0]][1] * pow(2, keypoints1[match3[0]][3] + 1);
+    known(4,1) = -keypoints1[match3[0]][2] * pow(2, keypoints1[match3[0]][3] + 1);
+    known(4,2) = -1;known(4,3) = 0; known(4,4) = 0;known(4,5) = 0;
+    known(4,6) = keypoints1[match3[0]][1] * pow(2, keypoints1[match3[0]][3] + 1) *
+                    keypoints2[match3[1]][1] * pow(2, keypoints2[match3[1]][3] + 1);
+    known(4,7) = keypoints1[match3[0]][2] * pow(2, keypoints1[match3[0]][3] + 1) *
+                    keypoints2[match3[1]][1] * pow(2, keypoints2[match3[1]][3] + 1);
+    known(4,8) = keypoints2[match3[1]][1] * pow(2, keypoints2[match3[1]][3] + 1);
+
+    // 6th row [0, 0, 0, -x3, -y3, -1, x3*y3', y3*y3', y3']
+    known(5,0) = 0; known(5,1) = 0; known(5,2) = 0;
+    known(5,3) = -keypoints1[match3[0]][1] * pow(2, keypoints1[match3[0]][3] + 1);
+    known(5,4) = -keypoints1[match3[0]][2] * pow(2, keypoints1[match3[0]][3] + 1);
+    known(5,5) = -1;
+    known(5,6) = keypoints1[match3[0]][1] * pow(2, keypoints1[match3[0]][3] + 1) *
+                    keypoints2[match3[1]][2] * pow(2, keypoints2[match3[1]][3] + 1);
+    known(5,7) = keypoints1[match3[0]][2] * pow(2, keypoints1[match3[0]][3] + 1) *
+                    keypoints2[match3[1]][2] * pow(2, keypoints2[match3[1]][3] + 1);
+    known(5,8) = keypoints2[match3[1]][2] * pow(2, keypoints2[match3[1]][3] + 1);
+
+    // 7th row [-x4, -y4, -1, 0, 0, 0, x4*x4', y4*x4', x4']
+    known(6,0) = -keypoints1[match4[0]][1] * pow(2, keypoints1[match4[0]][3] + 1);
+    known(6,1) = -keypoints1[match4[0]][2] * pow(2, keypoints1[match4[0]][3] + 1);
+    known(6,2) = -1;known(6,3) = 0; known(6,4) = 0;known(6,5) = 0;
+    known(6,6) = keypoints1[match4[0]][1] * pow(2, keypoints1[match4[0]][3] + 1) *
+                    keypoints2[match4[1]][1] * pow(2, keypoints2[match4[1]][3] + 1);
+    known(6,7) = keypoints1[match4[0]][2] * pow(2, keypoints1[match4[0]][3] + 1) *
+                    keypoints2[match4[1]][1] * pow(2, keypoints2[match4[1]][3] + 1);
+    known(6,8) = keypoints2[match4[1]][1] * pow(2, keypoints2[match4[1]][3] + 1);
+
+    // 8th row [0, 0, 0, -x4, -y4, -1, x4*y4', y4*y4', y4']
+    known(7,0) = 0; known(7,1) = 0; known(7,2) = 0;
+    known(7,3) = -keypoints1[match4[0]][1] * pow(2, keypoints1[match4[0]][3] + 1);
+    known(7,4) = -keypoints1[match4[0]][2] * pow(2, keypoints1[match4[0]][3] + 1);
+    known(7,5) = -1;
+    known(7,6) = keypoints1[match4[0]][1] * pow(2, keypoints1[match4[0]][3] + 1) *
+                    keypoints2[match4[1]][2] * pow(2, keypoints2[match4[1]][3] + 1);
+    known(7,7) = keypoints1[match4[0]][2] * pow(2, keypoints1[match4[0]][3] + 1) *
+                    keypoints2[match4[1]][2] * pow(2, keypoints2[match4[1]][3] + 1);
+    known(7,8) = keypoints2[match4[1]][2] * pow(2, keypoints2[match4[1]][3] + 1);
+
+
+    // compute the SVD of the known values
+    // explanation for what SVD is here: http://gregorygundersen.com/blog/2018/12/10/svd/
+    Eigen::JacobiSVD<Eigen::Matrix<float, 8, 9>> svd(known, Eigen::ComputeFullU | Eigen::ComputeFullV);
+
+
+    // extract the V portion of SVD
+    Eigen::Matrix<float, 9, 9> V = svd.matrixV();
+
+    // extract the relevant solution to the homography matrix
+    Eigen::Matrix<float, 9, 1> H = V.col(8);
+
+    Matrix3f homography;
+    homography << H(0,0), H(1,0), H(2,0),
+                  H(3,0), H(4,0), H(5,0),
+                  H(6,0), H(7,0), H(8,0);
+
+
+    return homography; // CHANGEME
+}
+// stitching the images together
+FloatImage stitchHomograph(FloatImage im1, FloatImage im2, int levels, int interestMaxNum, int iterations, float epsilon, float thres){
+    // Double the size of the new stitch because I'm not too sure how to accurately stitch 
+
+    vector<FloatImage> pyra1 = grayscalePyramid(im1, levels);
+    vector<FloatImage> pyra2= grayscalePyramid(im2, levels);
+    vector<vector<float>> feature1 = harris(im1, levels, pyra1);
+    vector<vector<float>> feature2 = harris(im2, levels, pyra1);
+
+    feature1 = suppress(interestMaxNum, feature1);
+    feature2 = suppress(interestMaxNum, feature2);
+
+    vector<vector<float>> descriptor1 = featureDescriptors(im1, pyra1, feature1);
+    vector<vector<float>> descriptor2 = featureDescriptors(im1, pyra1, feature1);
+
+    vector<vector<int>> matches = featureMatching(im1, im2, feature1, feature2, descriptor1, descriptor2);
+    
+    Matrix3f homograph = RANSAC(im2, feature1, feature2, matches, iterations, epsilon, thres);
+
+    // for(){
+    //     for(){
+    //         for(){
+
+    //         }
+    //     }
+    // }
+}
 
 /**********************************************************************************
  //                 GRAYSCALE FUNCTION    *(from assignment 2)              //
