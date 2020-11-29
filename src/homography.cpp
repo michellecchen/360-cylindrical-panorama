@@ -341,17 +341,15 @@ vector<vector<int>> featureMatching(const FloatImage im1, const FloatImage im2, 
                 secondSmallest = smallestDistance;
                 smallestDistance = ssd;
                 indices[0]=i; indices[1]=j;
-                // matchIndices.push_back(indices);
-                // matchDistances.push_back(ssd);
-            }
+            
             else if (ssd < secondSmallest && ssd != smallestDistance) {
                 secondSmallest = ssd;
             }
         }
 
         // utilize lowe's method of determining better quality matches
-        float ratio = smallestDistance / secondSmallest; // to b used
-        if (ratio >= 0.5){
+        float ratio = smallestDistance / secondSmallest;
+        if (ratio >= 0.5) {
             matchIndices.push_back(indices);
             matchDistances.push_back(ssd);
         }
@@ -384,13 +382,13 @@ float computeSumSquaredDist(vector<float> patch1, vector<float> patch2) {
 Matrix3f RANSAC(const FloatImage im, vector<vector<float>> keypoints1, vector<vector<float>> keypoints2, vector<vector<int>> matchIndices, 
     int iterations, float epsilon, float thres) {
     
-
     assert(keypoints1.size() == keypoints2.size());
     
     vector<vector<float>> mostInliers;
     
     int maxInliner = 0;
     Matrix3f bestHomography;
+    
     for (int i = 0; i < iterations; i++) {
         // Select four feature pairs (at random)
         vector<int> match1 = matchIndices[rand() % matchIndices.size()];
@@ -400,6 +398,7 @@ Matrix3f RANSAC(const FloatImage im, vector<vector<float>> keypoints1, vector<ve
 
         // Compute homography matrix H (exact, no estimate)
         Matrix3f homography = computeHomography(keypoints1, keypoints2, match1, match2, match3, match4);
+       
         // we also want to use H to get Hp via another perspectiveTransform on keypoints1
 
         // Compute inliers where SSD(p'_i, Hp_i) < epsilon (=1)
@@ -561,8 +560,9 @@ Matrix3f computeHomography(vector<vector<float>> keypoints1, vector<vector<float
                   H(6,0), H(7,0), H(8,0);
 
 
-    return homography; // CHANGEME
+    return homography;
 }
+ 
 // stitching the images together
 FloatImage stitchHomograph(FloatImage im1, FloatImage im2, int levels, int interestMaxNum, int iterations, float epsilon, float thres){
     // Double the size of the new stitch because I'm not too sure how to accurately stitch 
@@ -590,6 +590,7 @@ FloatImage stitchHomograph(FloatImage im1, FloatImage im2, int levels, int inter
     //     }
     // }
 }
+
 
 /**********************************************************************************
  //                 GRAYSCALE FUNCTION    *(from assignment 2)              //
