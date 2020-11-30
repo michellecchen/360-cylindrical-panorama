@@ -95,7 +95,7 @@ vector<vector<float>> harris(const FloatImage im, int levels, vector<FloatImage>
 // https://stackoverflow.com/questions/1577475/c-sorting-and-keeping-track-of-indexes
 vector<vector<float>> suppress(int n, vector<vector<float>> keypoints) {
 
-    assert(n <= keypoints.size());                                    // Ensure that you aren't asking for more than you have
+    assert(n <= (int) keypoints.size());                                    // Ensure that you aren't asking for more than you have
 
     // Initialize vector of suppression radii (floats);
     // Start with the global maximum, which has an infinitely large suppression radii (AKA, none).
@@ -104,7 +104,7 @@ vector<vector<float>> suppress(int n, vector<vector<float>> keypoints) {
     
     // For every keypoint, obtain the min. distance to the previously visited keypoint(s).
 
-    for (int i = 1; i < keypoints.size(); i++) {
+    for (int i = 1; i < (int) keypoints.size(); i++) {
         float minDistance = FLT_MAX;
         
         for (int j = 0; j < i; j++) {
@@ -148,7 +148,7 @@ vector<vector<float>> featureDescriptors(const FloatImage im, vector<FloatImage>
 
     // adjust the Gaussian pyramid so it has the original image as the first layer for calculation purposes
     vector<FloatImage> newPyramid;
-    float weight_init[3] = {0.299, 0.587, 0.114};
+    vector<float> weight_init = {0.299, 0.587, 0.114};
     newPyramid.push_back(color2gray(im, weight_init));
     newPyramid.insert(newPyramid.end(), pyramid.begin(), pyramid.end());
 
@@ -161,14 +161,14 @@ vector<vector<float>> featureDescriptors(const FloatImage im, vector<FloatImage>
     vector<FloatImage> orientationPyra;
 
     // get the spatially gradiated pyramid again (using the sobel operator)
-    for (int i = 0; i < newPyramid.size(); i++){
+    for (int i = 0; i < (int) newPyramid.size(); i++){
         vector<FloatImage> magOri = gradientMagnitude(newPyramid[i], true);
         newPyramid[i] = magOri[0];
         orientationPyra.push_back(magOri[1]);
     }
 
     // for every keypoint, generate descriptors
-    for (int i = 0; i < keypoints.size(); i++){
+    for (int i = 0; i < (int) keypoints.size(); i++){
         // calculate the values of the 8x8 patches by calculating the mean of the patch
 
         // get the center keypoint and adjust the keypoint's coordinates to a higher layer to avoid anti-aliasing 
@@ -270,7 +270,7 @@ vector<FloatImage> grayscalePyramid(const FloatImage &im, int levels)
 {
     // harris interest points are typically grayscaled so we'll grayscale here too
     // use assignment 2's default weights for grayscaling
-    float weight_init[3] = {0.299, 0.587, 0.114};
+    vector<float> weight_init = {0.299, 0.587, 0.114};
     FloatImage grayed = color2gray(im, weight_init);
 
     // get a gaussian pyramid using the grayscaled image
@@ -324,7 +324,7 @@ vector<vector<int>> featureMatching(const FloatImage im1, const FloatImage im2, 
     vector<float> matchDistances;
     
     // Brute force
-    for (int i = 0; i < keypoints1.size(); i++) {
+    for (int i = 0; i < (int) keypoints1.size(); i++) {
         
         float smallestDistance = FLT_MAX;
         float secondSmallest = FLT_MAX;
@@ -333,7 +333,7 @@ vector<vector<int>> featureMatching(const FloatImage im1, const FloatImage im2, 
         
         // Lowe's ratio test? Consider thresholding (recommended starter th=0.5)
         // Lowering this threshold will improve the quality of matches but decrease the overall amount. Optimize for this tradeoff?
-        for (int j = 0; j < keypoints2.size(); j++) {
+        for (int j = 0; j < (int) keypoints2.size(); j++) {
             
             ssd = computeSumSquaredDist(descriptors1[i], descriptors2[j]);
 
@@ -341,7 +341,7 @@ vector<vector<int>> featureMatching(const FloatImage im1, const FloatImage im2, 
                 secondSmallest = smallestDistance;
                 smallestDistance = ssd;
                 indices[0]=i; indices[1]=j;
-            
+            }
             else if (ssd < secondSmallest && ssd != smallestDistance) {
                 secondSmallest = ssd;
             }
@@ -365,7 +365,7 @@ vector<vector<int>> featureMatching(const FloatImage im1, const FloatImage im2, 
 // SSD between two patches (keypoint descriptors)
 float computeSumSquaredDist(vector<float> patch1, vector<float> patch2) {
     float sum = 0.0;
-    for (int i = 0; i < patch1.size(); i++) {
+    for (int i = 0; i < (int) patch1.size(); i++) {
         sum += pow(patch1[i] - patch2[i], 2);
     }
     return sum;
@@ -406,7 +406,7 @@ Matrix3f RANSAC(const FloatImage im, vector<vector<float>> keypoints1, vector<ve
         
         float inLinerCount = 0;
         // calculate the total ssd if using the homography matrix
-        for (int j = 0; j < matchIndices.size(); j++) {
+        for (int j = 0; j < (int) matchIndices.size(); j++) {
             int index1 = matchIndices[j][0];
             int index2 = matchIndices[j][1];
 

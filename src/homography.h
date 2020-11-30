@@ -15,6 +15,9 @@
 #include <math.h>
 #include <Eigen/Dense>
 
+using namespace std;
+using namespace Eigen;
+
 class Filter
 {
 public:

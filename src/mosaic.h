@@ -1,6 +1,6 @@
 #pragma once
 
-// panorama.h
+// mosaic.h (Part A)
 
 #include <array>
 #include "floatimage.h"
@@ -16,5 +16,3 @@ FloatImage warpImage(const FloatImage &im, const Eigen::Matrix3f H);
 FloatImage rectifyImage(const FloatImage &im, const std::vector<std::vector<int>> im1Points, const std::vector<std::vector<int>> im2Points);
 FloatImage stitch(const FloatImage &im1, const FloatImage &im2, const std::vector<std::vector<int>> im1Points, const std::vector<std::vector<int>> im2Points);
 FloatImage stitchWarpBoth(const FloatImage &im1, const FloatImage &im2, const std::vector<std::vector<int>> im1Points, const std::vector<std::vector<int>> im2Points);
-
-// Part B
