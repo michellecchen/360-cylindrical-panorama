@@ -34,6 +34,8 @@ vector<vector<float>> harris(const FloatImage im, int levels, vector<FloatImage>
     // get the spatially gradiated pyramid (using the sobel operator)
     for(int i = 0; i < levels; i++){
         vector<FloatImage> magOri = gradientMagnitude(pyramid[i], true);
+        // get dx, dy, sobel, and the orientation
+        // additionally, calculate dxx, dxy, and dyy
         harrisPyra.push_back({magOri[0]*magOri[0], magOri[0] * magOri[1], magOri[1]*magOri[1]});
         orientationPyra.push_back(magOri[3]);
     }
@@ -56,16 +58,18 @@ vector<vector<float>> harris(const FloatImage im, int levels, vector<FloatImage>
                 // // cout << H << endl;
                 // corners(x,y,0) = H.determinant()/H.trace();
 
+                // sum up Sxx, Sxy, Syy as most explanations describe
                 float Sxx = harrisPyra[l][0].smartAccessor(x-1,y-1,0,true) + harrisPyra[l][0].smartAccessor(x,y-1,0,true) + harrisPyra[l][0].smartAccessor(x+1,y-1,0,true)
                     + harrisPyra[l][0].smartAccessor(x-1,y,0,true) + harrisPyra[l][0](x,y,0) + harrisPyra[l][0].smartAccessor(x+1,y,0,true) 
                     + harrisPyra[l][0].smartAccessor(x-1,y+1,0,true) + harrisPyra[l][0].smartAccessor(x,y+1,0,true) + harrisPyra[l][0].smartAccessor(x+1,y+1,0,true);
-                float Sxy = harrisPyra[l][1].smartAccessor(x-1,y-1,0,true) + harrisPyra[l][1].smartAccessor(x,y-1,0,true) + harrisPyra[l][0].smartAccessor(x+1,y-1,0,true)
+                float Sxy = harrisPyra[l][1].smartAccessor(x-1,y-1,0,true) + harrisPyra[l][1].smartAccessor(x,y-1,0,true) + harrisPyra[l][1].smartAccessor(x+1,y-1,0,true)
                     + harrisPyra[l][1].smartAccessor(x-1,y,0,true) + harrisPyra[l][1](x,y,0) + harrisPyra[l][1].smartAccessor(x+1,y,0,true) 
-                    + harrisPyra[l][1].smartAccessor(x-1,y+1,0,true) + harrisPyra[l][2].smartAccessor(x,y+1,0,true) + harrisPyra[l][1].smartAccessor(x+1,y+1,0,true);
-                float Syy = harrisPyra[l][2].smartAccessor(x-1,y-1,0,true) + harrisPyra[l][2].smartAccessor(x,y-1,0,true) + harrisPyra[l][0].smartAccessor(x+1,y-1,0,true)
-                    + harrisPyra[l][2].smartAccessor(x-1,y,0,true) + harrisPyra[l][1](x,y,0) + harrisPyra[l][2].smartAccessor(x+1,y,0,true) 
+                    + harrisPyra[l][1].smartAccessor(x-1,y+1,0,true) + harrisPyra[l][1].smartAccessor(x,y+1,0,true) + harrisPyra[l][1].smartAccessor(x+1,y+1,0,true);
+                float Syy = harrisPyra[l][2].smartAccessor(x-1,y-1,0,true) + harrisPyra[l][2].smartAccessor(x,y-1,0,true) + harrisPyra[l][2].smartAccessor(x+1,y-1,0,true)
+                    + harrisPyra[l][2].smartAccessor(x-1,y,0,true) + harrisPyra[l][2](x,y,0) + harrisPyra[l][2].smartAccessor(x+1,y,0,true) 
                     + harrisPyra[l][2].smartAccessor(x-1,y+1,0,true) + harrisPyra[l][2].smartAccessor(x,y+1,0,true) + harrisPyra[l][2].smartAccessor(x+1,y+1,0,true);
 
+                // calculate determinant, trace and the corner strength
                 float det = (Sxx * Syy) - pow(Sxy,2);
                 float trace = Sxx + Syy;
 
@@ -88,7 +92,7 @@ vector<vector<float>> harris(const FloatImage im, int levels, vector<FloatImage>
                     corners(x,y,0) > corners.smartAccessor(x+1,y,0,true) &&
                     corners(x,y,0) > corners.smartAccessor(x-1,y+1,0,true) &&
                     corners(x,y,0) > corners.smartAccessor(x,y+1,0,true) &&
-                    corners(x,y,0) > corners.smartAccessor(x-1,y+1,0,true)
+                    corners(x,y,0) > corners.smartAccessor(x+1,y+1,0,true)
                 ){
                     // record interest points in format of (corner strength, x, y, level, orientation)
                     vector<float> interestPoint = {corners(x,y,0), (float) x, (float) y, (float) l, orientationPyra[l](x,y,0)};
@@ -210,12 +214,12 @@ vector<vector<float>> featureDescriptors(const FloatImage im, vector<FloatImage>
                 for (int m = 0; m < 5; m++){
                     for (int n = 0; n < 5; n++){
                         // calculate the adjusted coordinates accounting for patches
-                        int patchX = centerX -16 + j*4 + m;
-                        int patchY = centerY -16 + k*4 + n;
+                        int patchX = -16 + j*4 + m;
+                        int patchY = -16 + k*4 + n;
 
                         // calculate the rotated coordinate
-                        int rotateX = round(patchX * cosine - patchY * sine);
-                        int rotateY = round(patchX * sine + patchY * cosine);
+                        int rotateX = round(patchX * cosine - patchY * sine) + centerX;
+                        int rotateY = round(patchX * sine + patchY * cosine) + centerY;
                         p[m+5*n] = newPyramid[layer].smartAccessor(rotateX, rotateY, 0, true);
                     }
 
@@ -298,7 +302,7 @@ vector<FloatImage> grayscalePyramid(const FloatImage &im, int levels)
     FloatImage grayed = color2gray(im, weight_init);
 
     // get a gaussian pyramid using the grayscaled image
-    vector<FloatImage> pyramid = gaussianPyramid(grayed, 1, 3, true, levels);
+    vector<FloatImage> pyramid = gaussianPyramid(grayed, 3, 3, true, levels);
 
     return pyramid;
 }
@@ -315,6 +319,8 @@ vector<FloatImage> gaussianPyramid(const FloatImage &im, float sigma, float trun
     for(int i = 0; i < level; i++){
         // blur the image
         FloatImage blurImage = gaussianBlur_seperable(currentLevel, sigma, truncate, clamp);
+
+        // outputting gaussian pyramid pictures
         string hello = "/output/gausstest";
         string hello1 = to_string(i);
         string hello2 = ".jpg";
@@ -502,9 +508,12 @@ Matrix3f compute4MatchHomography(vector<vector<float>> keypoints1, vector<vector
     vector<vector<int>> matches(4);
     matches[0] = match1;matches[1] = match2;matches[2] = match3;matches[3] = match4;
 
-    // fill in the known values and adjust the coordinates as they are based on scaled coordinates
 
-    // explanation obtained from original teaching material of project
+    //////////////////////////////////////////////////////////////////////////////////////
+    // I HAVE LEFT 2 HOMOGRAPHY IMPLEMENATIONS, ONE MINE AND OTHER TANLI's. CURRENTLY USING TANLI's AS IT IS PROVEN TO WORK
+    //////////////////////////////////////////////////////////////////////////////////////
+
+    // fill in the known values and adjust the coordinates as they are based on scaled coordinates
 
     // 1st row [-x1, -y1, -1, 0, 0, 0, x1*x1', y1*x1', x1']
     known(0,0) = -keypoints1[match1[0]][1] * pow(2, keypoints1[match1[0]][3] + 1);
@@ -686,8 +695,8 @@ FloatImage showMatchingPoints(const FloatImage &im1, const FloatImage &im2){
     vector<vector<float>> feature1 = harris(im1, 5, pyra1);
     vector<vector<float>> feature2 = harris(im2, 5, pyra2);
     cout << "feature finding done" << endl;
-    feature1 = suppress(500, feature1);
-    feature2 = suppress(500, feature2);
+    feature1 = suppress(250, feature1);
+    feature2 = suppress(250, feature2);
     cout << "feature suppression done" << endl;
     vector<vector<float>> descriptor1 = featureDescriptors(im1, pyra1, feature1);
     vector<vector<float>> descriptor2 = featureDescriptors(im2, pyra2, feature2);
@@ -721,7 +730,7 @@ FloatImage autoStitch(const FloatImage &im1, const FloatImage &im2)
 {
 
     // warp left image and determine output image size
-    Matrix3f H = computeAutoHomograph(im1, im2, 5, 500, 3000, 0.18, 0.8);
+    Matrix3f H = computeAutoHomograph(im1, im2, 5, 250, 3000, 0.18, 0.8);
     FloatImage outIm1 = warpImage(im1, H);
     // outIm1.write("../data/output/part-A/warped-left-image.jpg");
     vector<float> bbox1 = computeTransformedBBox(im1.width(), im1.height(), H);
