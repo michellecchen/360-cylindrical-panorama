@@ -62,7 +62,7 @@ Matrix3f RANSAC(const FloatImage im, vector<vector<float>> keypoints1, vector<ve
 
 Matrix3f computeHomography(vector<vector<float>> keypoints1, vector<vector<float>> keypoints2, vector<int> match1, vector<int> match2, vector<int> match3, vector<int> match4);
 
-FloatImage stitchHomograph(FloatImage im1, FloatImage im2, int levels, int interestMaxNum, int iterations, float epsilon, float thres);
+//FloatImage stitchHomograph(FloatImage im1, FloatImage im2, int levels, int interestMaxNum, int iterations, float epsilon, float thres);
 
 // grayscale 
 FloatImage color2gray(const FloatImage &im, const vector<float> &weights);

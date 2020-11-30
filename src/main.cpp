@@ -2,7 +2,7 @@
 #include "mosaic.h"
 #include <filesystem>
 
-#define DIR "../data"
+#define DIR "cs73/data"
 
 using namespace std;
 using namespace Eigen;

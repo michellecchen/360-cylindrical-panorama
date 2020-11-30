@@ -79,7 +79,7 @@ vector<vector<float>> harris(const FloatImage im, int levels, vector<FloatImage>
         }
     }
     // sort the interest points by corner strength so they can be effectively suppressed in the next step
-    sort(interestPoints.begin(), interestPoints.end(), [interestPoints](int i1, int i2) {return interestPoints[i1][0] > interestPoints[i2][0];});
+    sort(interestPoints.begin(), interestPoints.end(), [](vector<float> i1, vector<float> i2) {return i1[0] > i2[0];});
     return interestPoints;
 }
 
@@ -202,11 +202,11 @@ vector<vector<float>> featureDescriptors(const FloatImage im, vector<FloatImage>
 
                 }
                 // average out the values
-                patches[j + 8*k] = std::accumulate(p.begin(), p.end(), 0) / 25;
+                patches[j + 8*k] = std::accumulate(p.begin(), p.end(), (float)0) / 25;
             }
         }
         // calculate the mean and the standard deviation
-        float mean = std::accumulate(patches.begin(), patches.end(), 0) / 64;
+        float mean = std::accumulate(patches.begin(), patches.end(), (float)0) / 64;
         float variance = 0;
         for(int a = 0; a < 64; a++){
             variance = variance + pow(patches[a] - mean,2);
@@ -263,6 +263,7 @@ vector<vector<float>> featureDescriptors(const FloatImage im, vector<FloatImage>
         // add the 64-dimensional descriptor
         descriptors.push_back(patches);
     }
+    return descriptors;
 }
 
 // calculates a grayscaled gaussian pyramid for convenience in more complex functions
@@ -307,6 +308,7 @@ vector<FloatImage> gaussianPyramid(const FloatImage &im, float sigma, float trun
         // add the blurred and reduced image to the pyramid
         pyramid.push_back(currentLevel);
     }
+    return pyramid;
 }
 
 
@@ -321,7 +323,7 @@ vector<vector<int>> featureMatching(const FloatImage im1, const FloatImage im2, 
 
     // Compile indices & distances of tentative matches between keypoints
     vector<vector<int>> matchIndices;
-    vector<float> matchDistances;
+    vector<tuple<vector<int>, float>> matchIndexDist;
     
     // Brute force
     for (int i = 0; i < (int) keypoints1.size(); i++) {
@@ -350,14 +352,17 @@ vector<vector<int>> featureMatching(const FloatImage im1, const FloatImage im2, 
         // utilize lowe's method of determining better quality matches
         float ratio = smallestDistance / secondSmallest;
         if (ratio >= 0.5) {
-            matchIndices.push_back(indices);
-            matchDistances.push_back(ssd);
+            matchIndexDist.push_back(make_tuple(indices, ssd));
         }
     }
 
     // sort matchIndices based on increasing order of their corresponding matchDistances
-    stable_sort(matchIndices.begin(), matchIndices.end(), [matchDistances](float dist1, float dist2) {return matchDistances[dist1] < matchDistances[dist2];});
+    stable_sort(matchIndexDist.begin(), matchIndexDist.end(), [](tuple<vector<int>, float> dist1, tuple<vector<int>, float> dist2) {return get<1>(dist1) < get<1>(dist2);});
 
+    // extract the sorted matching indicies
+    for(int k; k < matchIndexDist.size(); k++){
+        matchIndices.push_back(get<0>(matchIndexDist[k]));
+    }
     return matchIndices;
 
 }
@@ -563,33 +568,33 @@ Matrix3f computeHomography(vector<vector<float>> keypoints1, vector<vector<float
     return homography;
 }
  
-// stitching the images together
-FloatImage stitchHomograph(FloatImage im1, FloatImage im2, int levels, int interestMaxNum, int iterations, float epsilon, float thres){
-    // Double the size of the new stitch because I'm not too sure how to accurately stitch 
+// // stitching the images together
+// FloatImage stitchHomograph(FloatImage im1, FloatImage im2, int levels, int interestMaxNum, int iterations, float epsilon, float thres){
+//     // Double the size of the new stitch because I'm not too sure how to accurately stitch 
 
-    vector<FloatImage> pyra1 = grayscalePyramid(im1, levels);
-    vector<FloatImage> pyra2= grayscalePyramid(im2, levels);
-    vector<vector<float>> feature1 = harris(im1, levels, pyra1);
-    vector<vector<float>> feature2 = harris(im2, levels, pyra1);
+//     vector<FloatImage> pyra1 = grayscalePyramid(im1, levels);
+//     vector<FloatImage> pyra2= grayscalePyramid(im2, levels);
+//     vector<vector<float>> feature1 = harris(im1, levels, pyra1);
+//     vector<vector<float>> feature2 = harris(im2, levels, pyra1);
 
-    feature1 = suppress(interestMaxNum, feature1);
-    feature2 = suppress(interestMaxNum, feature2);
+//     feature1 = suppress(interestMaxNum, feature1);
+//     feature2 = suppress(interestMaxNum, feature2);
 
-    vector<vector<float>> descriptor1 = featureDescriptors(im1, pyra1, feature1);
-    vector<vector<float>> descriptor2 = featureDescriptors(im1, pyra1, feature1);
+//     vector<vector<float>> descriptor1 = featureDescriptors(im1, pyra1, feature1);
+//     vector<vector<float>> descriptor2 = featureDescriptors(im1, pyra1, feature1);
 
-    vector<vector<int>> matches = featureMatching(im1, im2, feature1, feature2, descriptor1, descriptor2);
+//     vector<vector<int>> matches = featureMatching(im1, im2, feature1, feature2, descriptor1, descriptor2);
     
-    Matrix3f homograph = RANSAC(im2, feature1, feature2, matches, iterations, epsilon, thres);
+//     Matrix3f homograph = RANSAC(im2, feature1, feature2, matches, iterations, epsilon, thres);
 
-    // for(){
-    //     for(){
-    //         for(){
+//     // for(){
+//     //     for(){
+//     //         for(){
 
-    //         }
-    //     }
-    // }
-}
+//     //         }
+//     //     }
+//     // }
+// }
 
 
 /**********************************************************************************
