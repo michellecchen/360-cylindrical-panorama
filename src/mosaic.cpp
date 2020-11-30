@@ -1,15 +1,11 @@
-// panorama.cpp
+// mosaic.cpp (Part A)
 
-#include "panorama.h"
+#include "mosaic.h"
 #include "utils.h"
 #include <assert.h>
  
 using namespace std;
 using namespace Eigen;
-
-/**************************************************
- //              Part A Functions                //
- **************************************************/
 
 // Recover the homography between 2 sets of corresponding points using least squares
 // input: im1Points and im2Points are n-by-2 matrices holding the (x,y) locations
@@ -149,6 +145,7 @@ FloatImage stitch(const FloatImage &im1, const FloatImage &im2, const vector<vec
     // warp left image and determine output image size
     Matrix3f H = computeHomography(im1Points, im2Points);
     FloatImage outIm1 = warpImage(im1, H);
+    // outIm1.write("../data/output/part-A/warped-left-image.jpg");
     vector<float> bbox1 = computeTransformedBBox(im1.width(), im1.height(), H);
     float tx = bbox1[0];
     float ty = bbox1[2];

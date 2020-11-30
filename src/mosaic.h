@@ -1,6 +1,6 @@
 #pragma once
 
-// panorama.h
+// mosaic.h (Part A)
 
 #include <array>
 #include "floatimage.h"

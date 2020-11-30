@@ -1,5 +1,5 @@
 #include <iostream>
-#include "panorama.h"
+#include "mosaic.h"
 #include <filesystem>
 
 #define DIR "../data"

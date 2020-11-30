@@ -15,6 +15,9 @@
 #include <math.h>
 #include <Eigen/Dense>
 
+using namespace std;
+using namespace Eigen;
+
 class Filter
 {
 public:
@@ -54,8 +57,12 @@ vector<vector<int>> featureMatching(const FloatImage im1, const FloatImage im2,
 
 float computeSumSquaredDist(vector<float> patch1, vector<float> patch2);
 
-vector<vector<float>> RANSAC(const FloatImage im, vector<vector<float>> keypoints1, vector<vector<float>> keypoints2, vector<vector<int>> matchIndices, 
-    int iterations, float epsilon);
+Matrix3f RANSAC(const FloatImage im, vector<vector<float>> keypoints1, vector<vector<float>> keypoints2, vector<vector<int>> matchIndices, 
+    int iterations, float epsilon, float thres);
+
+Matrix3f computeHomography(vector<vector<float>> keypoints1, vector<vector<float>> keypoints2, vector<int> match1, vector<int> match2, vector<int> match3, vector<int> match4);
+
+FloatImage stitchHomograph(FloatImage im1, FloatImage im2, int levels, int interestMaxNum, int iterations, float epsilon, float thres);
 
 // grayscale 
 FloatImage color2gray(const FloatImage &im, const vector<float> &weights);
