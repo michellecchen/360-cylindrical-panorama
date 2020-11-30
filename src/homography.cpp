@@ -403,7 +403,7 @@ vector<vector<int>> featureMatching(const FloatImage im1, const FloatImage im2, 
     stable_sort(matchIndexDist.begin(), matchIndexDist.end(), [](tuple<vector<int>, float> dist1, tuple<vector<int>, float> dist2) {return get<1>(dist1) < get<1>(dist2);});
 
     // extract the sorted matching indicies
-    for(int k = 0; k < matchIndexDist.size(); k++){
+    for(int k = 0; k < (int) matchIndexDist.size(); k++){
         matchIndices.push_back(get<0>(matchIndexDist[k]));
     }
     return matchIndices;
@@ -454,7 +454,7 @@ Matrix3f RANSAC(const FloatImage im, vector<vector<float>> keypoints1, vector<ve
         
         float inLinerCount = 0;
         // calculate the total ssd if using the homography matrix
-        for (int j = 0; j < matchIndices.size(); j++) {
+        for (int j = 0; j < (int) matchIndices.size(); j++) {
             int index1 = matchIndices[j][0];
             int index2 = matchIndices[j][1];
             // cout << index1 << "," << index2 << endl;
@@ -702,7 +702,7 @@ FloatImage showMatchingPoints(const FloatImage &im1, const FloatImage &im2){
     vector<vector<int>> matches = featureMatching(im1, im2, feature1, feature2, descriptor1, descriptor2);
     cout << "feature matching done" << endl;
     
-    for(int i = 0; i < matches.size(); i++){
+    for(int i = 0; i < (int) matches.size(); i++){
         int i0 = matches[i][0];
         int i1 = matches[i][1];
         int x0 = feature1[i0][1] * pow(2, feature1[i0][3] + 1);
@@ -726,40 +726,9 @@ FloatImage showMatchingPoints(const FloatImage &im1, const FloatImage &im2){
 
 FloatImage autoStitch(const FloatImage &im1, const FloatImage &im2)
 {
-
     // warp left image and determine output image size
     Matrix3f H = computeAutoHomograph(im1, im2, 5, 500, 3000, 0.18, 0.8);
-    FloatImage outIm1 = warpImage(im1, H);
-    // outIm1.write("../data/output/part-A/warped-left-image.jpg");
-    vector<float> bbox1 = computeTransformedBBox(im1.width(), im1.height(), H);
-    float tx = bbox1[0];
-    float ty = bbox1[2];
-    int width = im2.width() - tx;
-    int height = max((int) (bbox1[3] - bbox1[2]), (int) im2.height());
-
-    // for linear/sigmoid blending
-    int overlap_x1 = - tx;
-    int overlap_x2 = bbox1[1] - tx;
-    float mid = (overlap_x1 + overlap_x2) / 2.f;
-
-    // combine warped left image and right image to form output image
-    FloatImage output(width, height, im1.channels());
-    for (int i = 0; i < output.width(); i++) {
-		for (int j = 0; j < output.height(); j++) {
-			for (int c = 0; c < output.channels(); c++) {
-                float val1 = outIm1.smartAccessor(i, j, c, false);
-                float val2 = im2.smartAccessor(i + tx, j + ty, c, false);
-				output(i, j, c) = val1 + val2;
-                if (val1 != 0 && val2 != 0) {
-                    // output(i, j, c) = val1; // simple overlap
-                    // float alpha = ((float) i - overlap_x1) / (overlap_x2 - overlap_x1); // linear blend
-                    float alpha = 1 / (1 + exp(mid - i)); // sigmoid blend
-                    output(i, j, c) = val1 * (1 - alpha) + val2 * alpha;
-                }
-			}
-		}
-	}
-    return output;
+    return stitch(im1, im2, H);
 }
 
 

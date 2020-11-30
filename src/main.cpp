@@ -61,7 +61,7 @@ void testStitch()
 	// vector<vector<int>> im1Points = {{229, 50}, {243, 30}, {270, 38}, {273, 58}, {245, 51}, {262, 261}, {245, 9}, {259, 27}};
 	// vector<vector<int>> im2Points = {{101, 40}, {118, 24}, {140, 42}, {139, 62}, {115, 46}, {85, 262}, {124, 5}, {133, 29}};
 
-	FloatImage stitchedIm = stitch(im1, im2, im1Points, im2Points);
+	FloatImage stitchedIm = stitchWarpLeft(im1, im2, im1Points, im2Points);
 	stitchedIm.write(DIR "/output/stitched.jpg");
 
 	stitchedIm = stitchWarpBoth(im1, im2, im1Points, im2Points);
