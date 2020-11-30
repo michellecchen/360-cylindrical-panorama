@@ -1,5 +1,6 @@
 #include <iostream>
 #include "mosaic.h"
+#include "homography.h"
 #include <filesystem>
 
 #define DIR "../data"
@@ -70,11 +71,34 @@ void testStitch()
 	stitchedIm.write(DIR "/output/stitched-warp-both.jpg");
 }
 
+void testFeatures(){
+	const FloatImage im1(DATA_DIR "/input/ukulele1.jpg");
+	const FloatImage im2(DATA_DIR "/input/ukulele2.jpg");
+	FloatImage featureIM = showMatchingPoints(im1, im2);
+	featureIM.write(DATA_DIR "/output/featureImage.jpg");
+}
+
+void testAutoStitch()
+{
+	const FloatImage im1(DATA_DIR "/input/ukulele1.jpg");
+	const FloatImage im2(DATA_DIR "/input/ukulele2.jpg");
+	// campanile images from https://inst.eecs.berkeley.edu/~cs194-26/sp20/upload/files/proj5B/cs194-26-aeu/
+	// const FloatImage im1(DIR "/input/campanile1.jpg");
+	// const FloatImage im2(DIR "/input/campanile2.jpg");
+	// vector<vector<int>> im1Points = {{229, 50}, {243, 30}, {270, 38}, {273, 58}, {245, 51}, {262, 261}, {245, 9}, {259, 27}};
+	// vector<vector<int>> im2Points = {{101, 40}, {118, 24}, {140, 42}, {139, 62}, {115, 46}, {85, 262}, {124, 5}, {133, 29}};
+
+	FloatImage stitchedIm = autoStitch(im1, im2);
+	stitchedIm.write(DATA_DIR "/output/autoStitched.jpg");
+}
+
 // test functions
 int main()
 {
 	// uncomment to test these functions
     // try { testSmartAccessor();}   catch(...) {cout << "testSmartAccessor Failed!" << endl;}
 	// try { testHomographyAndWarp();}   catch(...) {cout << "testHomographyAndWarp Failed!" << endl;}
-	try { testStitch();}   catch(...) {cout << "testStitch Failed!" << endl;}
+	// try { testStitch();}   catch(...) {cout << "testStitch Failed!" << endl;}
+	// try { testAutoStitch();}   catch(...) {cout << "testAutoStitch Failed!" << endl;}
+	try { testFeatures();}   catch(...) {cout << "testFeatures Failed!" << endl;}
 }

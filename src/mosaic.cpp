@@ -144,6 +144,7 @@ FloatImage stitch(const FloatImage &im1, const FloatImage &im2, const vector<vec
 
     // warp left image and determine output image size
     Matrix3f H = computeHomography(im1Points, im2Points);
+    cout << H << endl;
     FloatImage outIm1 = warpImage(im1, H);
     // outIm1.write("../data/output/part-A/warped-left-image.jpg");
     vector<float> bbox1 = computeTransformedBBox(im1.width(), im1.height(), H);
