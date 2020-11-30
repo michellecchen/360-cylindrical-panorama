@@ -72,11 +72,32 @@ void testStitch()
 void testCylindricalWarp(){
 	const FloatImage im1(DIR "/input/ukulele1.jpg");
 	FloatImage result = warpCylinder(im1, im1.width() / 2, im1.width());
-	result.write("/output/ukelele-cylinder.png");
+	result.write(DIR "/output/ukulele-cylinder.jpg");
 }
 
+void testWarpAll(){
+	vector<FloatImage> images;
+	for (int i = 9; i >=1; i--){
+		FloatImage current_img(DIR "/input/cylinder" + std::to_string(i) + ".jpg");
+		images.push_back(current_img);
+	}
+	int focal = getFocalLength(22.0, 22.3, images[0]);
+	vector<FloatImage> results = warpAll(images, focal, images[0].width());
+	for (int i = 1; i <= 9; i++){
+		results[i- 1].write(DIR "/output/cylinder-warp" + std::to_string(i) + ".jpg");
+	}
+}
 void test360(){
-
+	// read in the images
+	vector<FloatImage> images;
+	for (int i = 11; i >=1; i--){
+		FloatImage current_img(DIR "/input/room" + std::to_string(i) + ".jpg");
+		images.push_back(current_img);
+	}
+	int focal = getFocalLength(22.0, 22.3, images[0]);
+	vector<int> boundaries= {0, 320, 50, 430, 60, 450, 50, 320, 50, 510, 50, 450, 40, 470, 115, 470, 30, 350, 50, 305, 50, 320};
+	 FloatImage result = stitchCylinder(images, boundaries, focal);
+	result.write(DIR "/output/panorama360.jpg");
 }
 // test functions
 int main()
@@ -84,6 +105,7 @@ int main()
 	// uncomment to test these functions
     // try { testSmartAccessor();}   catch(...) {cout << "testSmartAccessor Failed!" << endl;}
 	// try { testHomographyAndWarp();}   catch(...) {cout << "testHomographyAndWarp Failed!" << endl;}
-	// try { testStitch();}   catch(...) {cout << "testStitch Failed!" << endl;}
-	try { testCylindricalWarp();}   catch(...) {std::cout << "cylinder warp Failed!" << std::endl;}
+	// try { testStitch();}   catch(exception& e) {std::cout << e.what() << std::endl;}
+	// try { testCylindricalWarp();}   catch(exception& e) {std::cout << e.what() << std::endl;}
+	try { test360();}   catch(exception& e) {std::cout << e.what() << std::endl;}
 }

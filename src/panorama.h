@@ -22,5 +22,5 @@ std::vector<FloatImage> warpAll(std::vector<FloatImage> &images, int focal, int 
 FloatImage stitchCylinder(std::vector<FloatImage> &images, std::vector<int> boundaries, int focal);
 std::vector<int> convertBoundaries(std::vector<int> boundaries, int radius, int focal, int w, int h);
 int calculateCircumference(const std::vector<int> boundaries);
-int getFocalLength(float focalMM, float sensorWidth, FloatImage &im)
+int getFocalLength(float focalMM, float sensorWidth, FloatImage &im);
 // Part B

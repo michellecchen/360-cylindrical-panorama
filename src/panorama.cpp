@@ -252,13 +252,13 @@ vector<float> convertToCylinder(float x, float y, int w, int h, float focal, flo
     float x2 = pow(x, 2);
     float f2 = pow(focal, 2);
     float z02 = pow(z0, 2);
-    float zc = (2 * z0 + sqrt(4 * z02 - 4 * (x2 / f2 + 1) * (z02 - r2))) / (2 * (x2 / (f2 + 1))); 
+    float zc = (2 * z0 + sqrt(4 * z02 - 4 * (x2 / f2 + 1) * (z02 - r2))) / (2 * (x2 / f2 + 1)); 
     float new_x = x * zc / focal;
     float new_y= y * zc / focal;
 
     // reconvert image coordinate
-    new_x += w/2;
-    new_y += h/2;
+new_x += floor(w / 2);
+   new_y += floor(h / 2);
 
     vector<float> point;
     point.push_back(new_x);
@@ -282,27 +282,83 @@ FloatImage warpCylinder(const FloatImage &im, int focal, int radius){
 vector<FloatImage> warpAll(vector<FloatImage> &images, int focal, int radius){
     vector<FloatImage> warped;
     for (FloatImage image : images){
+        cout << "warping image" << endl;
         FloatImage result = warpCylinder(image, focal, radius);
         warped.push_back(result);
     }
     return warped;
 }
 FloatImage stitchCylinder(vector<FloatImage> &images, vector<int> boundaries, int focal){
+    // warp images
     int circumference = calculateCircumference(boundaries);
     int radius = floor(circumference / (2 * M_PI));
-    FloatImage result(circumference, images[0].height(), images[0].depth());
+    FloatImage result(circumference, circumference / 3, images[0].depth());
     vector<FloatImage> warped = warpAll(images, focal, radius);
     vector<int> newBoundaries = convertBoundaries(boundaries, radius, focal, images[0].width(), images[0].height());
+
+    // keep track of what image we are on and what x coordinate we are on locally
     int currentImage = 0;
     int localX = newBoundaries[0];
+    // add some black space to the top of the bottom in case the image is viewed in a 360 image viewer
+    int offset = floor((circumference / 3 - images[0].height()) / 2);
+
     for (int x = 0; x < result.width(); x ++){
+        bool blendBack = false;
+        bool blendForward = false;
+        // if we cross the boundary of the image we are on, move to the next one
         if (localX > newBoundaries[currentImage * 2 + 1]){
             currentImage += 1;
             localX = newBoundaries[currentImage * 2];
         }
-        for (int y = 0; y < result.height(); y ++){
+        else{
+            localX++;
+        }
+        // if near a seam, flag the pixel to be blended
+        if (localX < newBoundaries[currentImage * 2] + 20 && currentImage >= 1){
+            blendBack = true;
+        }
+        if (localX > newBoundaries[currentImage * 2 + 1] - 20 && currentImage <= images.size() - 1){
+            blendForward = true;
+        }
+        for (int y = offset; y < result.height() - offset; y ++){
             for (int z = 0; z < result.depth(); z ++){
-                result(x, y, z) = warped[currentImage](localX, y, z);
+                try
+                {
+                    // sigmoid blending
+                    if (blendBack){
+                        int diff = localX - newBoundaries[currentImage * 2];
+                        float val1 = warped[currentImage](localX, y - offset, z);
+                        float val2 = warped[currentImage - 1](newBoundaries[currentImage * 2 - 1] - diff, y - offset, z);
+                        // result(x, y, z) = val1 + val2;
+                        if (val1 != 0 && val2 != 0) {
+                            float alpha = 1 / (1 + exp(diff)); 
+                            result(x, y, z) = val1 * (1 - alpha) + val2 * alpha;
+                        }
+                    }
+                    else if (blendForward){
+                        int diff = newBoundaries[currentImage * 2 + 1] - localX;
+                        float val1 = warped[currentImage](localX, y - offset, z);
+                        float val2 = warped[currentImage + 1](newBoundaries[currentImage * 2 + 2] + diff, y - offset, z);
+                        // result(x, y, z) = val1 + val2;
+                        if (val1 != 0 && val2 != 0) {
+                            float alpha = 1 / (1 + exp(diff)); 
+                            result(x, y, z) = val1 * (1 - alpha) + val2 * alpha;
+                        }
+                    }
+                    else{
+                        //if no need to be blended, move on
+                        result(x, y, z) = warped[currentImage](localX, y - offset, z);
+                    }
+   
+                }
+                catch(const std::exception& e)
+                {
+                    // sometimes the math doesnt work out exactly
+                    std::cerr << e.what() << '\n';
+                    std::cout << y << endl;
+                }
+                
+                
             }
         }
     }
@@ -312,7 +368,7 @@ FloatImage stitchCylinder(vector<FloatImage> &images, vector<int> boundaries, in
 vector<int> convertBoundaries(vector<int> boundaries, int radius, int focal, int w, int h){
     vector<int> result;
     for (int boundary : boundaries){
-        int new_x = convertToCylinder(boundary, 0, w, h, focal, radius)[0];
+        int new_x = floor(convertToCylinder(boundary, 0, w, h, focal, radius)[0]);
         result.push_back(new_x);
     }
     return result;
@@ -321,10 +377,9 @@ vector<int> convertBoundaries(vector<int> boundaries, int radius, int focal, int
 int calculateCircumference(const vector<int> boundaries){
     int circumference = 0;
     for (int i = 0; i <= boundaries.size() - 1; i += 2 ){
-        for (int j = 1; j <= boundaries.size(); j += 2 ){
-            circumference += j - i;
-        }
+        circumference += boundaries[i + 1] - boundaries[i];
     }
+    cout<< "circumference = " << circumference << endl;
     return circumference;
 }
 
