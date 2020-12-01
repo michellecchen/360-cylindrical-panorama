@@ -1,0 +1,48 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/plot/include/opencv2/plot.hpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_plot",
+				"Module"
+			]
+		},
+		{
+			"file" : "/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/plot/src/plot.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_plot",
+				"Module"
+			]
+		},
+		{
+			"file" : "/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/plot/src/precomp.hpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_plot",
+				"Module"
+			]
+		},
+		{
+			"file" : "/Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/cvconfig.h"
+		},
+		{
+			"file" : "/Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/opencv2/opencv_modules.hpp"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"Extra",
+			"opencv_plot",
+			"Module"
+		],
+		"name" : "opencv_plot"
+	}
+}

@@ -1,0 +1,17 @@
+# Target labels
+ Extra
+ opencv_videostab
+ AccuracyTest
+# Source files and their labels
+/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/videostab/test/test_main.cpp
+ Extra
+ opencv_videostab
+ AccuracyTest
+/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/videostab/test/test_motion_estimation.cpp
+ Extra
+ opencv_videostab
+ AccuracyTest
+/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/videostab/test/test_precomp.hpp
+ Extra
+ opencv_videostab
+ AccuracyTest

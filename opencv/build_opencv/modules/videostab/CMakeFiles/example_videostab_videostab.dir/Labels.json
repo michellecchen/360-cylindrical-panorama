@@ -1,0 +1,24 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/videostab/samples/videostab.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_videostab",
+				"Sample"
+			]
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"Extra",
+			"opencv_videostab",
+			"Sample"
+		],
+		"name" : "example_videostab_videostab"
+	}
+}

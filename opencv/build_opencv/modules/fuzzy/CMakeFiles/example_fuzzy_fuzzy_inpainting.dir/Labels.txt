@@ -1,0 +1,9 @@
+# Target labels
+ Extra
+ opencv_fuzzy
+ Sample
+# Source files and their labels
+/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/fuzzy/samples/fuzzy_inpainting.cpp
+ Extra
+ opencv_fuzzy
+ Sample

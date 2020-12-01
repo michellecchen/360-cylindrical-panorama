@@ -9,9 +9,12 @@
 #include <float.h> // FLT_MAX
 #include <iostream>
 #include <Eigen/Dense>
+#include <opencv2/opencv.hpp>
+#include <opencv2/highgui.hpp>
 
 using namespace std;
 using namespace Eigen;
+using namespace cv;
 using Vec2f = std::array<float, 2>;
 
 // // ------- STEP 1 -------
@@ -353,9 +356,8 @@ vector<vector<int>> featureMatching(const FloatImage &im1, const FloatImage &im2
         float smallestDistance = FLT_MAX;
         float secondSmallest = FLT_MAX;
         float ssd = FLT_MAX;
-        vector<int> indices(2);
+        vector<int> indices = {0, 0};
         bool validSSD = false;
-;
         
         // Lowe's ratio test? Consider thresholding (recommended starter th=0.5)
         // Lowering this threshold will improve the quality of matches but decrease the overall amount. Optimize for this tradeoff?
@@ -390,7 +392,7 @@ vector<vector<int>> featureMatching(const FloatImage &im1, const FloatImage &im2
     stable_sort(matchIndexDist.begin(), matchIndexDist.end(), [](tuple<vector<int>, float> dist1, tuple<vector<int>, float> dist2) {return get<1>(dist1) < get<1>(dist2);});
 
     // extract the sorted matching indicies
-    for(int k = 0; k < (int) matchIndexDist.size(); k++){
+    for(int k = 0; k < (int) matchIndexDist.size(); k++) {
         matchIndices.push_back(get<0>(matchIndexDist[k]));
     }
     return matchIndices;
@@ -414,7 +416,7 @@ float computeSumSquaredDist(vector<float> patch1, vector<float> patch2) {
 // 
 // epsilon = limit for ssd
 // thres = limit for # of inliners
-Matrix3f RANSAC(const FloatImage &im, vector<vector<float>> keypoints1, vector<vector<float>> keypoints2, vector<vector<int>> matchIndices, 
+Matrix3f myRANSAC(const FloatImage &im, vector<vector<float>> keypoints1, vector<vector<float>> keypoints2, vector<vector<int>> matchIndices, 
     int iterations, float epsilon, float thres) {
     
     assert(keypoints1.size() == keypoints2.size());
@@ -650,7 +652,7 @@ Matrix3f computeAutoHomograph(const FloatImage &im1, const FloatImage &im2, int 
     cout << "feature descriptors done" << endl;
     vector<vector<int>> matches = featureMatching(im1, im2, feature1, feature2, descriptor1, descriptor2);
     cout << "feature matching done" << endl;
-    Matrix3f homograph = RANSAC(im2, feature1, feature2, matches, iterations, epsilon, thres);
+    Matrix3f homograph = myRANSAC(im2, feature1, feature2, matches, iterations, epsilon, thres);
     cout << "ransac done" << endl;
     cout << homograph << endl;
     return homograph;
@@ -682,6 +684,28 @@ FloatImage showMatchingPoints(const FloatImage &im1, const FloatImage &im2){
     cout << "feature finding done" << endl;
     feature1 = suppress(500, feature1);
     feature2 = suppress(500, feature2);
+
+    // ---------- visualize supressed feature points ----------
+    // FloatImage output1(im1.width(), im1.height(), im1.channels());
+    // FloatImage output2(im1.width(), im1.height(), im1.channels());
+    // for (int i = 0; i < output1.width(); i++) {
+	// 	for (int j = 0; j < output1.height(); j++) {
+	// 		for (int c = 0; c < output1.channels(); c++) {
+    //             output1(i, j, c) = im1(i, j, c);
+    //             output2(i, j, c) = im2(i, j, c);
+    //         }
+    //     }
+    // }
+    // for (int i = 0; i < (int) feature1.size(); i++) {
+    //     output1(feature1[i][1]*pow(2,feature1[i][3]+1), feature1[i][2]*pow(2,feature1[i][3]+1), 0) = 1;
+    //     output1(feature1[i][1]*pow(2,feature1[i][3]+1), feature1[i][2]*pow(2,feature1[i][3]+1), 1) = 0;
+    //     output1(feature1[i][1]*pow(2,feature1[i][3]+1), feature1[i][2]*pow(2,feature1[i][3]+1), 2) = 0;
+    //     output2(feature2[i][1]*pow(2,feature2[i][3]+1), feature2[i][2]*pow(2,feature2[i][3]+1), 0) = 1;
+    //     output2(feature2[i][1]*pow(2,feature2[i][3]+1), feature2[i][2]*pow(2,feature2[i][3]+1), 1) = 0;
+    //     output2(feature2[i][1]*pow(2,feature2[i][3]+1), feature2[i][2]*pow(2,feature2[i][3]+1), 2) = 0;
+    // }
+    // output1.write("../data/output/supress1.jpg");
+    // output2.write("../data/output/supress2.jpg");
     
     cout << "feature suppression done" << endl;
     vector<vector<float>> descriptor1 = featureDescriptors(im1, pyra1, feature1);
@@ -911,3 +935,55 @@ float &Filter::operator()(int x, int y)
 	return kernel[x + y * width];
 }
 Filter::~Filter() {}
+
+
+
+/***************************************************
+ //                 USING OPEN CV                 //
+ ***************************************************/
+
+// use opencv
+vector<vector<int>> featureMatching2(const FloatImage &im1, const FloatImage &im2, vector<vector<float>> keypoints1, 
+    vector<vector<float>> keypoints2, vector<vector<float>> descriptors1, vector<vector<float>> descriptors2) {
+
+    assert((keypoints1.size() == descriptors1.size()) && (keypoints2.size() == descriptors2.size()) && 
+        (keypoints1.size() == keypoints2.size()));
+
+    vector<DMatch> matches;
+    Mat desc1;
+    for (int i = 0; i < (int) descriptors1.size(); i++) {
+        desc1.push_back(descriptors1[i]);
+    }
+    Mat desc2;
+    for (int i = 0; i < (int) descriptors2.size(); i++) {
+        desc2.push_back(descriptors2[i]);
+    }
+
+    BFMatcher desc_matcher(cv::NORM_L2, true);
+    desc_matcher.match(desc1, desc2, matches, Mat());
+    std::sort(matches.begin(), matches.end());
+    cout << "made it here" << endl;
+
+    const int numGoodMatches = matches.size() * 0.15f;
+    cout << numGoodMatches << endl;
+    matches.erase(matches.begin()+numGoodMatches, matches.end());
+
+    Mat imMatches;
+    vector<KeyPoint> k1;
+    for (int i = 0; i < (int) keypoints1.size(); i++) {
+        k1.push_back(KeyPoint(Point2f(keypoints1[i][0], keypoints1[i][1]), 4));
+    }
+    vector<KeyPoint> k2;
+    for (int i = 0; i < (int) keypoints2.size(); i++) {
+        k2.push_back(KeyPoint(Point2f(keypoints2[i][0], keypoints2[i][1]), 4));
+    }
+    im1.write("temp1.jpg");
+    im2.write("temp2.jpg");
+    Mat imMat1 = imread("temp1.jpg", IMREAD_COLOR);
+    Mat imMat2 = imread("temp2.jpg", IMREAD_COLOR);
+    drawMatches(imMat1, k1, imMat2, k2, matches, imMatches);
+    imwrite("matches.jpg", imMatches);
+
+    vector<vector<int>>  matchIndices;
+    return matchIndices;
+}

@@ -1,0 +1,24 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/structured_light/samples/projectorcalibration.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_structured_light",
+				"Sample"
+			]
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"Extra",
+			"opencv_structured_light",
+			"Sample"
+		],
+		"name" : "example_structured_light_projectorcalibration"
+	}
+}

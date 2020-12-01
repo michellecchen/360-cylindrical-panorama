@@ -1,0 +1,9 @@
+# Target labels
+ Extra
+ opencv_xfeatures2d
+ Sample
+# Source files and their labels
+/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/xfeatures2d/samples/gms_matcher.cpp
+ Extra
+ opencv_xfeatures2d
+ Sample

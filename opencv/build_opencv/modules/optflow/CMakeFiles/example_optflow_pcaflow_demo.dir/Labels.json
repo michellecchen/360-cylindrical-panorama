@@ -1,0 +1,24 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/optflow/samples/pcaflow_demo.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_optflow",
+				"Sample"
+			]
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"Extra",
+			"opencv_optflow",
+			"Sample"
+		],
+		"name" : "example_optflow_pcaflow_demo"
+	}
+}

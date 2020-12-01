@@ -1,0 +1,24 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/fuzzy/samples/fuzzy_inpainting.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_fuzzy",
+				"Sample"
+			]
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"Extra",
+			"opencv_fuzzy",
+			"Sample"
+		],
+		"name" : "example_fuzzy_fuzzy_inpainting"
+	}
+}

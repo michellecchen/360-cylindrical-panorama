@@ -1,0 +1,87 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/rgbd/test/test_dynafu.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_rgbd",
+				"AccuracyTest"
+			]
+		},
+		{
+			"file" : "/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/rgbd/test/test_kinfu.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_rgbd",
+				"AccuracyTest"
+			]
+		},
+		{
+			"file" : "/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/rgbd/test/test_main.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_rgbd",
+				"AccuracyTest"
+			]
+		},
+		{
+			"file" : "/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/rgbd/test/test_normal.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_rgbd",
+				"AccuracyTest"
+			]
+		},
+		{
+			"file" : "/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/rgbd/test/test_odometry.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_rgbd",
+				"AccuracyTest"
+			]
+		},
+		{
+			"file" : "/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/rgbd/test/test_registration.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_rgbd",
+				"AccuracyTest"
+			]
+		},
+		{
+			"file" : "/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/rgbd/test/test_utils.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_rgbd",
+				"AccuracyTest"
+			]
+		},
+		{
+			"file" : "/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/rgbd/test/test_precomp.hpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_rgbd",
+				"AccuracyTest"
+			]
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"Extra",
+			"opencv_rgbd",
+			"AccuracyTest"
+		],
+		"name" : "opencv_test_rgbd"
+	}
+}

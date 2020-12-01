@@ -1,0 +1,9 @@
+# Target labels
+ Extra
+ opencv_bgsegm
+ Sample
+# Source files and their labels
+/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/bgsegm/samples/bgfg.cpp
+ Extra
+ opencv_bgsegm
+ Sample

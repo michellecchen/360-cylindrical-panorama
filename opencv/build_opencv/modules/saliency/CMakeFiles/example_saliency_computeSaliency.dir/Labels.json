@@ -1,0 +1,24 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/saliency/samples/computeSaliency.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_saliency",
+				"Sample"
+			]
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"Extra",
+			"opencv_saliency",
+			"Sample"
+		],
+		"name" : "example_saliency_computeSaliency"
+	}
+}

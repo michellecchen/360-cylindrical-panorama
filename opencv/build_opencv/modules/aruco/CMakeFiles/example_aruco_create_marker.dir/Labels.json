@@ -1,0 +1,24 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/aruco/samples/create_marker.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_aruco",
+				"Sample"
+			]
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"Extra",
+			"opencv_aruco",
+			"Sample"
+		],
+		"name" : "example_aruco_create_marker"
+	}
+}

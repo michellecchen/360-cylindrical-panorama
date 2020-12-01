@@ -1,0 +1,9 @@
+# Target labels
+ Extra
+ opencv_stereo
+ Sample
+# Source files and their labels
+/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/stereo/samples/export_param_file.cpp
+ Extra
+ opencv_stereo
+ Sample

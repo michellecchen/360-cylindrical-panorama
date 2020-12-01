@@ -1,0 +1,24 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/xphoto/samples/bm3d_image_denoising.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_xphoto",
+				"Sample"
+			]
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"Extra",
+			"opencv_xphoto",
+			"Sample"
+		],
+		"name" : "example_xphoto_bm3d_image_denoising"
+	}
+}

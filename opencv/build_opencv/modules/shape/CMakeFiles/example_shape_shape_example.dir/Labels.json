@@ -1,0 +1,24 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/shape/samples/shape_example.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_shape",
+				"Sample"
+			]
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"Extra",
+			"opencv_shape",
+			"Sample"
+		],
+		"name" : "example_shape_shape_example"
+	}
+}

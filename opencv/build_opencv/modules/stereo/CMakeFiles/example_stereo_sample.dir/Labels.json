@@ -1,0 +1,24 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/stereo/samples/sample.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_stereo",
+				"Sample"
+			]
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"Extra",
+			"opencv_stereo",
+			"Sample"
+		],
+		"name" : "example_stereo_sample"
+	}
+}

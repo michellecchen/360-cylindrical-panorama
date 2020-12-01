@@ -1,0 +1,24 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/reg/samples/map_test.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_reg",
+				"Sample"
+			]
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"Extra",
+			"opencv_reg",
+			"Sample"
+		],
+		"name" : "example_reg_map_test"
+	}
+}

@@ -1,0 +1,24 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/rgbd/samples/dynafu_demo.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_rgbd",
+				"Sample"
+			]
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"Extra",
+			"opencv_rgbd",
+			"Sample"
+		],
+		"name" : "example_rgbd_dynafu_demo"
+	}
+}

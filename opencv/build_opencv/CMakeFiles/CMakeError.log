@@ -1,0 +1,875 @@
+Compilation failed:
+    source file: '/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv/cmake/checks/cpu_popcnt.cpp'
+    check option: ''
+===== BUILD LOG =====
+Change Dir: /Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_89e98/fast && /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cmTC_89e98.dir/build.make CMakeFiles/cmTC_89e98.dir/build
+Building CXX object CMakeFiles/cmTC_89e98.dir/cpu_popcnt.cpp.o
+/Library/Developer/CommandLineTools/usr/bin/c++   -O3 -DNDEBUG -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk -fPIE -std=c++11 -o CMakeFiles/cmTC_89e98.dir/cpu_popcnt.cpp.o -c /Users/tanli/dev/cs73/panorama-opencv/opencv/opencv/cmake/checks/cpu_popcnt.cpp
+/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv/cmake/checks/cpu_popcnt.cpp:14:4: error: "__POPCNT__ is not defined by compiler"
+#  error "__POPCNT__ is not defined by compiler"
+   ^
+/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv/cmake/checks/cpu_popcnt.cpp:22:13: error: use of undeclared identifier 'CV_POPCNT_U32'
+    int j = CV_POPCNT_U32(1);
+            ^
+2 errors generated.
+make[1]: *** [CMakeFiles/cmTC_89e98.dir/cpu_popcnt.cpp.o] Error 1
+make: *** [cmTC_89e98/fast] Error 2
+
+
+===== END =====
+
+Compilation failed:
+    source file: '/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv/cmake/checks/cpu_sse42.cpp'
+    check option: ''
+===== BUILD LOG =====
+Change Dir: /Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_24e98/fast && /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cmTC_24e98.dir/build.make CMakeFiles/cmTC_24e98.dir/build
+Building CXX object CMakeFiles/cmTC_24e98.dir/cpu_sse42.cpp.o
+/Library/Developer/CommandLineTools/usr/bin/c++   -O3 -DNDEBUG -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk -fPIE -std=c++11 -o CMakeFiles/cmTC_24e98.dir/cpu_sse42.cpp.o -c /Users/tanli/dev/cs73/panorama-opencv/opencv/opencv/cmake/checks/cpu_sse42.cpp
+/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv/cmake/checks/cpu_sse42.cpp:5:24: error: always_inline function '_mm_crc32_u8' requires target feature 'sse4.2', but would be inlined into function 'main' that is compiled without support for 'sse4.2'
+    unsigned int res = _mm_crc32_u8(1, 2);
+                       ^
+1 error generated.
+make[1]: *** [CMakeFiles/cmTC_24e98.dir/cpu_sse42.cpp.o] Error 1
+make: *** [cmTC_24e98/fast] Error 2
+
+
+===== END =====
+
+Compilation failed:
+    source file: '/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv/cmake/checks/cpu_fp16.cpp'
+    check option: ''
+===== BUILD LOG =====
+Change Dir: /Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_cf0ca/fast && /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cmTC_cf0ca.dir/build.make CMakeFiles/cmTC_cf0ca.dir/build
+Building CXX object CMakeFiles/cmTC_cf0ca.dir/cpu_fp16.cpp.o
+/Library/Developer/CommandLineTools/usr/bin/c++   -O3 -DNDEBUG -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk -fPIE -std=c++11 -o CMakeFiles/cmTC_cf0ca.dir/cpu_fp16.cpp.o -c /Users/tanli/dev/cs73/panorama-opencv/opencv/opencv/cmake/checks/cpu_fp16.cpp
+/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv/cmake/checks/cpu_fp16.cpp:26:2: error: "FP16 is not supported"
+#error "FP16 is not supported"
+ ^
+/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv/cmake/checks/cpu_fp16.cpp:31:18: error: use of undeclared identifier 'test'
+  printf("%d\n", test());
+                 ^
+2 errors generated.
+make[1]: *** [CMakeFiles/cmTC_cf0ca.dir/cpu_fp16.cpp.o] Error 1
+make: *** [cmTC_cf0ca/fast] Error 2
+
+
+===== END =====
+
+Compilation failed:
+    source file: '/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv/cmake/checks/cpu_avx.cpp'
+    check option: ''
+===== BUILD LOG =====
+Change Dir: /Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_f4f1b/fast && /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cmTC_f4f1b.dir/build.make CMakeFiles/cmTC_f4f1b.dir/build
+Building CXX object CMakeFiles/cmTC_f4f1b.dir/cpu_avx.cpp.o
+/Library/Developer/CommandLineTools/usr/bin/c++   -O3 -DNDEBUG -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk -fPIE -std=c++11 -o CMakeFiles/cmTC_f4f1b.dir/cpu_avx.cpp.o -c /Users/tanli/dev/cs73/panorama-opencv/opencv/opencv/cmake/checks/cpu_avx.cpp
+/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv/cmake/checks/cpu_avx.cpp:2:2: error: "__AVX__ define is missing"
+#error "__AVX__ define is missing"
+ ^
+1 error generated.
+make[1]: *** [CMakeFiles/cmTC_f4f1b.dir/cpu_avx.cpp.o] Error 1
+make: *** [cmTC_f4f1b/fast] Error 2
+
+
+===== END =====
+
+Compilation failed:
+    source file: '/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv/cmake/checks/cpu_avx2.cpp'
+    check option: ''
+===== BUILD LOG =====
+Change Dir: /Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_52578/fast && /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cmTC_52578.dir/build.make CMakeFiles/cmTC_52578.dir/build
+Building CXX object CMakeFiles/cmTC_52578.dir/cpu_avx2.cpp.o
+/Library/Developer/CommandLineTools/usr/bin/c++   -O3 -DNDEBUG -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk -fPIE -std=c++11 -o CMakeFiles/cmTC_52578.dir/cpu_avx2.cpp.o -c /Users/tanli/dev/cs73/panorama-opencv/opencv/opencv/cmake/checks/cpu_avx2.cpp
+/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv/cmake/checks/cpu_avx2.cpp:2:2: error: "__AVX2__ define is missing"
+#error "__AVX2__ define is missing"
+ ^
+1 error generated.
+make[1]: *** [CMakeFiles/cmTC_52578.dir/cpu_avx2.cpp.o] Error 1
+make: *** [cmTC_52578/fast] Error 2
+
+
+===== END =====
+
+Compilation failed:
+    source file: '/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv/cmake/checks/cpu_avx512.cpp'
+    check option: ''
+===== BUILD LOG =====
+Change Dir: /Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_09428/fast && /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cmTC_09428.dir/build.make CMakeFiles/cmTC_09428.dir/build
+Building CXX object CMakeFiles/cmTC_09428.dir/cpu_avx512.cpp.o
+/Library/Developer/CommandLineTools/usr/bin/c++   -O3 -DNDEBUG -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk -fPIE -std=c++11 -o CMakeFiles/cmTC_09428.dir/cpu_avx512.cpp.o -c /Users/tanli/dev/cs73/panorama-opencv/opencv/opencv/cmake/checks/cpu_avx512.cpp
+/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv/cmake/checks/cpu_avx512.cpp:11:2: error: "AVX512 is not supported"
+#error "AVX512 is not supported"
+ ^
+1 error generated.
+make[1]: *** [CMakeFiles/cmTC_09428.dir/cpu_avx512.cpp.o] Error 1
+make: *** [cmTC_09428/fast] Error 2
+
+
+===== END =====
+
+Compilation failed:
+    source file: '/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv/cmake/checks/cpu_avx512common.cpp'
+    check option: ''
+===== BUILD LOG =====
+Change Dir: /Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_9d583/fast && /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cmTC_9d583.dir/build.make CMakeFiles/cmTC_9d583.dir/build
+Building CXX object CMakeFiles/cmTC_9d583.dir/cpu_avx512common.cpp.o
+/Library/Developer/CommandLineTools/usr/bin/c++   -O3 -DNDEBUG -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk -fPIE -std=c++11 -o CMakeFiles/cmTC_9d583.dir/cpu_avx512common.cpp.o -c /Users/tanli/dev/cs73/panorama-opencv/opencv/opencv/cmake/checks/cpu_avx512common.cpp
+/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv/cmake/checks/cpu_avx512common.cpp:12:2: error: "AVX512-COMMON is not supported"
+#error "AVX512-COMMON is not supported"
+ ^
+1 error generated.
+make[1]: *** [CMakeFiles/cmTC_9d583.dir/cpu_avx512common.cpp.o] Error 1
+make: *** [cmTC_9d583/fast] Error 2
+
+
+===== END =====
+
+Compilation failed:
+    source file: '/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv/cmake/checks/cpu_avx512knl.cpp'
+    check option: ''
+===== BUILD LOG =====
+Change Dir: /Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_89203/fast && /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cmTC_89203.dir/build.make CMakeFiles/cmTC_89203.dir/build
+Building CXX object CMakeFiles/cmTC_89203.dir/cpu_avx512knl.cpp.o
+/Library/Developer/CommandLineTools/usr/bin/c++   -O3 -DNDEBUG -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk -fPIE -std=c++11 -o CMakeFiles/cmTC_89203.dir/cpu_avx512knl.cpp.o -c /Users/tanli/dev/cs73/panorama-opencv/opencv/opencv/cmake/checks/cpu_avx512knl.cpp
+/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv/cmake/checks/cpu_avx512knl.cpp:14:2: error: "AVX512-KNL is not supported"
+#error "AVX512-KNL is not supported"
+ ^
+1 error generated.
+make[1]: *** [CMakeFiles/cmTC_89203.dir/cpu_avx512knl.cpp.o] Error 1
+make: *** [cmTC_89203/fast] Error 2
+
+
+===== END =====
+
+Compilation failed:
+    source file: '/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv/cmake/checks/cpu_avx512knm.cpp'
+    check option: ''
+===== BUILD LOG =====
+Change Dir: /Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_7eb85/fast && /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cmTC_7eb85.dir/build.make CMakeFiles/cmTC_7eb85.dir/build
+Building CXX object CMakeFiles/cmTC_7eb85.dir/cpu_avx512knm.cpp.o
+/Library/Developer/CommandLineTools/usr/bin/c++   -O3 -DNDEBUG -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk -fPIE -std=c++11 -o CMakeFiles/cmTC_7eb85.dir/cpu_avx512knm.cpp.o -c /Users/tanli/dev/cs73/panorama-opencv/opencv/opencv/cmake/checks/cpu_avx512knm.cpp
+/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv/cmake/checks/cpu_avx512knm.cpp:15:2: error: "AVX512-KNM is not supported"
+#error "AVX512-KNM is not supported"
+ ^
+1 error generated.
+make[1]: *** [CMakeFiles/cmTC_7eb85.dir/cpu_avx512knm.cpp.o] Error 1
+make: *** [cmTC_7eb85/fast] Error 2
+
+
+===== END =====
+
+Compilation failed:
+    source file: '/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv/cmake/checks/cpu_avx512knm.cpp'
+    check option: ' -mavx512f -mavx512cd -mavx512er -mavx512pf -mavx5124fmaps -mavx5124vnniw -mavx512vpopcntdq'
+===== BUILD LOG =====
+Change Dir: /Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_d35b9/fast && /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cmTC_d35b9.dir/build.make CMakeFiles/cmTC_d35b9.dir/build
+Building CXX object CMakeFiles/cmTC_d35b9.dir/cpu_avx512knm.cpp.o
+/Library/Developer/CommandLineTools/usr/bin/c++   -O3 -DNDEBUG -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk -fPIE    -mavx512f -mavx512cd -mavx512er -mavx512pf -mavx5124fmaps -mavx5124vnniw -mavx512vpopcntdq -std=c++11 -o CMakeFiles/cmTC_d35b9.dir/cpu_avx512knm.cpp.o -c /Users/tanli/dev/cs73/panorama-opencv/opencv/opencv/cmake/checks/cpu_avx512knm.cpp
+clang: error: unknown argument: '-mavx5124fmaps'
+clang: error: unknown argument: '-mavx5124vnniw'
+make[1]: *** [CMakeFiles/cmTC_d35b9.dir/cpu_avx512knm.cpp.o] Error 1
+make: *** [cmTC_d35b9/fast] Error 2
+
+
+===== END =====
+
+Compilation failed:
+    source file: '/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv/cmake/checks/cpu_avx512skx.cpp'
+    check option: ''
+===== BUILD LOG =====
+Change Dir: /Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_a2b01/fast && /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cmTC_a2b01.dir/build.make CMakeFiles/cmTC_a2b01.dir/build
+Building CXX object CMakeFiles/cmTC_a2b01.dir/cpu_avx512skx.cpp.o
+/Library/Developer/CommandLineTools/usr/bin/c++   -O3 -DNDEBUG -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk -fPIE -std=c++11 -o CMakeFiles/cmTC_a2b01.dir/cpu_avx512skx.cpp.o -c /Users/tanli/dev/cs73/panorama-opencv/opencv/opencv/cmake/checks/cpu_avx512skx.cpp
+/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv/cmake/checks/cpu_avx512skx.cpp:30:2: error: "AVX512-SKX is not supported"
+#error "AVX512-SKX is not supported"
+ ^
+1 error generated.
+make[1]: *** [CMakeFiles/cmTC_a2b01.dir/cpu_avx512skx.cpp.o] Error 1
+make: *** [cmTC_a2b01/fast] Error 2
+
+
+===== END =====
+
+Compilation failed:
+    source file: '/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv/cmake/checks/cpu_avx512cnl.cpp'
+    check option: ''
+===== BUILD LOG =====
+Change Dir: /Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_486f4/fast && /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cmTC_486f4.dir/build.make CMakeFiles/cmTC_486f4.dir/build
+Building CXX object CMakeFiles/cmTC_486f4.dir/cpu_avx512cnl.cpp.o
+/Library/Developer/CommandLineTools/usr/bin/c++   -O3 -DNDEBUG -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk -fPIE -std=c++11 -o CMakeFiles/cmTC_486f4.dir/cpu_avx512cnl.cpp.o -c /Users/tanli/dev/cs73/panorama-opencv/opencv/opencv/cmake/checks/cpu_avx512cnl.cpp
+/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv/cmake/checks/cpu_avx512cnl.cpp:10:2: error: "AVX512-CNL is not supported"
+#error "AVX512-CNL is not supported"
+ ^
+1 error generated.
+make[1]: *** [CMakeFiles/cmTC_486f4.dir/cpu_avx512cnl.cpp.o] Error 1
+make: *** [cmTC_486f4/fast] Error 2
+
+
+===== END =====
+
+Compilation failed:
+    source file: '/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv/cmake/checks/cpu_avx512clx.cpp'
+    check option: ''
+===== BUILD LOG =====
+Change Dir: /Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_5d4cd/fast && /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cmTC_5d4cd.dir/build.make CMakeFiles/cmTC_5d4cd.dir/build
+Building CXX object CMakeFiles/cmTC_5d4cd.dir/cpu_avx512clx.cpp.o
+/Library/Developer/CommandLineTools/usr/bin/c++   -O3 -DNDEBUG -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk -fPIE -std=c++11 -o CMakeFiles/cmTC_5d4cd.dir/cpu_avx512clx.cpp.o -c /Users/tanli/dev/cs73/panorama-opencv/opencv/opencv/cmake/checks/cpu_avx512clx.cpp
+/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv/cmake/checks/cpu_avx512clx.cpp:9:2: error: "AVX512-CLX is not supported"
+#error "AVX512-CLX is not supported"
+ ^
+1 error generated.
+make[1]: *** [CMakeFiles/cmTC_5d4cd.dir/cpu_avx512clx.cpp.o] Error 1
+make: *** [cmTC_5d4cd/fast] Error 2
+
+
+===== END =====
+
+Compilation failed:
+    source file: '/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv/cmake/checks/cpu_avx512icl.cpp'
+    check option: ''
+===== BUILD LOG =====
+Change Dir: /Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_1d55c/fast && /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cmTC_1d55c.dir/build.make CMakeFiles/cmTC_1d55c.dir/build
+Building CXX object CMakeFiles/cmTC_1d55c.dir/cpu_avx512icl.cpp.o
+/Library/Developer/CommandLineTools/usr/bin/c++   -O3 -DNDEBUG -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk -fPIE -std=c++11 -o CMakeFiles/cmTC_1d55c.dir/cpu_avx512icl.cpp.o -c /Users/tanli/dev/cs73/panorama-opencv/opencv/opencv/cmake/checks/cpu_avx512icl.cpp
+/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv/cmake/checks/cpu_avx512icl.cpp:12:2: error: "AVX512-ICL is not supported"
+#error "AVX512-ICL is not supported"
+ ^
+1 error generated.
+make[1]: *** [CMakeFiles/cmTC_1d55c.dir/cpu_avx512icl.cpp.o] Error 1
+make: *** [cmTC_1d55c/fast] Error 2
+
+
+===== END =====
+
+Determining if the include file malloc.h exists failed with the following output:
+Change Dir: /Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_9af0f/fast && /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cmTC_9af0f.dir/build.make CMakeFiles/cmTC_9af0f.dir/build
+Building C object CMakeFiles/cmTC_9af0f.dir/CheckIncludeFile.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -fsigned-char -W -Wall -Werror=return-type -Werror=non-virtual-dtor -Werror=address -Werror=sequence-point -Wformat -Werror=format-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wsign-promo -Wuninitialized -Winit-self -Wno-delete-non-virtual-dtor -Wno-unnamed-type-template-args -Wno-comment -fdiagnostics-show-option -Wno-long-long -Qunused-arguments -Wno-semicolon-before-method-body -ffunction-sections -fdata-sections  -fvisibility=hidden -fvisibility-inlines-hidden  -O3 -DNDEBUG -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk -fPIE -o CMakeFiles/cmTC_9af0f.dir/CheckIncludeFile.c.o -c /Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+/Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CMakeTmp/CheckIncludeFile.c:1:10: fatal error: 'malloc.h' file not found
+#include <malloc.h>
+         ^~~~~~~~~~
+1 error generated.
+make[1]: *** [CMakeFiles/cmTC_9af0f.dir/CheckIncludeFile.c.o] Error 1
+make: *** [cmTC_9af0f/fast] Error 2
+
+
+
+Determining size of off64_t failed with the following output:
+Change Dir: /Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_c6974/fast && /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cmTC_c6974.dir/build.make CMakeFiles/cmTC_c6974.dir/build
+Building C object CMakeFiles/cmTC_c6974.dir/OFF64_T.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -fsigned-char -W -Wall -Werror=return-type -Werror=non-virtual-dtor -Werror=address -Werror=sequence-point -Wformat -Werror=format-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wsign-promo -Wuninitialized -Winit-self -Wno-delete-non-virtual-dtor -Wno-unnamed-type-template-args -Wno-comment -fdiagnostics-show-option -Wno-long-long -Qunused-arguments -Wno-semicolon-before-method-body -ffunction-sections -fdata-sections  -fvisibility=hidden -fvisibility-inlines-hidden  -O3 -DNDEBUG -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk -fPIE -o CMakeFiles/cmTC_c6974.dir/OFF64_T.c.o -c /Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CheckTypeSize/OFF64_T.c
+/Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CheckTypeSize/OFF64_T.c:29:12: error: use of undeclared identifier 'off64_t'
+  ('0' + ((SIZE / 10000)%10)),
+           ^
+/Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CheckTypeSize/OFF64_T.c:27:22: note: expanded from macro 'SIZE'
+#define SIZE (sizeof(off64_t))
+                     ^
+/Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CheckTypeSize/OFF64_T.c:30:12: error: use of undeclared identifier 'off64_t'
+  ('0' + ((SIZE / 1000)%10)),
+           ^
+/Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CheckTypeSize/OFF64_T.c:27:22: note: expanded from macro 'SIZE'
+#define SIZE (sizeof(off64_t))
+                     ^
+/Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CheckTypeSize/OFF64_T.c:31:12: error: use of undeclared identifier 'off64_t'
+  ('0' + ((SIZE / 100)%10)),
+           ^
+/Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CheckTypeSize/OFF64_T.c:27:22: note: expanded from macro 'SIZE'
+#define SIZE (sizeof(off64_t))
+                     ^
+/Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CheckTypeSize/OFF64_T.c:32:12: error: use of undeclared identifier 'off64_t'
+  ('0' + ((SIZE / 10)%10)),
+           ^
+/Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CheckTypeSize/OFF64_T.c:27:22: note: expanded from macro 'SIZE'
+#define SIZE (sizeof(off64_t))
+                     ^
+/Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CheckTypeSize/OFF64_T.c:33:12: error: use of undeclared identifier 'off64_t'
+  ('0' +  (SIZE    % 10)),
+           ^
+/Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CheckTypeSize/OFF64_T.c:27:22: note: expanded from macro 'SIZE'
+#define SIZE (sizeof(off64_t))
+                     ^
+5 errors generated.
+make[1]: *** [CMakeFiles/cmTC_c6974.dir/OFF64_T.c.o] Error 1
+make: *** [cmTC_c6974/fast] Error 2
+
+
+/Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CheckTypeSize/OFF64_T.c:
+#include <sys/types.h>
+#include <stdint.h>
+#include <stddef.h>
+
+
+#undef KEY
+#if defined(__i386)
+# define KEY '_','_','i','3','8','6'
+#elif defined(__x86_64)
+# define KEY '_','_','x','8','6','_','6','4'
+#elif defined(__PPC64__)
+# define KEY '_','_','P','P','C','6','4','_','_'
+#elif defined(__ppc64__)
+# define KEY '_','_','p','p','c','6','4','_','_'
+#elif defined(__PPC__)
+# define KEY '_','_','P','P','C','_','_'
+#elif defined(__ppc__)
+# define KEY '_','_','p','p','c','_','_'
+#elif defined(__aarch64__)
+# define KEY '_','_','a','a','r','c','h','6','4','_','_'
+#elif defined(__ARM_ARCH_7A__)
+# define KEY '_','_','A','R','M','_','A','R','C','H','_','7','A','_','_'
+#elif defined(__ARM_ARCH_7S__)
+# define KEY '_','_','A','R','M','_','A','R','C','H','_','7','S','_','_'
+#endif
+
+#define SIZE (sizeof(off64_t))
+static char info_size[] =  {'I', 'N', 'F', 'O', ':', 's','i','z','e','[',
+  ('0' + ((SIZE / 10000)%10)),
+  ('0' + ((SIZE / 1000)%10)),
+  ('0' + ((SIZE / 100)%10)),
+  ('0' + ((SIZE / 10)%10)),
+  ('0' +  (SIZE    % 10)),
+  ']',
+#ifdef KEY
+  ' ','k','e','y','[', KEY, ']',
+#endif
+  '\0'};
+
+#ifdef __CLASSIC_C__
+int main(argc, argv) int argc; char *argv[];
+#else
+int main(int argc, char *argv[])
+#endif
+{
+  int require = 0;
+  require += info_size[argc];
+  (void)argv;
+  return require;
+}
+
+
+Determining if the include file io.h exists failed with the following output:
+Change Dir: /Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_2781b/fast && /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cmTC_2781b.dir/build.make CMakeFiles/cmTC_2781b.dir/build
+Building C object CMakeFiles/cmTC_2781b.dir/CheckIncludeFile.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -fsigned-char -W -Wall -Werror=return-type -Werror=non-virtual-dtor -Werror=address -Werror=sequence-point -Wformat -Werror=format-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wsign-promo -Wuninitialized -Winit-self -Wno-delete-non-virtual-dtor -Wno-unnamed-type-template-args -Wno-comment -fdiagnostics-show-option -Wno-long-long -Qunused-arguments -Wno-semicolon-before-method-body -ffunction-sections -fdata-sections  -fvisibility=hidden -fvisibility-inlines-hidden  -O3 -DNDEBUG -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk -fPIE -o CMakeFiles/cmTC_2781b.dir/CheckIncludeFile.c.o -c /Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+/Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CMakeTmp/CheckIncludeFile.c:1:10: fatal error: 'io.h' file not found
+#include <io.h>
+         ^~~~~~
+1 error generated.
+make[1]: *** [CMakeFiles/cmTC_2781b.dir/CheckIncludeFile.c.o] Error 1
+make: *** [cmTC_2781b/fast] Error 2
+
+
+
+Determining size of INT8 failed with the following output:
+Change Dir: /Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_d23b8/fast && /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cmTC_d23b8.dir/build.make CMakeFiles/cmTC_d23b8.dir/build
+Building C object CMakeFiles/cmTC_d23b8.dir/int8.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -fsigned-char -W -Wall -Werror=return-type -Werror=non-virtual-dtor -Werror=address -Werror=sequence-point -Wformat -Werror=format-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wsign-promo -Wuninitialized -Winit-self -Wno-delete-non-virtual-dtor -Wno-unnamed-type-template-args -Wno-comment -fdiagnostics-show-option -Wno-long-long -Qunused-arguments -Wno-semicolon-before-method-body -ffunction-sections -fdata-sections  -fvisibility=hidden -fvisibility-inlines-hidden  -O3 -DNDEBUG -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk -fPIE -o CMakeFiles/cmTC_d23b8.dir/int8.c.o -c /Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CheckTypeSize/int8.c
+/Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CheckTypeSize/int8.c:29:12: error: use of undeclared identifier 'INT8'
+  ('0' + ((SIZE / 10000)%10)),
+           ^
+/Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CheckTypeSize/int8.c:27:22: note: expanded from macro 'SIZE'
+#define SIZE (sizeof(INT8))
+                     ^
+/Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CheckTypeSize/int8.c:30:12: error: use of undeclared identifier 'INT8'
+  ('0' + ((SIZE / 1000)%10)),
+           ^
+/Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CheckTypeSize/int8.c:27:22: note: expanded from macro 'SIZE'
+#define SIZE (sizeof(INT8))
+                     ^
+/Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CheckTypeSize/int8.c:31:12: error: use of undeclared identifier 'INT8'
+  ('0' + ((SIZE / 100)%10)),
+           ^
+/Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CheckTypeSize/int8.c:27:22: note: expanded from macro 'SIZE'
+#define SIZE (sizeof(INT8))
+                     ^
+/Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CheckTypeSize/int8.c:32:12: error: use of undeclared identifier 'INT8'
+  ('0' + ((SIZE / 10)%10)),
+           ^
+/Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CheckTypeSize/int8.c:27:22: note: expanded from macro 'SIZE'
+#define SIZE (sizeof(INT8))
+                     ^
+/Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CheckTypeSize/int8.c:33:12: error: use of undeclared identifier 'INT8'
+  ('0' +  (SIZE    % 10)),
+           ^
+/Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CheckTypeSize/int8.c:27:22: note: expanded from macro 'SIZE'
+#define SIZE (sizeof(INT8))
+                     ^
+5 errors generated.
+make[1]: *** [CMakeFiles/cmTC_d23b8.dir/int8.c.o] Error 1
+make: *** [cmTC_d23b8/fast] Error 2
+
+
+/Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CheckTypeSize/int8.c:
+#include <sys/types.h>
+#include <stdint.h>
+#include <stddef.h>
+
+
+#undef KEY
+#if defined(__i386)
+# define KEY '_','_','i','3','8','6'
+#elif defined(__x86_64)
+# define KEY '_','_','x','8','6','_','6','4'
+#elif defined(__PPC64__)
+# define KEY '_','_','P','P','C','6','4','_','_'
+#elif defined(__ppc64__)
+# define KEY '_','_','p','p','c','6','4','_','_'
+#elif defined(__PPC__)
+# define KEY '_','_','P','P','C','_','_'
+#elif defined(__ppc__)
+# define KEY '_','_','p','p','c','_','_'
+#elif defined(__aarch64__)
+# define KEY '_','_','a','a','r','c','h','6','4','_','_'
+#elif defined(__ARM_ARCH_7A__)
+# define KEY '_','_','A','R','M','_','A','R','C','H','_','7','A','_','_'
+#elif defined(__ARM_ARCH_7S__)
+# define KEY '_','_','A','R','M','_','A','R','C','H','_','7','S','_','_'
+#endif
+
+#define SIZE (sizeof(INT8))
+static char info_size[] =  {'I', 'N', 'F', 'O', ':', 's','i','z','e','[',
+  ('0' + ((SIZE / 10000)%10)),
+  ('0' + ((SIZE / 1000)%10)),
+  ('0' + ((SIZE / 100)%10)),
+  ('0' + ((SIZE / 10)%10)),
+  ('0' +  (SIZE    % 10)),
+  ']',
+#ifdef KEY
+  ' ','k','e','y','[', KEY, ']',
+#endif
+  '\0'};
+
+#ifdef __CLASSIC_C__
+int main(argc, argv) int argc; char *argv[];
+#else
+int main(int argc, char *argv[])
+#endif
+{
+  int require = 0;
+  require += info_size[argc];
+  (void)argv;
+  return require;
+}
+
+
+Determining size of INT16 failed with the following output:
+Change Dir: /Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_b1d5e/fast && /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cmTC_b1d5e.dir/build.make CMakeFiles/cmTC_b1d5e.dir/build
+Building C object CMakeFiles/cmTC_b1d5e.dir/int16.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -fsigned-char -W -Wall -Werror=return-type -Werror=non-virtual-dtor -Werror=address -Werror=sequence-point -Wformat -Werror=format-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wsign-promo -Wuninitialized -Winit-self -Wno-delete-non-virtual-dtor -Wno-unnamed-type-template-args -Wno-comment -fdiagnostics-show-option -Wno-long-long -Qunused-arguments -Wno-semicolon-before-method-body -ffunction-sections -fdata-sections  -fvisibility=hidden -fvisibility-inlines-hidden  -O3 -DNDEBUG -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk -fPIE -o CMakeFiles/cmTC_b1d5e.dir/int16.c.o -c /Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CheckTypeSize/int16.c
+/Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CheckTypeSize/int16.c:29:12: error: use of undeclared identifier 'INT16'
+  ('0' + ((SIZE / 10000)%10)),
+           ^
+/Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CheckTypeSize/int16.c:27:22: note: expanded from macro 'SIZE'
+#define SIZE (sizeof(INT16))
+                     ^
+/Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CheckTypeSize/int16.c:30:12: error: use of undeclared identifier 'INT16'
+  ('0' + ((SIZE / 1000)%10)),
+           ^
+/Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CheckTypeSize/int16.c:27:22: note: expanded from macro 'SIZE'
+#define SIZE (sizeof(INT16))
+                     ^
+/Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CheckTypeSize/int16.c:31:12: error: use of undeclared identifier 'INT16'
+  ('0' + ((SIZE / 100)%10)),
+           ^
+/Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CheckTypeSize/int16.c:27:22: note: expanded from macro 'SIZE'
+#define SIZE (sizeof(INT16))
+                     ^
+/Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CheckTypeSize/int16.c:32:12: error: use of undeclared identifier 'INT16'
+  ('0' + ((SIZE / 10)%10)),
+           ^
+/Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CheckTypeSize/int16.c:27:22: note: expanded from macro 'SIZE'
+#define SIZE (sizeof(INT16))
+                     ^
+/Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CheckTypeSize/int16.c:33:12: error: use of undeclared identifier 'INT16'
+  ('0' +  (SIZE    % 10)),
+           ^
+/Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CheckTypeSize/int16.c:27:22: note: expanded from macro 'SIZE'
+#define SIZE (sizeof(INT16))
+                     ^
+5 errors generated.
+make[1]: *** [CMakeFiles/cmTC_b1d5e.dir/int16.c.o] Error 1
+make: *** [cmTC_b1d5e/fast] Error 2
+
+
+/Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CheckTypeSize/int16.c:
+#include <sys/types.h>
+#include <stdint.h>
+#include <stddef.h>
+
+
+#undef KEY
+#if defined(__i386)
+# define KEY '_','_','i','3','8','6'
+#elif defined(__x86_64)
+# define KEY '_','_','x','8','6','_','6','4'
+#elif defined(__PPC64__)
+# define KEY '_','_','P','P','C','6','4','_','_'
+#elif defined(__ppc64__)
+# define KEY '_','_','p','p','c','6','4','_','_'
+#elif defined(__PPC__)
+# define KEY '_','_','P','P','C','_','_'
+#elif defined(__ppc__)
+# define KEY '_','_','p','p','c','_','_'
+#elif defined(__aarch64__)
+# define KEY '_','_','a','a','r','c','h','6','4','_','_'
+#elif defined(__ARM_ARCH_7A__)
+# define KEY '_','_','A','R','M','_','A','R','C','H','_','7','A','_','_'
+#elif defined(__ARM_ARCH_7S__)
+# define KEY '_','_','A','R','M','_','A','R','C','H','_','7','S','_','_'
+#endif
+
+#define SIZE (sizeof(INT16))
+static char info_size[] =  {'I', 'N', 'F', 'O', ':', 's','i','z','e','[',
+  ('0' + ((SIZE / 10000)%10)),
+  ('0' + ((SIZE / 1000)%10)),
+  ('0' + ((SIZE / 100)%10)),
+  ('0' + ((SIZE / 10)%10)),
+  ('0' +  (SIZE    % 10)),
+  ']',
+#ifdef KEY
+  ' ','k','e','y','[', KEY, ']',
+#endif
+  '\0'};
+
+#ifdef __CLASSIC_C__
+int main(argc, argv) int argc; char *argv[];
+#else
+int main(int argc, char *argv[])
+#endif
+{
+  int require = 0;
+  require += info_size[argc];
+  (void)argv;
+  return require;
+}
+
+
+Determining size of INT32 failed with the following output:
+Change Dir: /Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_4e7e1/fast && /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cmTC_4e7e1.dir/build.make CMakeFiles/cmTC_4e7e1.dir/build
+Building C object CMakeFiles/cmTC_4e7e1.dir/int32.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -fsigned-char -W -Wall -Werror=return-type -Werror=non-virtual-dtor -Werror=address -Werror=sequence-point -Wformat -Werror=format-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wsign-promo -Wuninitialized -Winit-self -Wno-delete-non-virtual-dtor -Wno-unnamed-type-template-args -Wno-comment -fdiagnostics-show-option -Wno-long-long -Qunused-arguments -Wno-semicolon-before-method-body -ffunction-sections -fdata-sections  -fvisibility=hidden -fvisibility-inlines-hidden  -O3 -DNDEBUG -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk -fPIE -o CMakeFiles/cmTC_4e7e1.dir/int32.c.o -c /Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CheckTypeSize/int32.c
+/Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CheckTypeSize/int32.c:29:12: error: use of undeclared identifier 'INT32'
+  ('0' + ((SIZE / 10000)%10)),
+           ^
+/Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CheckTypeSize/int32.c:27:22: note: expanded from macro 'SIZE'
+#define SIZE (sizeof(INT32))
+                     ^
+/Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CheckTypeSize/int32.c:30:12: error: use of undeclared identifier 'INT32'
+  ('0' + ((SIZE / 1000)%10)),
+           ^
+/Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CheckTypeSize/int32.c:27:22: note: expanded from macro 'SIZE'
+#define SIZE (sizeof(INT32))
+                     ^
+/Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CheckTypeSize/int32.c:31:12: error: use of undeclared identifier 'INT32'
+  ('0' + ((SIZE / 100)%10)),
+           ^
+/Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CheckTypeSize/int32.c:27:22: note: expanded from macro 'SIZE'
+#define SIZE (sizeof(INT32))
+                     ^
+/Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CheckTypeSize/int32.c:32:12: error: use of undeclared identifier 'INT32'
+  ('0' + ((SIZE / 10)%10)),
+           ^
+/Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CheckTypeSize/int32.c:27:22: note: expanded from macro 'SIZE'
+#define SIZE (sizeof(INT32))
+                     ^
+/Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CheckTypeSize/int32.c:33:12: error: use of undeclared identifier 'INT32'
+  ('0' +  (SIZE    % 10)),
+           ^
+/Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CheckTypeSize/int32.c:27:22: note: expanded from macro 'SIZE'
+#define SIZE (sizeof(INT32))
+                     ^
+5 errors generated.
+make[1]: *** [CMakeFiles/cmTC_4e7e1.dir/int32.c.o] Error 1
+make: *** [cmTC_4e7e1/fast] Error 2
+
+
+/Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CheckTypeSize/int32.c:
+#include <sys/types.h>
+#include <stdint.h>
+#include <stddef.h>
+
+
+#undef KEY
+#if defined(__i386)
+# define KEY '_','_','i','3','8','6'
+#elif defined(__x86_64)
+# define KEY '_','_','x','8','6','_','6','4'
+#elif defined(__PPC64__)
+# define KEY '_','_','P','P','C','6','4','_','_'
+#elif defined(__ppc64__)
+# define KEY '_','_','p','p','c','6','4','_','_'
+#elif defined(__PPC__)
+# define KEY '_','_','P','P','C','_','_'
+#elif defined(__ppc__)
+# define KEY '_','_','p','p','c','_','_'
+#elif defined(__aarch64__)
+# define KEY '_','_','a','a','r','c','h','6','4','_','_'
+#elif defined(__ARM_ARCH_7A__)
+# define KEY '_','_','A','R','M','_','A','R','C','H','_','7','A','_','_'
+#elif defined(__ARM_ARCH_7S__)
+# define KEY '_','_','A','R','M','_','A','R','C','H','_','7','S','_','_'
+#endif
+
+#define SIZE (sizeof(INT32))
+static char info_size[] =  {'I', 'N', 'F', 'O', ':', 's','i','z','e','[',
+  ('0' + ((SIZE / 10000)%10)),
+  ('0' + ((SIZE / 1000)%10)),
+  ('0' + ((SIZE / 100)%10)),
+  ('0' + ((SIZE / 10)%10)),
+  ('0' +  (SIZE    % 10)),
+  ']',
+#ifdef KEY
+  ' ','k','e','y','[', KEY, ']',
+#endif
+  '\0'};
+
+#ifdef __CLASSIC_C__
+int main(argc, argv) int argc; char *argv[];
+#else
+int main(int argc, char *argv[])
+#endif
+{
+  int require = 0;
+  require += info_size[argc];
+  (void)argv;
+  return require;
+}
+
+
+Build output check failed:
+    Regex: 'unknown .*option'
+    Output line: 'warning: unknown warning option '-Wno-unused-but-set-variable', did you mean '-Wno-unused-const-variable'? [-Wunknown-warning-option]'
+Compilation failed:
+    source file: '/Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CMakeTmp/src.c'
+    check option: ' -Wno-unused-but-set-variable'
+===== BUILD LOG =====
+Change Dir: /Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_1c3c2/fast && /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cmTC_1c3c2.dir/build.make CMakeFiles/cmTC_1c3c2.dir/build
+Building C object CMakeFiles/cmTC_1c3c2.dir/src.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -fsigned-char -W -Wall -Werror=return-type -Werror=non-virtual-dtor -Werror=address -Werror=sequence-point -Wformat -Werror=format-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wsign-promo -Wuninitialized -Winit-self -Wno-delete-non-virtual-dtor -Wno-unnamed-type-template-args -Wno-comment -fdiagnostics-show-option -Wno-long-long -Qunused-arguments -Wno-semicolon-before-method-body -ffunction-sections -fdata-sections  -fvisibility=hidden -fvisibility-inlines-hidden  -O3 -DNDEBUG -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk -fPIE    -Wno-unused-but-set-variable -o CMakeFiles/cmTC_1c3c2.dir/src.c.o -c /Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CMakeTmp/src.c
+warning: unknown warning option '-Wno-unused-but-set-variable'; did you mean '-Wno-unused-const-variable'? [-Wunknown-warning-option]
+/Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CMakeTmp/src.c:1:8: warning: unknown pragma ignored [-Wunknown-pragmas]
+#pragma
+       ^
+2 warnings generated.
+Linking C executable cmTC_1c3c2
+/usr/local/Cellar/cmake/3.18.3/bin/cmake -E cmake_link_script CMakeFiles/cmTC_1c3c2.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc    -fsigned-char -W -Wall -Werror=return-type -Werror=non-virtual-dtor -Werror=address -Werror=sequence-point -Wformat -Werror=format-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wsign-promo -Wuninitialized -Winit-self -Wno-delete-non-virtual-dtor -Wno-unnamed-type-template-args -Wno-comment -fdiagnostics-show-option -Wno-long-long -Qunused-arguments -Wno-semicolon-before-method-body -ffunction-sections -fdata-sections  -fvisibility=hidden -fvisibility-inlines-hidden  -O3 -DNDEBUG -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names   -Wl,-dead_strip  CMakeFiles/cmTC_1c3c2.dir/src.c.o -o cmTC_1c3c2 
+
+
+===== END =====
+
+Build output check failed:
+    Regex: 'unknown .*option'
+    Output line: 'warning: unknown warning option '-Wno-maybe-uninitialized', did you mean '-Wno-uninitialized'? [-Wunknown-warning-option]'
+Compilation failed:
+    source file: '/Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CMakeTmp/src.c'
+    check option: ' -Wno-maybe-uninitialized'
+===== BUILD LOG =====
+Change Dir: /Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_5e4b8/fast && /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cmTC_5e4b8.dir/build.make CMakeFiles/cmTC_5e4b8.dir/build
+Building C object CMakeFiles/cmTC_5e4b8.dir/src.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -fsigned-char -W -Wall -Werror=return-type -Werror=non-virtual-dtor -Werror=address -Werror=sequence-point -Wformat -Werror=format-security -Wstrict-prototypes -Winit-self -Wpointer-arith -Wsign-promo -Wuninitialized -Winit-self -Wno-delete-non-virtual-dtor -Wno-unnamed-type-template-args -Wno-comment -fdiagnostics-show-option -Wno-long-long -Qunused-arguments -Wno-semicolon-before-method-body -ffunction-sections -fdata-sections  -fvisibility=hidden -fvisibility-inlines-hidden -Wno-missing-prototypes -Wno-missing-declarations -Wno-undef -Wno-unused -Wno-sign-compare -Wno-cast-align -Wno-shadow  -O3 -DNDEBUG -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk -fPIE    -Wno-maybe-uninitialized -o CMakeFiles/cmTC_5e4b8.dir/src.c.o -c /Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CMakeTmp/src.c
+warning: unknown warning option '-Wno-maybe-uninitialized'; did you mean '-Wno-uninitialized'? [-Wunknown-warning-option]
+/Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CMakeTmp/src.c:1:8: warning: unknown pragma ignored [-Wunknown-pragmas]
+#pragma
+       ^
+2 warnings generated.
+Linking C executable cmTC_5e4b8
+/usr/local/Cellar/cmake/3.18.3/bin/cmake -E cmake_link_script CMakeFiles/cmTC_5e4b8.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc    -fsigned-char -W -Wall -Werror=return-type -Werror=non-virtual-dtor -Werror=address -Werror=sequence-point -Wformat -Werror=format-security -Wstrict-prototypes -Winit-self -Wpointer-arith -Wsign-promo -Wuninitialized -Winit-self -Wno-delete-non-virtual-dtor -Wno-unnamed-type-template-args -Wno-comment -fdiagnostics-show-option -Wno-long-long -Qunused-arguments -Wno-semicolon-before-method-body -ffunction-sections -fdata-sections  -fvisibility=hidden -fvisibility-inlines-hidden -Wno-missing-prototypes -Wno-missing-declarations -Wno-undef -Wno-unused -Wno-sign-compare -Wno-cast-align -Wno-shadow  -O3 -DNDEBUG -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names   -Wl,-dead_strip  CMakeFiles/cmTC_5e4b8.dir/src.c.o -o cmTC_5e4b8 
+
+
+===== END =====
+
+Build output check failed:
+    Regex: 'unknown .*option'
+    Output line: 'warning: unknown warning option '-Wno-unused-but-set-parameter', did you mean '-Wno-unused-parameter'? [-Wunknown-warning-option]'
+Compilation failed:
+    source file: '/Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CMakeTmp/src.c'
+    check option: ' -Wno-unused-but-set-parameter'
+===== BUILD LOG =====
+Change Dir: /Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_4f575/fast && /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cmTC_4f575.dir/build.make CMakeFiles/cmTC_4f575.dir/build
+Building C object CMakeFiles/cmTC_4f575.dir/src.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -fsigned-char -W -Wall -Werror=return-type -Werror=non-virtual-dtor -Werror=address -Werror=sequence-point -Wformat -Werror=format-security -Wmissing-declarations -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wsign-promo -Wuninitialized -Winit-self -Wno-delete-non-virtual-dtor -Wno-unnamed-type-template-args -Wno-comment -fdiagnostics-show-option -Wno-long-long -Qunused-arguments -Wno-semicolon-before-method-body -ffunction-sections -fdata-sections  -fvisibility=hidden -fvisibility-inlines-hidden -Wno-implicit-function-declaration -Wno-uninitialized -Wno-missing-prototypes  -O3 -DNDEBUG -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk -fPIE    -Wno-unused-but-set-parameter -o CMakeFiles/cmTC_4f575.dir/src.c.o -c /Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CMakeTmp/src.c
+warning: unknown warning option '-Wno-unused-but-set-parameter'; did you mean '-Wno-unused-parameter'? [-Wunknown-warning-option]
+/Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CMakeTmp/src.c:1:8: warning: unknown pragma ignored [-Wunknown-pragmas]
+#pragma
+       ^
+2 warnings generated.
+Linking C executable cmTC_4f575
+/usr/local/Cellar/cmake/3.18.3/bin/cmake -E cmake_link_script CMakeFiles/cmTC_4f575.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc    -fsigned-char -W -Wall -Werror=return-type -Werror=non-virtual-dtor -Werror=address -Werror=sequence-point -Wformat -Werror=format-security -Wmissing-declarations -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wsign-promo -Wuninitialized -Winit-self -Wno-delete-non-virtual-dtor -Wno-unnamed-type-template-args -Wno-comment -fdiagnostics-show-option -Wno-long-long -Qunused-arguments -Wno-semicolon-before-method-body -ffunction-sections -fdata-sections  -fvisibility=hidden -fvisibility-inlines-hidden -Wno-implicit-function-declaration -Wno-uninitialized -Wno-missing-prototypes  -O3 -DNDEBUG -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names   -Wl,-dead_strip  CMakeFiles/cmTC_4f575.dir/src.c.o -o cmTC_4f575 
+
+
+===== END =====
+
+Build output check failed:
+    Regex: 'unknown .*option'
+    Output line: 'warning: unknown warning option '-Wno-suggest-override', did you mean '-Wno-shift-overflow'? [-Wunknown-warning-option]'
+Compilation failed:
+    source file: '/Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CMakeTmp/src.cxx'
+    check option: ' -Wno-suggest-override'
+===== BUILD LOG =====
+Change Dir: /Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_63bb3/fast && /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cmTC_63bb3.dir/build.make CMakeFiles/cmTC_63bb3.dir/build
+Building CXX object CMakeFiles/cmTC_63bb3.dir/src.cxx.o
+/Library/Developer/CommandLineTools/usr/bin/c++   -fsigned-char -W -Wall -Werror=return-type -Werror=non-virtual-dtor -Werror=address -Werror=sequence-point -Wformat -Werror=format-security -Wmissing-prototypes -Wstrict-prototypes -Winit-self -Wpointer-arith -Wsign-promo -Winit-self -Wno-delete-non-virtual-dtor -Wno-unnamed-type-template-args -Wno-comment -fdiagnostics-show-option -Wno-long-long -Qunused-arguments -Wno-semicolon-before-method-body -ffunction-sections -fdata-sections  -fvisibility=hidden -fvisibility-inlines-hidden -Wno-shadow -Wno-unused -Wno-sign-compare -Wno-undef -Wno-missing-declarations -Wno-uninitialized -Wno-switch -Wno-parentheses -Wno-array-bounds -Wno-extra -Wno-deprecated-declarations -Wno-misleading-indentation -Wno-deprecated  -O3 -DNDEBUG -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk -fPIE    -Wno-suggest-override -std=c++11 -o CMakeFiles/cmTC_63bb3.dir/src.cxx.o -c /Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CMakeTmp/src.cxx
+warning: unknown warning option '-Wno-suggest-override'; did you mean '-Wno-shift-overflow'? [-Wunknown-warning-option]
+/Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CMakeTmp/src.cxx:1:8: warning: unknown pragma ignored [-Wunknown-pragmas]
+#pragma
+       ^
+2 warnings generated.
+Linking CXX executable cmTC_63bb3
+/usr/local/Cellar/cmake/3.18.3/bin/cmake -E cmake_link_script CMakeFiles/cmTC_63bb3.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/c++    -fsigned-char -W -Wall -Werror=return-type -Werror=non-virtual-dtor -Werror=address -Werror=sequence-point -Wformat -Werror=format-security -Wmissing-prototypes -Wstrict-prototypes -Winit-self -Wpointer-arith -Wsign-promo -Winit-self -Wno-delete-non-virtual-dtor -Wno-unnamed-type-template-args -Wno-comment -fdiagnostics-show-option -Wno-long-long -Qunused-arguments -Wno-semicolon-before-method-body -ffunction-sections -fdata-sections  -fvisibility=hidden -fvisibility-inlines-hidden -Wno-shadow -Wno-unused -Wno-sign-compare -Wno-undef -Wno-missing-declarations -Wno-uninitialized -Wno-switch -Wno-parentheses -Wno-array-bounds -Wno-extra -Wno-deprecated-declarations -Wno-misleading-indentation -Wno-deprecated  -O3 -DNDEBUG -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names   -Wl,-dead_strip  CMakeFiles/cmTC_63bb3.dir/src.cxx.o -o cmTC_63bb3 
+
+
+===== END =====
+
+Determining if the function sgemm_ exists failed with the following output:
+Change Dir: /Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_7a893/fast && /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cmTC_7a893.dir/build.make CMakeFiles/cmTC_7a893.dir/build
+Building C object CMakeFiles/cmTC_7a893.dir/CheckFunctionExists.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -fsigned-char -W -Wall -Werror=return-type -Werror=non-virtual-dtor -Werror=address -Werror=sequence-point -Wformat -Werror=format-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wsign-promo -Wuninitialized -Winit-self -Wno-delete-non-virtual-dtor -Wno-unnamed-type-template-args -Wno-comment -fdiagnostics-show-option -Wno-long-long -Qunused-arguments -Wno-semicolon-before-method-body -ffunction-sections -fdata-sections  -fvisibility=hidden -fvisibility-inlines-hidden -DCHECK_FUNCTION_EXISTS=sgemm_ -O3 -DNDEBUG -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk -fPIE -o CMakeFiles/cmTC_7a893.dir/CheckFunctionExists.c.o -c /usr/local/Cellar/cmake/3.18.3/share/cmake/Modules/CheckFunctionExists.c
+Linking C executable cmTC_7a893
+/usr/local/Cellar/cmake/3.18.3/bin/cmake -E cmake_link_script CMakeFiles/cmTC_7a893.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc    -fsigned-char -W -Wall -Werror=return-type -Werror=non-virtual-dtor -Werror=address -Werror=sequence-point -Wformat -Werror=format-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wsign-promo -Wuninitialized -Winit-self -Wno-delete-non-virtual-dtor -Wno-unnamed-type-template-args -Wno-comment -fdiagnostics-show-option -Wno-long-long -Qunused-arguments -Wno-semicolon-before-method-body -ffunction-sections -fdata-sections  -fvisibility=hidden -fvisibility-inlines-hidden -DCHECK_FUNCTION_EXISTS=sgemm_ -O3 -DNDEBUG -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names   -Wl,-dead_strip  CMakeFiles/cmTC_7a893.dir/CheckFunctionExists.c.o -o cmTC_7a893 
+Undefined symbols for architecture x86_64:
+  "_sgemm_", referenced from:
+      _main in CheckFunctionExists.c.o
+ld: symbol(s) not found for architecture x86_64
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+make[1]: *** [cmTC_7a893] Error 1
+make: *** [cmTC_7a893/fast] Error 2
+
+
+
+Determining if the CL_VERSION_2_2 exist failed with the following output:
+Change Dir: /Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_71151/fast && /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cmTC_71151.dir/build.make CMakeFiles/cmTC_71151.dir/build
+Building C object CMakeFiles/cmTC_71151.dir/CheckSymbolExists.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc  -F/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/System/Library/Frameworks -fsigned-char -W -Wall -Werror=return-type -Werror=non-virtual-dtor -Werror=address -Werror=sequence-point -Wformat -Werror=format-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wsign-promo -Wuninitialized -Winit-self -Wno-delete-non-virtual-dtor -Wno-unnamed-type-template-args -Wno-comment -fdiagnostics-show-option -Wno-long-long -Qunused-arguments -Wno-semicolon-before-method-body -ffunction-sections -fdata-sections  -fvisibility=hidden -fvisibility-inlines-hidden  -O3 -DNDEBUG -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk -fPIE -o CMakeFiles/cmTC_71151.dir/CheckSymbolExists.c.o -c /Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CMakeTmp/CheckSymbolExists.c
+/Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CMakeTmp/CheckSymbolExists.c:8:19: error: use of undeclared identifier 'CL_VERSION_2_2'
+  return ((int*)(&CL_VERSION_2_2))[argc];
+                  ^
+1 error generated.
+make[1]: *** [CMakeFiles/cmTC_71151.dir/CheckSymbolExists.c.o] Error 1
+make: *** [cmTC_71151/fast] Error 2
+
+
+File /Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+#include </Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/System/Library/Frameworks/OpenCL.framework/Headers/cl.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef CL_VERSION_2_2
+  return ((int*)(&CL_VERSION_2_2))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+Determining if the CL_VERSION_2_1 exist failed with the following output:
+Change Dir: /Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_1bdb9/fast && /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cmTC_1bdb9.dir/build.make CMakeFiles/cmTC_1bdb9.dir/build
+Building C object CMakeFiles/cmTC_1bdb9.dir/CheckSymbolExists.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc  -F/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/System/Library/Frameworks -fsigned-char -W -Wall -Werror=return-type -Werror=non-virtual-dtor -Werror=address -Werror=sequence-point -Wformat -Werror=format-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wsign-promo -Wuninitialized -Winit-self -Wno-delete-non-virtual-dtor -Wno-unnamed-type-template-args -Wno-comment -fdiagnostics-show-option -Wno-long-long -Qunused-arguments -Wno-semicolon-before-method-body -ffunction-sections -fdata-sections  -fvisibility=hidden -fvisibility-inlines-hidden  -O3 -DNDEBUG -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk -fPIE -o CMakeFiles/cmTC_1bdb9.dir/CheckSymbolExists.c.o -c /Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CMakeTmp/CheckSymbolExists.c
+/Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CMakeTmp/CheckSymbolExists.c:8:19: error: use of undeclared identifier 'CL_VERSION_2_1'
+  return ((int*)(&CL_VERSION_2_1))[argc];
+                  ^
+1 error generated.
+make[1]: *** [CMakeFiles/cmTC_1bdb9.dir/CheckSymbolExists.c.o] Error 1
+make: *** [cmTC_1bdb9/fast] Error 2
+
+
+File /Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+#include </Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/System/Library/Frameworks/OpenCL.framework/Headers/cl.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef CL_VERSION_2_1
+  return ((int*)(&CL_VERSION_2_1))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+Determining if the CL_VERSION_2_0 exist failed with the following output:
+Change Dir: /Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_ff3f7/fast && /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cmTC_ff3f7.dir/build.make CMakeFiles/cmTC_ff3f7.dir/build
+Building C object CMakeFiles/cmTC_ff3f7.dir/CheckSymbolExists.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc  -F/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/System/Library/Frameworks -fsigned-char -W -Wall -Werror=return-type -Werror=non-virtual-dtor -Werror=address -Werror=sequence-point -Wformat -Werror=format-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wsign-promo -Wuninitialized -Winit-self -Wno-delete-non-virtual-dtor -Wno-unnamed-type-template-args -Wno-comment -fdiagnostics-show-option -Wno-long-long -Qunused-arguments -Wno-semicolon-before-method-body -ffunction-sections -fdata-sections  -fvisibility=hidden -fvisibility-inlines-hidden  -O3 -DNDEBUG -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk -fPIE -o CMakeFiles/cmTC_ff3f7.dir/CheckSymbolExists.c.o -c /Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CMakeTmp/CheckSymbolExists.c
+/Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CMakeTmp/CheckSymbolExists.c:8:19: error: use of undeclared identifier 'CL_VERSION_2_0'
+  return ((int*)(&CL_VERSION_2_0))[argc];
+                  ^
+1 error generated.
+make[1]: *** [CMakeFiles/cmTC_ff3f7.dir/CheckSymbolExists.c.o] Error 1
+make: *** [cmTC_ff3f7/fast] Error 2
+
+
+File /Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+#include </Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/System/Library/Frameworks/OpenCL.framework/Headers/cl.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef CL_VERSION_2_0
+  return ((int*)(&CL_VERSION_2_0))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}

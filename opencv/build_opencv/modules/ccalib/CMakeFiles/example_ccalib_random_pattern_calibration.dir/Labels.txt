@@ -1,0 +1,9 @@
+# Target labels
+ Extra
+ opencv_ccalib
+ Sample
+# Source files and their labels
+/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/ccalib/samples/random_pattern_calibration.cpp
+ Extra
+ opencv_ccalib
+ Sample

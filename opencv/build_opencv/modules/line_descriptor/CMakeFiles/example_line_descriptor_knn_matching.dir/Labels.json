@@ -1,0 +1,24 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/line_descriptor/samples/knn_matching.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_line_descriptor",
+				"Sample"
+			]
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"Extra",
+			"opencv_line_descriptor",
+			"Sample"
+		],
+		"name" : "example_line_descriptor_knn_matching"
+	}
+}

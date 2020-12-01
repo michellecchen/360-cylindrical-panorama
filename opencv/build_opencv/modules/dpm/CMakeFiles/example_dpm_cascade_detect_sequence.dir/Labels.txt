@@ -1,0 +1,9 @@
+# Target labels
+ Extra
+ opencv_dpm
+ Sample
+# Source files and their labels
+/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/dpm/samples/cascade_detect_sequence.cpp
+ Extra
+ opencv_dpm
+ Sample

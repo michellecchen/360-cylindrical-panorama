@@ -1,0 +1,24 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/plot/samples/plot_demo.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_plot",
+				"Sample"
+			]
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"Extra",
+			"opencv_plot",
+			"Sample"
+		],
+		"name" : "example_plot_plot_demo"
+	}
+}

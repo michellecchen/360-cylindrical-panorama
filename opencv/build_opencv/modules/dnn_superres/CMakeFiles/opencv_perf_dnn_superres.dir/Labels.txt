@@ -1,0 +1,17 @@
+# Target labels
+ Extra
+ opencv_dnn_superres
+ PerfTest
+# Source files and their labels
+/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/dnn_superres/perf/perf_dnn_superres.cpp
+ Extra
+ opencv_dnn_superres
+ PerfTest
+/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/dnn_superres/perf/perf_main.cpp
+ Extra
+ opencv_dnn_superres
+ PerfTest
+/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/dnn_superres/perf/perf_precomp.hpp
+ Extra
+ opencv_dnn_superres
+ PerfTest

@@ -1,0 +1,24 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/face/samples/mace_webcam.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_face",
+				"Sample"
+			]
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"Extra",
+			"opencv_face",
+			"Sample"
+		],
+		"name" : "example_face_mace_webcam"
+	}
+}

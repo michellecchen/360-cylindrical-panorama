@@ -1,0 +1,9 @@
+# Target labels
+ Extra
+ opencv_shape
+ Sample
+# Source files and their labels
+/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/shape/samples/shape_example.cpp
+ Extra
+ opencv_shape
+ Sample

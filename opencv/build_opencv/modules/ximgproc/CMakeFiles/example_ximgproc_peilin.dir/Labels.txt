@@ -1,0 +1,9 @@
+# Target labels
+ Extra
+ opencv_ximgproc
+ Sample
+# Source files and their labels
+/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/ximgproc/samples/peilin.cpp
+ Extra
+ opencv_ximgproc
+ Sample

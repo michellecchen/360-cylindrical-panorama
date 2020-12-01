@@ -1,0 +1,24 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/optflow/samples/gpc_evaluate.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_optflow",
+				"Sample"
+			]
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"Extra",
+			"opencv_optflow",
+			"Sample"
+		],
+		"name" : "example_optflow_gpc_evaluate"
+	}
+}

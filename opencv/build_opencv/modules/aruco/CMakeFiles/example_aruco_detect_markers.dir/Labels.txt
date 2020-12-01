@@ -1,0 +1,9 @@
+# Target labels
+ Extra
+ opencv_aruco
+ Sample
+# Source files and their labels
+/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/aruco/samples/detect_markers.cpp
+ Extra
+ opencv_aruco
+ Sample

@@ -1,0 +1,24 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/hfs/samples/example.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_hfs",
+				"Sample"
+			]
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"Extra",
+			"opencv_hfs",
+			"Sample"
+		],
+		"name" : "example_hfs_example"
+	}
+}

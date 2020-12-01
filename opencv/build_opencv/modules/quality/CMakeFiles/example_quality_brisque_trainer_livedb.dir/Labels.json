@@ -1,0 +1,24 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/quality/samples/brisque_trainer_livedb.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_quality",
+				"Sample"
+			]
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"Extra",
+			"opencv_quality",
+			"Sample"
+		],
+		"name" : "example_quality_brisque_trainer_livedb"
+	}
+}

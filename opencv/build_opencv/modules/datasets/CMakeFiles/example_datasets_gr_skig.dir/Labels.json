@@ -1,0 +1,24 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/datasets/samples/gr_skig.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_datasets",
+				"Sample"
+			]
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"Extra",
+			"opencv_datasets",
+			"Sample"
+		],
+		"name" : "example_datasets_gr_skig"
+	}
+}

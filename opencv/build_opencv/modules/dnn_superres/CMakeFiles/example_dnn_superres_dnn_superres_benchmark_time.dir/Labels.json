@@ -1,0 +1,24 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/dnn_superres/samples/dnn_superres_benchmark_time.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_dnn_superres",
+				"Sample"
+			]
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"Extra",
+			"opencv_dnn_superres",
+			"Sample"
+		],
+		"name" : "example_dnn_superres_dnn_superres_benchmark_time"
+	}
+}

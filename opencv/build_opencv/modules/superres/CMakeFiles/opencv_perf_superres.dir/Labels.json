@@ -1,0 +1,42 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/superres/perf/perf_main.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_superres",
+				"PerfTest"
+			]
+		},
+		{
+			"file" : "/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/superres/perf/perf_superres.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_superres",
+				"PerfTest"
+			]
+		},
+		{
+			"file" : "/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/superres/perf/perf_precomp.hpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_superres",
+				"PerfTest"
+			]
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"Extra",
+			"opencv_superres",
+			"PerfTest"
+		],
+		"name" : "opencv_perf_superres"
+	}
+}

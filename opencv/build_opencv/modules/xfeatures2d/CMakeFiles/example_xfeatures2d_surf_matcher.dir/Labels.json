@@ -1,0 +1,24 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/xfeatures2d/samples/surf_matcher.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_xfeatures2d",
+				"Sample"
+			]
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"Extra",
+			"opencv_xfeatures2d",
+			"Sample"
+		],
+		"name" : "example_xfeatures2d_surf_matcher"
+	}
+}

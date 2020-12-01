@@ -1,0 +1,24 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/text/samples/text_recognition_cnn.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_text",
+				"Sample"
+			]
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"Extra",
+			"opencv_text",
+			"Sample"
+		],
+		"name" : "example_text_text_recognition_cnn"
+	}
+}

@@ -1,0 +1,24 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/ccalib/samples/random_pattern_calibration.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_ccalib",
+				"Sample"
+			]
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"Extra",
+			"opencv_ccalib",
+			"Sample"
+		],
+		"name" : "example_ccalib_random_pattern_calibration"
+	}
+}

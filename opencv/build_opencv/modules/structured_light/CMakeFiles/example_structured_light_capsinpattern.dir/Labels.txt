@@ -1,0 +1,9 @@
+# Target labels
+ Extra
+ opencv_structured_light
+ Sample
+# Source files and their labels
+/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/structured_light/samples/capsinpattern.cpp
+ Extra
+ opencv_structured_light
+ Sample

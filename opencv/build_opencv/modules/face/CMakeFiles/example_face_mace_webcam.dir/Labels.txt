@@ -1,0 +1,9 @@
+# Target labels
+ Extra
+ opencv_face
+ Sample
+# Source files and their labels
+/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/face/samples/mace_webcam.cpp
+ Extra
+ opencv_face
+ Sample

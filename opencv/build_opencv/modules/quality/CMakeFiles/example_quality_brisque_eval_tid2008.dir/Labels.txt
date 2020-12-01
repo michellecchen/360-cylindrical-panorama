@@ -1,0 +1,9 @@
+# Target labels
+ Extra
+ opencv_quality
+ Sample
+# Source files and their labels
+/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/quality/samples/brisque_eval_tid2008.cpp
+ Extra
+ opencv_quality
+ Sample

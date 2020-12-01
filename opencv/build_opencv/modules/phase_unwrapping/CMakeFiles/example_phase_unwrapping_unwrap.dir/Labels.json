@@ -1,0 +1,24 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/phase_unwrapping/samples/unwrap.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_phase_unwrapping",
+				"Sample"
+			]
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"Extra",
+			"opencv_phase_unwrapping",
+			"Sample"
+		],
+		"name" : "example_phase_unwrapping_unwrap"
+	}
+}

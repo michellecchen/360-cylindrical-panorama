@@ -1,0 +1,9 @@
+# Target labels
+ Extra
+ opencv_hfs
+ Sample
+# Source files and their labels
+/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/hfs/samples/example.cpp
+ Extra
+ opencv_hfs
+ Sample

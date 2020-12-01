@@ -1,0 +1,24 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/img_hash/samples/hash_samples.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_img_hash",
+				"Sample"
+			]
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"Extra",
+			"opencv_img_hash",
+			"Sample"
+		],
+		"name" : "example_img_hash_hash_samples"
+	}
+}

@@ -1,0 +1,24 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/dpm/samples/cascade_detect_sequence.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_dpm",
+				"Sample"
+			]
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"Extra",
+			"opencv_dpm",
+			"Sample"
+		],
+		"name" : "example_dpm_cascade_detect_sequence"
+	}
+}

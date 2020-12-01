@@ -1,0 +1,17 @@
+# Target labels
+ Extra
+ opencv_shape
+ AccuracyTest
+# Source files and their labels
+/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/shape/test/test_main.cpp
+ Extra
+ opencv_shape
+ AccuracyTest
+/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/shape/test/test_shape.cpp
+ Extra
+ opencv_shape
+ AccuracyTest
+/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/shape/test/test_precomp.hpp
+ Extra
+ opencv_shape
+ AccuracyTest

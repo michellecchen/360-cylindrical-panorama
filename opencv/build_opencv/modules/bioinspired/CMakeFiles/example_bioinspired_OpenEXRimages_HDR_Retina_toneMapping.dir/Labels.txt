@@ -1,0 +1,9 @@
+# Target labels
+ Extra
+ opencv_bioinspired
+ Sample
+# Source files and their labels
+/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/bioinspired/samples/OpenEXRimages_HDR_Retina_toneMapping.cpp
+ Extra
+ opencv_bioinspired
+ Sample

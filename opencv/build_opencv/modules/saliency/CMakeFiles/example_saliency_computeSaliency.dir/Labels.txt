@@ -1,0 +1,9 @@
+# Target labels
+ Extra
+ opencv_saliency
+ Sample
+# Source files and their labels
+/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/saliency/samples/computeSaliency.cpp
+ Extra
+ opencv_saliency
+ Sample

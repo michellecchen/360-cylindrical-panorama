@@ -1,0 +1,9 @@
+# Target labels
+ Main
+ opencv_gapi
+ Sample
+# Source files and their labels
+/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv/modules/gapi/samples/slides_sobel_gapi.cpp
+ Main
+ opencv_gapi
+ Sample

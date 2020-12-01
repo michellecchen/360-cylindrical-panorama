@@ -1,0 +1,9 @@
+# Target labels
+ Extra
+ opencv_datasets
+ Sample
+# Source files and their labels
+/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/datasets/samples/tr_chars.cpp
+ Extra
+ opencv_datasets
+ Sample

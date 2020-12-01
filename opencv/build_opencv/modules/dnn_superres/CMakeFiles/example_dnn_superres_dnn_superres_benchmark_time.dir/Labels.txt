@@ -1,0 +1,9 @@
+# Target labels
+ Extra
+ opencv_dnn_superres
+ Sample
+# Source files and their labels
+/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/dnn_superres/samples/dnn_superres_benchmark_time.cpp
+ Extra
+ opencv_dnn_superres
+ Sample

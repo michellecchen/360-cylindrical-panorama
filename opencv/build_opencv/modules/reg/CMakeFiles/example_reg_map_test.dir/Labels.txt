@@ -1,0 +1,9 @@
+# Target labels
+ Extra
+ opencv_reg
+ Sample
+# Source files and their labels
+/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/reg/samples/map_test.cpp
+ Extra
+ opencv_reg
+ Sample

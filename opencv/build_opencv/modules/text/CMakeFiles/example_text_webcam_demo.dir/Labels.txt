@@ -1,0 +1,9 @@
+# Target labels
+ Extra
+ opencv_text
+ Sample
+# Source files and their labels
+/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/text/samples/webcam_demo.cpp
+ Extra
+ opencv_text
+ Sample

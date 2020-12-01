@@ -1,0 +1,24 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/dnn_objdetect/samples/obj_detect.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_dnn_objdetect",
+				"Sample"
+			]
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"Extra",
+			"opencv_dnn_objdetect",
+			"Sample"
+		],
+		"name" : "example_dnn_objdetect_obj_detect"
+	}
+}

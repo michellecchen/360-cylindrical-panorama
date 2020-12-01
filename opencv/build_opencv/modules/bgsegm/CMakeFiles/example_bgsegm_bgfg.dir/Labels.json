@@ -1,0 +1,24 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/bgsegm/samples/bgfg.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_bgsegm",
+				"Sample"
+			]
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"Extra",
+			"opencv_bgsegm",
+			"Sample"
+		],
+		"name" : "example_bgsegm_bgfg"
+	}
+}

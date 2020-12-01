@@ -1,0 +1,24 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/bioinspired/samples/retinaDemo.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_bioinspired",
+				"Sample"
+			]
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"Extra",
+			"opencv_bioinspired",
+			"Sample"
+		],
+		"name" : "example_bioinspired_retinaDemo"
+	}
+}

@@ -1,0 +1,24 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/optflow/samples/optical_flow_evaluation.cpp",
+			"labels" : 
+			[
+				"Extra",
+				"opencv_optflow",
+				"Sample"
+			]
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"Extra",
+			"opencv_optflow",
+			"Sample"
+		],
+		"name" : "example_optflow_optical_flow_evaluation"
+	}
+}

@@ -1,0 +1,12 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv/samples/cpp/tutorial_code/introduction/documentation/documentation.cpp
+iostream
+-
+

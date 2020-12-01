@@ -1,0 +1,19 @@
+# Target labels
+ Extra
+ opencv_plot
+ Module
+# Source files and their labels
+/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/plot/include/opencv2/plot.hpp
+ Extra
+ opencv_plot
+ Module
+/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/plot/src/plot.cpp
+ Extra
+ opencv_plot
+ Module
+/Users/tanli/dev/cs73/panorama-opencv/opencv/opencv_contrib/modules/plot/src/precomp.hpp
+ Extra
+ opencv_plot
+ Module
+/Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/cvconfig.h
+/Users/tanli/dev/cs73/panorama-opencv/opencv/build_opencv/opencv2/opencv_modules.hpp
