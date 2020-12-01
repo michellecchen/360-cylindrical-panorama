@@ -50,7 +50,8 @@ https://people.sc.fsu.edu/~jburkardt/c_src/haar/haar.html
 
 ## Part C
 (Primary author: Charlie)
-The code for part c can be found in the file `mosaic.cpp`. The final output image is called `panorama360.jpg`. Results of testing just the image warping are named `cylinder-warp[#].jpg`. Part C consists of two parts, image warping and image stitching. The method for image warping is explained in the first source of this section. Image stitching used translation with some sigmoid blending. The boundaries for stitching the images together (to make sure the images overlapped properly), was determined manually by opening the images up in an image editing program and looking for locations that were best suited for overlap. However, this can also be done via feature matching as [this student](http://pages.cs.wisc.edu/~vmathew/cs766-proj2/index.html) did.
+
+The code for part C can be found in the file `mosaic.cpp`. The final output image is called `panorama360.jpg`. Results of testing just the image warping are named `cylinder-warp[#].jpg`. Part C consists of two parts, image warping and image stitching. The method for image warping is explained in the first source of this section. Image stitching used translation with some sigmoid blending. The boundaries for stitching the images together (to make sure the images overlapped properly), was determined manually by opening the images up in an image editing program and looking for locations that were best suited for overlap. However, this can also be done via feature matching as [this student](http://pages.cs.wisc.edu/~vmathew/cs766-proj2/index.html) did.
 
 ### Functions
 Image warping functions:
