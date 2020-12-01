@@ -236,6 +236,9 @@ FloatImage stitchWarpBoth(const FloatImage &im1, const FloatImage &im2, const ve
     return output;
 }
 
+// takes points from the original image and projects them onto the cylinder
+// inputs: original x, original y, image width, image height, focal length, cylinder radius
+// output: x,y coordinate after projection
 vector<float> convertToCylinder(float x, float y, int w, int h, float focal, float radius)
 {
     //center the point at 0,0
@@ -254,7 +257,7 @@ vector<float> convertToCylinder(float x, float y, int w, int h, float focal, flo
     float new_y= y * zc / focal;
 
     // reconvert image coordinate
-new_x += floor(w / 2);
+    new_x += floor(w / 2);
    new_y += floor(h / 2);
 
     vector<float> point;
@@ -263,6 +266,9 @@ new_x += floor(w / 2);
     return point;
 }
 
+// takes an image and warps it to fit around a cylinder
+// inputs: original image, focal length, radius
+// outputs: warped image
 FloatImage warpCylinder(const FloatImage &im, int focal, int radius){
     FloatImage result(im);
     for (int x = 0; x < im.width(); x++){
@@ -276,6 +282,9 @@ FloatImage warpCylinder(const FloatImage &im, int focal, int radius){
     return result;
 }
 
+// takes a series of images and warps them all to a cylinder
+// inputs: all the images, focal length, radius
+// outputs: all the images, warped
 vector<FloatImage> warpAll(vector<FloatImage> &images, int focal, int radius){
     vector<FloatImage> warped;
     for (FloatImage image : images){
@@ -285,6 +294,12 @@ vector<FloatImage> warpAll(vector<FloatImage> &images, int focal, int radius){
     }
     return warped;
 }
+
+// takes a series of images and the boundaries which to overlap the images at and creates a 360 panorama 
+// inputs: original images, list of boundaries such that the first element is the left boundary of the first image,
+// the second is the right boundary of the second image, the third is the left boundary of the second image, and so on
+// and the focal length
+// output: 360 panorama
 FloatImage stitchCylinder(vector<FloatImage> &images, vector<int> boundaries, int focal){
     // warp images
     int circumference = calculateCircumference(boundaries);
@@ -325,7 +340,7 @@ FloatImage stitchCylinder(vector<FloatImage> &images, vector<int> boundaries, in
                     if (blendBack){
                         int diff = localX - newBoundaries[currentImage * 2];
                         float val1 = warped[currentImage](localX, y - offset, z);
-                        float val2 = warped[currentImage - 1](newBoundaries[currentImage * 2 - 1] - diff, y - offset, z);
+                        float val2 = warped[currentImage - 1](newBoundaries[currentImage * 2 - 1] + diff, y - offset, z);
                         // result(x, y, z) = val1 + val2;
                         if (val1 != 0 && val2 != 0) {
                             float alpha = 1 / (1 + exp(diff)); 
@@ -335,7 +350,7 @@ FloatImage stitchCylinder(vector<FloatImage> &images, vector<int> boundaries, in
                     else if (blendForward){
                         int diff = newBoundaries[currentImage * 2 + 1] - localX;
                         float val1 = warped[currentImage](localX, y - offset, z);
-                        float val2 = warped[currentImage + 1](newBoundaries[currentImage * 2 + 2] + diff, y - offset, z);
+                        float val2 = warped[currentImage + 1](newBoundaries[currentImage * 2 + 2] - diff, y - offset, z);
                         // result(x, y, z) = val1 + val2;
                         if (val1 != 0 && val2 != 0) {
                             float alpha = 1 / (1 + exp(diff)); 
@@ -343,7 +358,7 @@ FloatImage stitchCylinder(vector<FloatImage> &images, vector<int> boundaries, in
                         }
                     }
                     else{
-                        //if no need to be blended, move on
+                        //if no need to be blended copy the pixel value directly
                         result(x, y, z) = warped[currentImage](localX, y - offset, z);
                     }
    
@@ -362,6 +377,9 @@ FloatImage stitchCylinder(vector<FloatImage> &images, vector<int> boundaries, in
     return result;
 }
 
+// helper function that converts the boundaries to the cylindrical coordinates
+// inputs: list of boundaries, radius, focal length, image width, image height
+// outputs: converted boundaries
 vector<int> convertBoundaries(vector<int> boundaries, int radius, int focal, int w, int h){
     vector<int> result;
     for (int boundary : boundaries){
@@ -371,6 +389,9 @@ vector<int> convertBoundaries(vector<int> boundaries, int radius, int focal, int
     return result;
 }
 
+// helper function that calculates circumference of the cylinder
+// inputs: list of boundaries
+// output: circumference of the proposed cylinder
 int calculateCircumference(const vector<int> boundaries){
     int circumference = 0;
     for (int i = 0; i <= boundaries.size() - 1; i += 2 ){
@@ -380,10 +401,9 @@ int calculateCircumference(const vector<int> boundaries){
     return circumference;
 }
 
+// helper function that calculates focal length in pixels
+// inputs: focal length in mm. sensor width, the image
+// output: focal length in px
 int getFocalLength(float focalMM, float sensorWidth, FloatImage &im){
     return floor(im.width() * focalMM / sensorWidth);
 }
-/**************************************************
- //              Part B Functions                //
- **************************************************/
-

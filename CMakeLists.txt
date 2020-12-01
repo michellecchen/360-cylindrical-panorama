@@ -32,7 +32,7 @@ add_library(common_lib STATIC
 )
 SOURCE_GROUP("src\\ext\\stb" FILES ${ext_stb_srcs})
 
-set(panorama_srcs   src/main.cpp src/mosaic.cpp src/homography.cpp)
+set(panorama_srcs   src/main.cpp src/mosaic.cpp)
 add_executable(panorama ${panorama_srcs})
 target_link_libraries(panorama common_lib)
 SOURCE_GROUP("src" FILES ${panorama_srcs})
