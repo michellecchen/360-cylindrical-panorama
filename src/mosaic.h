@@ -1,7 +1,7 @@
 /*!
     \file mosaic.h (Part A)
     \brief Image warping and mosaicing
-    \author Tanli Su
+    \author Tanli Su & Charlie Nee
     
     CS73 Final Project (Group 2)
 */

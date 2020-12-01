@@ -50,16 +50,14 @@ void testHomographyAndWarp()
 
 void testStitch()
 {
-	const FloatImage im1(DIR "/input/ukulele1.jpg");
-	const FloatImage im2(DIR "/input/ukulele2.jpg");
-	vector<vector<int>> im1Points = {{190, 81}, {362, 81}, {261, 60}, {294, 136}, {196, 186}, {196, 199}};
-	vector<vector<int>> im2Points = {{31, 81}, {207, 88}, {109, 62}, {143, 140}, {43, 197}, {44, 210}};
-
-	// campanile images from https://inst.eecs.berkeley.edu/~cs194-26/sp20/upload/files/proj5B/cs194-26-aeu/
-	// const FloatImage im1(DIR "/input/campanile1.jpg");
-	// const FloatImage im2(DIR "/input/campanile2.jpg");
-	// vector<vector<int>> im1Points = {{229, 50}, {243, 30}, {270, 38}, {273, 58}, {245, 51}, {262, 261}, {245, 9}, {259, 27}};
-	// vector<vector<int>> im2Points = {{101, 40}, {118, 24}, {140, 42}, {139, 62}, {115, 46}, {85, 262}, {124, 5}, {133, 29}};
+	// const FloatImage im1(DIR "/input/ukulele1.jpg");
+	// const FloatImage im2(DIR "/input/ukulele2.jpg");
+	// vector<vector<int>> im1Points = {{190, 81}, {362, 81}, {261, 60}, {294, 136}, {196, 186}, {196, 199}};
+	// vector<vector<int>> im2Points = {{31, 81}, {207, 88}, {109, 62}, {143, 140}, {43, 197}, {44, 210}};
+	const FloatImage im1(DIR "/input/small_room2.jpg");
+	const FloatImage im2(DIR "/input/small_room1.jpg");
+	vector<vector<int>> im1Points = {{171, 42}, {172, 51}, {201, 109}, {196, 150}, {159, 106}, {175, 106}};
+	vector<vector<int>> im2Points = {{36, 37}, {36, 47}, {70, 107}, {64, 150}, {21, 105}, {41, 106}};
 
 	FloatImage stitchedIm = stitchWarpLeft(im1, im2, im1Points, im2Points);
 	stitchedIm.write(DIR "/output/stitched.jpg");
@@ -79,11 +77,6 @@ void testAutoStitch()
 {
 	const FloatImage im1(DATA_DIR "/input/ukulele1.jpg");
 	const FloatImage im2(DATA_DIR "/input/ukulele2.jpg");
-	// campanile images from https://inst.eecs.berkeley.edu/~cs194-26/sp20/upload/files/proj5B/cs194-26-aeu/
-	// const FloatImage im1(DIR "/input/campanile1.jpg");
-	// const FloatImage im2(DIR "/input/campanile2.jpg");
-	// vector<vector<int>> im1Points = {{229, 50}, {243, 30}, {270, 38}, {273, 58}, {245, 51}, {262, 261}, {245, 9}, {259, 27}};
-	// vector<vector<int>> im2Points = {{101, 40}, {118, 24}, {140, 42}, {139, 62}, {115, 46}, {85, 262}, {124, 5}, {133, 29}};
 
 	FloatImage stitchedIm = autoStitch(im1, im2);
 	stitchedIm.write(DATA_DIR "/output/autoStitched.jpg");
@@ -95,7 +88,7 @@ int main()
 	// uncomment to test these functions
     // try { testSmartAccessor();}   catch(...) {cout << "testSmartAccessor Failed!" << endl;}
 	// try { testHomographyAndWarp();}   catch(...) {cout << "testHomographyAndWarp Failed!" << endl;}
-	// try { testStitch();}   catch(...) {cout << "testStitch Failed!" << endl;}
+	try { testStitch();}   catch(...) {cout << "testStitch Failed!" << endl;}
 	// try { testAutoStitch();}   catch(...) {cout << "testAutoStitch Failed!" << endl;}
-	try { testFeatures();}   catch(...) {cout << "testFeatures Failed!" << endl;}
+	// try { testFeatures();}   catch(...) {cout << "testFeatures Failed!" << endl;}
 }

@@ -101,6 +101,9 @@ FloatImage warpImage(const FloatImage &im, const Matrix3f H)
     float ty = bbox1[2];
     int width = (int) (bbox1[1] - bbox1[0]);
     int height = (int) (bbox1[3] - bbox1[2]);
+    if (width <= 0 || height <= 0) {
+        cout << "bad homography" << endl;
+    }
     FloatImage output(width, height, im.channels());
 
 	for (int i = 0; i < output.width(); i++) {
@@ -205,7 +208,6 @@ FloatImage stitchWarpBoth(const FloatImage &im1, const FloatImage &im2, const ve
         point.push_back((im1Points[i][1] + im2Points[i][1]) / 2);
         avgPoints.push_back(point);
     }
-
     // warp both images and determine output image size
     Matrix3f H1 = computeHomography(im1Points, avgPoints);
     Matrix3f H2 = computeHomography(im2Points, avgPoints);
