@@ -119,8 +119,8 @@ int main()
 	// try { testHomographyAndWarp();}   catch(...) {cout << "testHomographyAndWarp Failed!" << endl;}
 	// try { testStitch();}   catch(exception& e) {std::cout << e.what() << std::endl;}
 	// try { testCylindricalWarp();}   catch(exception& e) {std::cout << e.what() << std::endl;}
-	try { test360();}   catch(exception& e) {std::cout << e.what() << std::endl;}
-	try { testStitch();}   catch(...) {cout << "testStitch Failed!" << endl;}
+	// try { test360();}   catch(exception& e) {std::cout << e.what() << std::endl;}
+	// try { testStitch();}   catch(...) {cout << "testStitch Failed!" << endl;}
 	// try { testAutoStitch();}   catch(...) {cout << "testAutoStitch Failed!" << endl;}
-	// try { testFeatures();}   catch(...) {cout << "testFeatures Failed!" << endl;}
+	try { testFeatures();}   catch(...) {cout << "testFeatures Failed!" << endl;}
 }

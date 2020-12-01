@@ -1,4 +1,4 @@
-// mosaic.cpp (Part A)
+// mosaic.cpp (Part A & C)
 
 #include "mosaic.h"
 #include "utils.h"
@@ -6,6 +6,8 @@
  
 using namespace std;
 using namespace Eigen;
+
+// ------- PART A -------
 
 // Recover the homography between 2 sets of corresponding points using least squares
 // input: im1Points and im2Points are n-by-2 matrices holding the (x,y) locations
@@ -245,6 +247,9 @@ FloatImage stitchWarpBoth(const FloatImage &im1, const FloatImage &im2, const ve
 	}
     return output;
 }
+
+
+// ------- PART C -------
 
 // takes points from the original image and projects them onto the cylinder
 // inputs: original x, original y, image width, image height, focal length, cylinder radius
