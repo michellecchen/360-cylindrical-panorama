@@ -7,8 +7,8 @@ Group 2 (Michelle Chen, Jiro Mizuno, Charlie Nee, Tanli Su)
 Generating a panorama from a sequence of images via image warping, mosaicing, & auto-stitching.
 
 ## Part A
-(Tanli)
-1. Image warping and planar projection mosaicing. (Tanli)
+(Primary author: Tanli)
+1. Image warping and planar projection mosaicing.
 * We tested 3 methods for image mosaicing: using a simple overlap, a linear blend, and a sigmoid blend. Output images are shown for all 3 methods, but the sigmoid blend gave the best results. The code for the simple overlap and linear blend methods has been commented out.
 * We also tested 2 methods for warping before stitching. The `stitchWarpLeft()` function warps the left image according to the right image and then stitches them together. The `stitchWarpBoth()` function takes the average of the two given sets of corresponding points, warps both the left and right images according to this set of points, and then stitches the two warped images together. The outputs for both methods are also shown; the method which warps only the left image seems to give slightly better results.
 
@@ -18,7 +18,7 @@ Generating a panorama from a sequence of images via image warping, mosaicing, & 
 * Eigen least squares solver documentation: https://eigen.tuxfamily.org/dox/group__LeastSquares.html
 
 ## Part B
-(Michelle, Jiro)
+(Primary authors: Michelle, Jiro)
 1. Detecting corner features in an image: Using Harris Interest Point Detector.
 2. Extracting a Feature Descriptor for each feature point: Extracting small, axis-aligned
 patches, sampled from the larger window, with descriptors bias/gain-normalized.
@@ -27,9 +27,7 @@ patches, sampled from the larger window, with descriptors bias/gain-normalized.
 4. Computing a homography: Using a robust method (RANSAC).
 5. Producing a mosaic using the stitch function from Part A.
 
-Part B is contained within `homography.h` and `homography.cpp`; main functions include Harris Interest Point Detection, Adaptive Non-Maximal Suppression, feature descriptor generation via Multi-Scale Oriented Patches (MOPS), feature matching based on descriptors, and RAndom SAmple Consensus (RANSAC).
-
-All of these functions were implemented from scratch. No open-source libraries (i.e. OpenCV) were used in lieu of these functions.
+Part B is contained within `homography.h` and `homography.cpp`. All of these functions were implemented from scratch. No open-source libraries (i.e. OpenCV) were used in lieu of these functions.
 
 **Disclaimer:** Unfortunately, the raw feature matching implementation doesn't return a desirable result; as such, we are only able to stitch, and not *auto*stitch, reliably. However, we are able to identify interest points, suppress them, and presumably, generate descriptors for them. We suspect that our feature matching function could benefit from descriptors that are more rotation-invariant, or more color-invariant. We were not able to detect any flaws within the algorithm itself, across hours of careful examination.
 
@@ -51,6 +49,7 @@ https://stats.stackexchange.com/questions/46429/transform-data-to-desired-mean-a
 https://people.sc.fsu.edu/~jburkardt/c_src/haar/haar.html 
 
 ## Part C
+(Primary author: Charlie)
 The code for part c can be found in the file `mosaic.cpp`. The final output image is called `panorama360.jpg`. Results of testing just the image warping are named `cylinder-warp[#].jpg`. Part C consists of two parts, image warping and image stitching. The method for image warping is explained in the first source of this section. Image stitching used translation with some sigmoid blending. The boundaries for stitching the images together (to make sure the images overlapped properly), was determined manually by opening the images up in an image editing program and looking for locations that were best suited for overlap. However, this can also be done via feature matching as [this student](http://pages.cs.wisc.edu/~vmathew/cs766-proj2/index.html) did.
 
 ### Functions
