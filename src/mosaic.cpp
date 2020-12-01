@@ -264,7 +264,7 @@ Sources (some are re-listed next to specific functions)
 // inputs: original x, original y, image width, image height, focal length, cylinder radius
 // output: x,y coordinate after projection
 // :information_source: https://stackoverflow.com/questions/12017790/warp-image-to-appear-in-cylindrical-projection this function is based off of
-// this mathematical explanation and example. 
+// this mathematical explanation and example. Everything was written ourselves, but the math behind it was taken from the post.
 vector<float> convertToCylinder(float x, float y, int w, int h, float focal, float radius)
 {
     //center the point at 0,0
