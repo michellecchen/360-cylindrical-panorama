@@ -83,6 +83,7 @@ void testWarpAll(){
 		results[i- 1].write(DIR "/output/cylinder-warp" + std::to_string(i) + ".jpg");
 	}
 }
+
 void test360(){
 	// read in the images
 	vector<FloatImage> images;
@@ -95,6 +96,7 @@ void test360(){
 	 FloatImage result = stitchCylinder(images, boundaries, focal);
 	result.write(DIR "/output/panorama360.jpg");
 }
+
 void testFeatures(){
 	const FloatImage im1(DATA_DIR "/input/ukulele1.jpg");
 	const FloatImage im2(DATA_DIR "/input/ukulele2.jpg");

@@ -353,9 +353,8 @@ vector<vector<int>> featureMatching(const FloatImage &im1, const FloatImage &im2
         float smallestDistance = FLT_MAX;
         float secondSmallest = FLT_MAX;
         float ssd = FLT_MAX;
-        vector<int> indices(2);
+        vector<int> indices = {0, 0};
         bool validSSD = false;
-;
         
         // Lowe's ratio test? Consider thresholding (recommended starter th=0.5)
         // Lowering this threshold will improve the quality of matches but decrease the overall amount. Optimize for this tradeoff?
@@ -390,7 +389,7 @@ vector<vector<int>> featureMatching(const FloatImage &im1, const FloatImage &im2
     stable_sort(matchIndexDist.begin(), matchIndexDist.end(), [](tuple<vector<int>, float> dist1, tuple<vector<int>, float> dist2) {return get<1>(dist1) < get<1>(dist2);});
 
     // extract the sorted matching indicies
-    for(int k = 0; k < (int) matchIndexDist.size(); k++){
+    for(int k = 0; k < (int) matchIndexDist.size(); k++) {
         matchIndices.push_back(get<0>(matchIndexDist[k]));
     }
     return matchIndices;
@@ -682,6 +681,28 @@ FloatImage showMatchingPoints(const FloatImage &im1, const FloatImage &im2){
     cout << "feature finding done" << endl;
     feature1 = suppress(500, feature1);
     feature2 = suppress(500, feature2);
+
+    // ---------- visualize supressed feature points ----------
+    // FloatImage output1(im1.width(), im1.height(), im1.channels());
+    // FloatImage output2(im1.width(), im1.height(), im1.channels());
+    // for (int i = 0; i < output1.width(); i++) {
+	// 	for (int j = 0; j < output1.height(); j++) {
+	// 		for (int c = 0; c < output1.channels(); c++) {
+    //             output1(i, j, c) = im1(i, j, c);
+    //             output2(i, j, c) = im2(i, j, c);
+    //         }
+    //     }
+    // }
+    // for (int i = 0; i < (int) feature1.size(); i++) {
+    //     output1(feature1[i][1]*pow(2,feature1[i][3]+1), feature1[i][2]*pow(2,feature1[i][3]+1), 0) = 1;
+    //     output1(feature1[i][1]*pow(2,feature1[i][3]+1), feature1[i][2]*pow(2,feature1[i][3]+1), 1) = 0;
+    //     output1(feature1[i][1]*pow(2,feature1[i][3]+1), feature1[i][2]*pow(2,feature1[i][3]+1), 2) = 0;
+    //     output2(feature2[i][1]*pow(2,feature2[i][3]+1), feature2[i][2]*pow(2,feature2[i][3]+1), 0) = 1;
+    //     output2(feature2[i][1]*pow(2,feature2[i][3]+1), feature2[i][2]*pow(2,feature2[i][3]+1), 1) = 0;
+    //     output2(feature2[i][1]*pow(2,feature2[i][3]+1), feature2[i][2]*pow(2,feature2[i][3]+1), 2) = 0;
+    // }
+    // output1.write("../data/output/supress1.jpg");
+    // output2.write("../data/output/supress2.jpg");
     
     cout << "feature suppression done" << endl;
     vector<vector<float>> descriptor1 = featureDescriptors(im1, pyra1, feature1);

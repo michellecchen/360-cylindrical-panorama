@@ -344,7 +344,7 @@ FloatImage stitchCylinder(vector<FloatImage> &images, vector<int> boundaries, in
         if (localX < newBoundaries[currentImage * 2] + 20 && currentImage >= 1){
             blendBack = true;
         }
-        if (localX > newBoundaries[currentImage * 2 + 1] - 20 && currentImage <= images.size() - 1){
+        if (localX > newBoundaries[currentImage * 2 + 1] - 20 && currentImage <= (int) images.size() - 1){
             blendForward = true;
         }
         for (int y = offset; y < result.height() - offset; y ++){
@@ -409,7 +409,7 @@ vector<int> convertBoundaries(vector<int> boundaries, int radius, int focal, int
 // output: circumference of the proposed cylinder
 int calculateCircumference(const vector<int> boundaries){
     int circumference = 0;
-    for (int i = 0; i <= boundaries.size() - 1; i += 2 ){
+    for (int i = 0; i <= (int) boundaries.size() - 1; i += 2 ){
         circumference += boundaries[i + 1] - boundaries[i];
     }
     cout<< "circumference = " << circumference << endl;
