@@ -245,3 +245,175 @@ FloatImage stitchWarpBoth(const FloatImage &im1, const FloatImage &im2, const ve
 	}
     return output;
 }
+
+// takes points from the original image and projects them onto the cylinder
+// inputs: original x, original y, image width, image height, focal length, cylinder radius
+// output: x,y coordinate after projection
+vector<float> convertToCylinder(float x, float y, int w, int h, float focal, float radius)
+{
+    //center the point at 0,0
+    x = x - floor(w / 2);
+    y = y - floor(h / 2);
+
+    // calculate new coordinate
+    float omega = w/2;
+    float r2 = pow(radius, 2);
+    float z0 = focal - sqrt(r2 - pow(omega, 2));
+    float x2 = pow(x, 2);
+    float f2 = pow(focal, 2);
+    float z02 = pow(z0, 2);
+    float zc = (2 * z0 + sqrt(4 * z02 - 4 * (x2 / f2 + 1) * (z02 - r2))) / (2 * (x2 / f2 + 1)); 
+    float new_x = x * zc / focal;
+    float new_y= y * zc / focal;
+
+    // reconvert image coordinate
+    new_x += floor(w / 2);
+   new_y += floor(h / 2);
+
+    vector<float> point;
+    point.push_back(new_x);
+    point.push_back(new_y);
+    return point;
+}
+
+// takes an image and warps it to fit around a cylinder
+// inputs: original image, focal length, radius
+// outputs: warped image
+FloatImage warpCylinder(const FloatImage &im, int focal, int radius){
+    FloatImage result(im);
+    for (int x = 0; x < im.width(); x++){
+        for (int y = 0; y < im.height(); y++){
+            for (int z = 0; z < im.depth(); z++){
+                vector<float> new_coodinate = convertToCylinder(x, y, im.width(), im.height(), focal, radius);
+                result(x, y, z) = interpolateLin(im, new_coodinate[0], new_coodinate[1], z, false);
+            }
+        }
+    }   
+    return result;
+}
+
+// takes a series of images and warps them all to a cylinder
+// inputs: all the images, focal length, radius
+// outputs: all the images, warped
+vector<FloatImage> warpAll(vector<FloatImage> &images, int focal, int radius){
+    vector<FloatImage> warped;
+    for (FloatImage image : images){
+        cout << "warping image" << endl;
+        FloatImage result = warpCylinder(image, focal, radius);
+        warped.push_back(result);
+    }
+    return warped;
+}
+
+// takes a series of images and the boundaries which to overlap the images at and creates a 360 panorama 
+// inputs: original images, list of boundaries such that the first element is the left boundary of the first image,
+// the second is the right boundary of the second image, the third is the left boundary of the second image, and so on
+// and the focal length
+// output: 360 panorama
+FloatImage stitchCylinder(vector<FloatImage> &images, vector<int> boundaries, int focal){
+    // warp images
+    int circumference = calculateCircumference(boundaries);
+    int radius = floor(circumference / (2 * M_PI));
+    FloatImage result(circumference, circumference / 3, images[0].depth());
+    vector<FloatImage> warped = warpAll(images, focal, radius);
+    vector<int> newBoundaries = convertBoundaries(boundaries, radius, focal, images[0].width(), images[0].height());
+
+    // keep track of what image we are on and what x coordinate we are on locally
+    int currentImage = 0;
+    int localX = newBoundaries[0];
+    // add some black space to the top of the bottom in case the image is viewed in a 360 image viewer
+    int offset = floor((circumference / 3 - images[0].height()) / 2);
+
+    for (int x = 0; x < result.width(); x ++){
+        bool blendBack = false;
+        bool blendForward = false;
+        // if we cross the boundary of the image we are on, move to the next one
+        if (localX > newBoundaries[currentImage * 2 + 1]){
+            currentImage += 1;
+            localX = newBoundaries[currentImage * 2];
+        }
+        else{
+            localX++;
+        }
+        // if near a seam, flag the pixel to be blended
+        if (localX < newBoundaries[currentImage * 2] + 20 && currentImage >= 1){
+            blendBack = true;
+        }
+        if (localX > newBoundaries[currentImage * 2 + 1] - 20 && currentImage <= images.size() - 1){
+            blendForward = true;
+        }
+        for (int y = offset; y < result.height() - offset; y ++){
+            for (int z = 0; z < result.depth(); z ++){
+                try
+                {
+                    // sigmoid blending
+                    if (blendBack){
+                        int diff = localX - newBoundaries[currentImage * 2];
+                        float val1 = warped[currentImage](localX, y - offset, z);
+                        float val2 = warped[currentImage - 1](newBoundaries[currentImage * 2 - 1] + diff, y - offset, z);
+                        // result(x, y, z) = val1 + val2;
+                        if (val1 != 0 && val2 != 0) {
+                            float alpha = 1 / (1 + exp(diff)); 
+                            result(x, y, z) = val1 * (1 - alpha) + val2 * alpha;
+                        }
+                    }
+                    else if (blendForward){
+                        int diff = newBoundaries[currentImage * 2 + 1] - localX;
+                        float val1 = warped[currentImage](localX, y - offset, z);
+                        float val2 = warped[currentImage + 1](newBoundaries[currentImage * 2 + 2] - diff, y - offset, z);
+                        // result(x, y, z) = val1 + val2;
+                        if (val1 != 0 && val2 != 0) {
+                            float alpha = 1 / (1 + exp(diff)); 
+                            result(x, y, z) = val1 * (1 - alpha) + val2 * alpha;
+                        }
+                    }
+                    else{
+                        //if no need to be blended copy the pixel value directly
+                        result(x, y, z) = warped[currentImage](localX, y - offset, z);
+                    }
+   
+                }
+                catch(const std::exception& e)
+                {
+                    // sometimes the math doesnt work out exactly
+                    std::cerr << e.what() << '\n';
+                    std::cout << y << endl;
+                }
+                
+                
+            }
+        }
+    }
+    return result;
+}
+
+// helper function that converts the boundaries to the cylindrical coordinates
+// inputs: list of boundaries, radius, focal length, image width, image height
+// outputs: converted boundaries
+vector<int> convertBoundaries(vector<int> boundaries, int radius, int focal, int w, int h){
+    vector<int> result;
+    for (int boundary : boundaries){
+        int new_x = floor(convertToCylinder(boundary, 0, w, h, focal, radius)[0]);
+        result.push_back(new_x);
+    }
+    return result;
+}
+
+// helper function that calculates circumference of the cylinder
+// inputs: list of boundaries
+// output: circumference of the proposed cylinder
+int calculateCircumference(const vector<int> boundaries){
+    int circumference = 0;
+    for (int i = 0; i <= boundaries.size() - 1; i += 2 ){
+        circumference += boundaries[i + 1] - boundaries[i];
+    }
+    cout<< "circumference = " << circumference << endl;
+    return circumference;
+}
+
+// helper function that calculates focal length in pixels
+// inputs: focal length in mm. sensor width, the image
+// output: focal length in px
+int getFocalLength(float focalMM, float sensorWidth, FloatImage &im){
+    return floor(im.width() * focalMM / sensorWidth);
+}

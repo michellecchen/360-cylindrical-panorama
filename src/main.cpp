@@ -4,9 +4,8 @@
 #include <filesystem>
 
 #define DIR "../data"
-
-using namespace std;
 using namespace Eigen;
+using namespace std;
 
 // test the smart accessor function
 // void testSmartAccessor()
@@ -35,10 +34,10 @@ using namespace Eigen;
 
 void testHomographyAndWarp()
 {
-	vector<vector<int>> im1Points = {{0,0}, {0,84}, {127,0}, {127,84}};
-	vector<vector<int>> im2Points = {{0,0}, {30,84}, {127,0}, {97,84}};
-	Matrix3f H = computeHomography(im1Points, im2Points);
-	cout << H << endl;
+	std::vector<std::vector<int>> im1Points = {{0,0}, {0,84}, {127,0}, {127,84}};
+	std::vector<std::vector<int>> im2Points = {{0,0}, {30,84}, {127,0}, {97,84}};
+	Eigen::Matrix3f H = computeHomography(im1Points, im2Points);
+	std::cout << H << std::endl;
 
 	const FloatImage im(DIR "/input/bear.png"); // 85 by 128
 	FloatImage warpedIm = warpImage(im, H);
@@ -66,6 +65,36 @@ void testStitch()
 	stitchedIm.write(DIR "/output/stitched-warp-both.jpg");
 }
 
+void testCylindricalWarp(){
+	const FloatImage im1(DIR "/input/ukulele1.jpg");
+	FloatImage result = warpCylinder(im1, im1.width() / 2, im1.width());
+	result.write(DIR "/output/ukulele-cylinder.jpg");
+}
+
+void testWarpAll(){
+	vector<FloatImage> images;
+	for (int i = 9; i >=1; i--){
+		FloatImage current_img(DIR "/input/cylinder" + std::to_string(i) + ".jpg");
+		images.push_back(current_img);
+	}
+	int focal = getFocalLength(22.0, 22.3, images[0]);
+	vector<FloatImage> results = warpAll(images, focal, images[0].width());
+	for (int i = 1; i <= 9; i++){
+		results[i- 1].write(DIR "/output/cylinder-warp" + std::to_string(i) + ".jpg");
+	}
+}
+void test360(){
+	// read in the images
+	vector<FloatImage> images;
+	for (int i = 11; i >=1; i--){
+		FloatImage current_img(DIR "/input/room" + std::to_string(i) + ".jpg");
+		images.push_back(current_img);
+	}
+	int focal = getFocalLength(22.0, 22.3, images[0]);
+	vector<int> boundaries= {0, 320, 50, 430, 60, 450, 50, 320, 50, 510, 50, 450, 40, 470, 115, 470, 30, 350, 50, 305, 50, 320};
+	 FloatImage result = stitchCylinder(images, boundaries, focal);
+	result.write(DIR "/output/panorama360.jpg");
+}
 void testFeatures(){
 	const FloatImage im1(DATA_DIR "/input/ukulele1.jpg");
 	const FloatImage im2(DATA_DIR "/input/ukulele2.jpg");
@@ -88,6 +117,9 @@ int main()
 	// uncomment to test these functions
     // try { testSmartAccessor();}   catch(...) {cout << "testSmartAccessor Failed!" << endl;}
 	// try { testHomographyAndWarp();}   catch(...) {cout << "testHomographyAndWarp Failed!" << endl;}
+	// try { testStitch();}   catch(exception& e) {std::cout << e.what() << std::endl;}
+	// try { testCylindricalWarp();}   catch(exception& e) {std::cout << e.what() << std::endl;}
+	try { test360();}   catch(exception& e) {std::cout << e.what() << std::endl;}
 	try { testStitch();}   catch(...) {cout << "testStitch Failed!" << endl;}
 	// try { testAutoStitch();}   catch(...) {cout << "testAutoStitch Failed!" << endl;}
 	// try { testFeatures();}   catch(...) {cout << "testFeatures Failed!" << endl;}
