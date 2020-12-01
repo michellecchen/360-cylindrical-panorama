@@ -245,10 +245,21 @@ FloatImage stitchWarpBoth(const FloatImage &im1, const FloatImage &im2, const ve
 	}
     return output;
 }
+/* Part C 
+Sources (some are re-listed next to specific functions)
+* Mathematical explanation of cylindrical projection. This source was the basis for this section,and most of the theory was taken from this post: https://stackoverflow.com/questions/12017790/warp-image-to-appear-in-cylindrical-projection
+* General background information: https://courses.cs.washington.edu/courses/cse576/08sp/lectures/Stitching.pdf
+* General background information: https://graphics.stanford.edu/courses/cs448a-10/kari-panoramas-02mar10-opt.pdf
+* General list of steps: http://pages.cs.wisc.edu/~vmathew/cs766-proj2/index.html
+* Computing the focal length in mm: http://phototour.cs.washington.edu/focal.html
+*/
+
 
 // takes points from the original image and projects them onto the cylinder
 // inputs: original x, original y, image width, image height, focal length, cylinder radius
 // output: x,y coordinate after projection
+// :information_source: https://stackoverflow.com/questions/12017790/warp-image-to-appear-in-cylindrical-projection this function is based off of
+// this mathematical explanation and example. 
 vector<float> convertToCylinder(float x, float y, int w, int h, float focal, float radius)
 {
     //center the point at 0,0
@@ -268,7 +279,7 @@ vector<float> convertToCylinder(float x, float y, int w, int h, float focal, flo
 
     // reconvert image coordinate
     new_x += floor(w / 2);
-   new_y += floor(h / 2);
+    new_y += floor(h / 2);
 
     vector<float> point;
     point.push_back(new_x);
@@ -414,6 +425,7 @@ int calculateCircumference(const vector<int> boundaries){
 // helper function that calculates focal length in pixels
 // inputs: focal length in mm. sensor width, the image
 // output: focal length in px
+// :information_source: http://phototour.cs.washington.edu/focal.html equation was taken from this site 
 int getFocalLength(float focalMM, float sensorWidth, FloatImage &im){
     return floor(im.width() * focalMM / sensorWidth);
 }
