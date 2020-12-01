@@ -10,10 +10,10 @@
 
 <script>
 
-imagewidth=403
-imageheight=302
-path1='im1.jpg'
-path2='im2.jpg'
+imagewidth=300
+imageheight=200
+path1='small_room2.jpg'
+path2='small_room1.jpg'
 
 var paper = Raphael(0, 0, 1000, 512);
 
@@ -51,8 +51,8 @@ if (count1%2>0){
   var L=paper.path("M"+lastx1+" "+lasty1+" L"+posx+" "+posy);
   S=document.getElementById("seg1").innerHTML
   // if (count1>1) S=S.substring(0, S.length-2)+", "
-  S2=S+"segsBefore.push_back(Segment("+(lastx1-cornerx1)+", "+(lasty1-cornery)+", "+(posx-cornerx1)+
-      ", "+(posy-cornery)+")); <br />"
+  S2=S+"{"+(lastx1-cornerx1)+", "+(lasty1-cornery)+"}, {"+(posx-cornerx1)+
+      ", "+(posy-cornery)+"}, "
   document.getElementById("seg1").innerHTML=S2
 
 };
@@ -81,8 +81,8 @@ if (count2%2>0){
   var L=paper.path("M"+lastx2+" "+lasty2+" L"+posx+" "+posy);
   S=document.getElementById("seg2").innerHTML
   // if (count2>1) S=S.substring(0, S.length-2)+", "
-  S2=S+"segsAfter.push_back(Segment("+(lastx2-cornerx2)+", "+(lasty2-cornery)+", "+(posx-cornerx2)+
-      ", "+(posy-cornery)+")); <br />"
+  S2=S+"{"+(lastx2-cornerx2)+", "+(lasty2-cornery)+"}, {"+(posx-cornerx2)+
+      ", "+(posy-cornery)+"}, "
   document.getElementById("seg2").innerHTML=S2
 };
 lastx2=posx;

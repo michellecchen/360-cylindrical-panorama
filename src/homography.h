@@ -56,13 +56,16 @@ vector<vector<int>> featureMatching(const FloatImage im1, const FloatImage im2,
     vector<vector<float>> keypoints1, vector<vector<float>> keypoints2, vector<vector<float>> descriptors1, vector<vector<float>> descriptors2);
 
 float computeSumSquaredDist(vector<float> patch1, vector<float> patch2);
+FloatImage showMatchingPoints(const FloatImage &im1, const FloatImage &im2);
 
 Matrix3f RANSAC(const FloatImage im, vector<vector<float>> keypoints1, vector<vector<float>> keypoints2, vector<vector<int>> matchIndices, 
     int iterations, float epsilon, float thres);
 
-Matrix3f computeHomography(vector<vector<float>> keypoints1, vector<vector<float>> keypoints2, vector<int> match1, vector<int> match2, vector<int> match3, vector<int> match4);
+Matrix3f compute4MatchHomography(vector<vector<float>> keypoints1, vector<vector<float>> keypoints2, vector<int> match1, vector<int> match2, vector<int> match3, vector<int> match4);
 
-FloatImage stitchHomograph(FloatImage im1, FloatImage im2, int levels, int interestMaxNum, int iterations, float epsilon, float thres);
+FloatImage autoStitch(const FloatImage &im1, const FloatImage &im2);
+
+//FloatImage stitchHomograph(FloatImage im1, FloatImage im2, int levels, int interestMaxNum, int iterations, float epsilon, float thres);
 
 // grayscale 
 FloatImage color2gray(const FloatImage &im, const vector<float> &weights);
@@ -75,4 +78,3 @@ vector<float> gauss1DFilterValues(float sigma, float truncate);
 FloatImage gaussianBlur_seperable(const FloatImage &im, float sigma, float truncate=3.0, bool clamp=true);
 
 FloatImage impulseImg(const int &k);
-

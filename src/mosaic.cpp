@@ -101,6 +101,9 @@ FloatImage warpImage(const FloatImage &im, const Matrix3f H)
     float ty = bbox1[2];
     int width = (int) (bbox1[1] - bbox1[0]);
     int height = (int) (bbox1[3] - bbox1[2]);
+    if (width <= 0 || height <= 0) {
+        cout << "bad homography" << endl;
+    }
     FloatImage output(width, height, im.channels());
 
 	for (int i = 0; i < output.width(); i++) {
@@ -131,19 +134,12 @@ FloatImage rectifyImage(const FloatImage &im, const std::vector<std::vector<int>
     return warpImage(im, H);
 }
 
-// Stitch 2 images together given 2 sets of corresponding points (warp the left image)
+// Stitch 2 images together given a homography for warping the left image to the right image
 // input: im1 and im2 are the left and right images to be stitched together,
-// im1Points and im2Points are n-by-2 matrices holding the (x,y) locations
-// of n point correspondences
+// H is the homography matrix
 // output: the stitched panorama image
-FloatImage stitch(const FloatImage &im1, const FloatImage &im2, const vector<vector<int>> im1Points, const vector<vector<int>> im2Points)
+FloatImage stitch(const FloatImage &im1, const FloatImage &im2, const Matrix3f H)
 {
-    if (im1Points.size() != im2Points.size() || im1Points.size() < 4) {
-        throw MismatchedSizeException();
-    }
-
-    // warp left image and determine output image size
-    Matrix3f H = computeHomography(im1Points, im2Points);
     FloatImage outIm1 = warpImage(im1, H);
     // outIm1.write("../data/output/part-A/warped-left-image.jpg");
     vector<float> bbox1 = computeTransformedBBox(im1.width(), im1.height(), H);
@@ -177,8 +173,23 @@ FloatImage stitch(const FloatImage &im1, const FloatImage &im2, const vector<vec
     return output;
 }
 
+// Stitch 2 images together given 2 sets of corresponding points (warp the left image)
+// input: im1 and im2 are the left and right images to be stitched together,
+// im1Points and im2Points are n-by-2 matrices holding the (x,y) locations
+// of n point correspondences
+// output: the stitched panorama image
+FloatImage stitchWarpLeft(const FloatImage &im1, const FloatImage &im2, const vector<vector<int>> im1Points, const vector<vector<int>> im2Points)
+{
+    if (im1Points.size() != im2Points.size() || im1Points.size() < 4) {
+        throw MismatchedSizeException();
+    }
+
+    Matrix3f H = computeHomography(im1Points, im2Points);
+    return stitch(im1, im2, H);
+}
+
 // Stitch 2 images together given 2 sets of corresponding points
-// (same as stitch(), but warp both images)
+// (this function is the same as stitchWarpLeft(), but warps both images instead of just the left)
 // input: im1 and im2 are the left and right images to be stitched together,
 // im1Points and im2Points are n-by-2 matrices holding the (x,y) locations
 // of n point correspondences
@@ -197,7 +208,6 @@ FloatImage stitchWarpBoth(const FloatImage &im1, const FloatImage &im2, const ve
         point.push_back((im1Points[i][1] + im2Points[i][1]) / 2);
         avgPoints.push_back(point);
     }
-
     // warp both images and determine output image size
     Matrix3f H1 = computeHomography(im1Points, avgPoints);
     Matrix3f H2 = computeHomography(im2Points, avgPoints);
