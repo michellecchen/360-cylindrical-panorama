@@ -5,7 +5,6 @@ Generating a panorama from a sequence of images via image warping, mosaicing, & 
 
 ### Part A (mosaic.h, mosaic.cpp)
 1. Image warping and planar projection mosaicing. (Tanli)
-2. Cylindrical 360-degree panorama. (Charlie)
 
 ### Part B (homography.h, homography.cpp)
 (Michelle, Jiro)
@@ -16,6 +15,9 @@ patches, sampled from the larger window, with descriptors bias/gain-normalized.
 ‘matches’; similarity is measured according to a threshold.
 4. Computing a homography: Using a robust method (RANSAC).
 5. Producing a mosaic using the stitch function from Part A.
+
+### Part C (mosaic.h, mosaic.cpp)
+1. Cylindrical 360-degree panorama. (Charlie)
 
 ## Results
 The output image results can be found in the `data/output` directory.

@@ -23,7 +23,7 @@ using Vec2f = std::array<float, 2>;
 // - the gaussian pyramid itself
 //
 // OUTPUT: vector of float vectors storing possible interest points in the following format (corner strength, x, y, level, orientation)
-vector<vector<float>> harris(const FloatImage im, int levels, vector<FloatImage> pyramid){
+vector<vector<float>> harris(const FloatImage &im, int levels, vector<FloatImage> pyramid){
     vector<vector<float>> interestPoints;
 
     // initialize the orientation pyramid
@@ -34,7 +34,7 @@ vector<vector<float>> harris(const FloatImage im, int levels, vector<FloatImage>
     // Get the spatially gradiated pyramid (using the Sobel operator)
     for (int i = 0; i < levels; i++) {
         vector<FloatImage> magOri = gradientMagnitude(pyramid[i], true);
-        harrisPyra.push_back({magOri[0] * magOri[0], magOri[0] * magOri[1], magOri[1]*magOri[1]});
+        harrisPyra.push_back({magOri[0] * magOri[0], magOri[0] * magOri[1], magOri[1] * magOri[1]});
         orientationPyra.push_back(magOri[3]); // orientation
     }
 
@@ -44,7 +44,6 @@ vector<vector<float>> harris(const FloatImage im, int levels, vector<FloatImage>
         vector<FloatImage> currentLevel = harrisPyra[l];
         
         FloatImage gradientXX = currentLevel[0]; FloatImage gradientXY = currentLevel[1]; FloatImage gradientYY = currentLevel[2];
-        FloatImage orientation = currentLevel[3];
         
         // initialize a one-dimensional FloatImage that stores corner strength
         FloatImage corners(gradientXX.width(), gradientXX.height(), 1);
@@ -64,18 +63,6 @@ vector<vector<float>> harris(const FloatImage im, int levels, vector<FloatImage>
                         sumYY += gradientYY.smartAccessor(i,j,0,true);
                     }
                 }
-
-                // float sumXX = gradientXX.smartAccessor(x-1, y-1, 0, true) + gradientXX.smartAccessor(x, y-1, 0, true) + gradientXX.smartAccessor(x+1, y-1, 0, true)
-                //     + gradientXX.smartAccessor(x-1, y, 0, true) + gradientXX(x, y, 0) + gradientXX.smartAccessor(x+1, y, 0, true) 
-                //     + gradientXX.smartAccessor(x-1, y+1, 0, true) + gradientXX.smartAccessor(x, y+1, 0, true) + gradientXX.smartAccessor(x+1, y+1, 0, true);
-                
-                // float sumXY = gradientXY.smartAccessor(x-1, y-1, 0, true) + gradientXY.smartAccessor(x, y-1, 0, true) + gradientXY.smartAccessor(x+1, y-1, 0, true)
-                //     + gradientXY.smartAccessor(x-1, y, 0, true) + gradientXY(x, y, 0) + gradientXY.smartAccessor(x+1, y, 0, true) 
-                //     + gradientXY.smartAccessor(x-1, y+1, 0, true) + gradientXY.smartAccessor(x, y+1, 0, true) + gradientXY.smartAccessor(x+1, y+1, 0, true);
-                
-                // float sumYY = gradientYY.smartAccessor(x-1, y-1, 0, true) + gradientYY.smartAccessor(x, y-1, 0, true) + gradientYY.smartAccessor(x+1, y-1, 0, true)
-                //     + gradientYY.smartAccessor(x-1, y, 0, true) + gradientYY(x, y, 0) + gradientYY.smartAccessor(x+1, y, 0, true) 
-                //     + gradientYY.smartAccessor(x-1, y+1, 0, true) + gradientYY.smartAccessor(x,y+1,0,true) + gradientYY.smartAccessor(x+1, y+1, 0, true);
 
                 float determinant = (sumXX * sumYY) - pow(sumXY, 2);
                 float trace = sumXX + sumYY;
@@ -177,7 +164,7 @@ vector<vector<float>> suppress(int n, vector<vector<float>> keypoints) {
 //
 // OUTPUT:
 // - a vector of 64-dimensional descriptors in order of the keypoints found
-vector<vector<float>> featureDescriptors(const FloatImage im, vector<FloatImage> pyramid, vector<vector<float>> keypoints)
+vector<vector<float>> featureDescriptors(const FloatImage &im, vector<FloatImage> pyramid, vector<vector<float>> keypoints)
 {   
     vector<vector<float>> descriptors;
 
@@ -241,7 +228,7 @@ vector<vector<float>> featureDescriptors(const FloatImage im, vector<FloatImage>
         for(int a = 0; a < 64; a++){
             variance = variance + pow(patches[a] - mean,2);
         }
-        variance = variance / 64;
+        variance = variance / 64.f;
         float sd = sqrt(variance);
 
         // Adjust the mean and standard devation to 0 and 1 respectively.
@@ -349,7 +336,7 @@ vector<FloatImage> gaussianPyramid(const FloatImage &im, float sigma, float trun
 
 // Returns indices of matches between keypoints1 & keypoints2,
 // sorted in increasing order by corresponding SSD (Sum of Squared Distance).
-vector<vector<int>> featureMatching(const FloatImage im1, const FloatImage im2, vector<vector<float>> keypoints1, 
+vector<vector<int>> featureMatching(const FloatImage &im1, const FloatImage &im2, vector<vector<float>> keypoints1, 
     vector<vector<float>> keypoints2, vector<vector<float>> descriptors1, vector<vector<float>> descriptors2) {
 
     assert((keypoints1.size() == descriptors1.size()) && (keypoints2.size() == descriptors2.size()) && 
@@ -366,9 +353,8 @@ vector<vector<int>> featureMatching(const FloatImage im1, const FloatImage im2, 
         float smallestDistance = FLT_MAX;
         float secondSmallest = FLT_MAX;
         float ssd = FLT_MAX;
-        vector<int> indices(2);
+        vector<int> indices = {0, 0};
         bool validSSD = false;
-;
         
         // Lowe's ratio test? Consider thresholding (recommended starter th=0.5)
         // Lowering this threshold will improve the quality of matches but decrease the overall amount. Optimize for this tradeoff?
@@ -403,7 +389,7 @@ vector<vector<int>> featureMatching(const FloatImage im1, const FloatImage im2, 
     stable_sort(matchIndexDist.begin(), matchIndexDist.end(), [](tuple<vector<int>, float> dist1, tuple<vector<int>, float> dist2) {return get<1>(dist1) < get<1>(dist2);});
 
     // extract the sorted matching indicies
-    for(int k = 0; k < (int) matchIndexDist.size(); k++){
+    for(int k = 0; k < (int) matchIndexDist.size(); k++) {
         matchIndices.push_back(get<0>(matchIndexDist[k]));
     }
     return matchIndices;
@@ -427,7 +413,7 @@ float computeSumSquaredDist(vector<float> patch1, vector<float> patch2) {
 // 
 // epsilon = limit for ssd
 // thres = limit for # of inliners
-Matrix3f RANSAC(const FloatImage im, vector<vector<float>> keypoints1, vector<vector<float>> keypoints2, vector<vector<int>> matchIndices, 
+Matrix3f RANSAC(const FloatImage &im, vector<vector<float>> keypoints1, vector<vector<float>> keypoints2, vector<vector<int>> matchIndices, 
     int iterations, float epsilon, float thres) {
     
     assert(keypoints1.size() == keypoints2.size());
@@ -646,7 +632,7 @@ Matrix3f compute4MatchHomography(vector<vector<float>> keypoints1, vector<vector
 }
  
 // stitching the images together
-Matrix3f computeAutoHomograph(FloatImage im1, FloatImage im2, int levels, int interestMaxNum, int iterations, float epsilon, float thres){
+Matrix3f computeAutoHomograph(const FloatImage &im1, const FloatImage &im2, int levels, int interestMaxNum, int iterations, float epsilon, float thres){
     // Double the size of the new stitch because I'm not too sure how to accurately stitch 
 
     vector<FloatImage> pyra1 = grayscalePyramid(im1, levels);
@@ -695,10 +681,34 @@ FloatImage showMatchingPoints(const FloatImage &im1, const FloatImage &im2){
     cout << "feature finding done" << endl;
     feature1 = suppress(500, feature1);
     feature2 = suppress(500, feature2);
+
+    // ---------- visualize supressed feature points ----------
+    // FloatImage output1(im1.width(), im1.height(), im1.channels());
+    // FloatImage output2(im1.width(), im1.height(), im1.channels());
+    // for (int i = 0; i < output1.width(); i++) {
+	// 	for (int j = 0; j < output1.height(); j++) {
+	// 		for (int c = 0; c < output1.channels(); c++) {
+    //             output1(i, j, c) = im1(i, j, c);
+    //             output2(i, j, c) = im2(i, j, c);
+    //         }
+    //     }
+    // }
+    // for (int i = 0; i < (int) feature1.size(); i++) {
+    //     output1(feature1[i][1]*pow(2,feature1[i][3]+1), feature1[i][2]*pow(2,feature1[i][3]+1), 0) = 1;
+    //     output1(feature1[i][1]*pow(2,feature1[i][3]+1), feature1[i][2]*pow(2,feature1[i][3]+1), 1) = 0;
+    //     output1(feature1[i][1]*pow(2,feature1[i][3]+1), feature1[i][2]*pow(2,feature1[i][3]+1), 2) = 0;
+    //     output2(feature2[i][1]*pow(2,feature2[i][3]+1), feature2[i][2]*pow(2,feature2[i][3]+1), 0) = 1;
+    //     output2(feature2[i][1]*pow(2,feature2[i][3]+1), feature2[i][2]*pow(2,feature2[i][3]+1), 1) = 0;
+    //     output2(feature2[i][1]*pow(2,feature2[i][3]+1), feature2[i][2]*pow(2,feature2[i][3]+1), 2) = 0;
+    // }
+    // output1.write("../data/output/supress1.jpg");
+    // output2.write("../data/output/supress2.jpg");
+    
     cout << "feature suppression done" << endl;
     vector<vector<float>> descriptor1 = featureDescriptors(im1, pyra1, feature1);
     vector<vector<float>> descriptor2 = featureDescriptors(im2, pyra2, feature2);
     cout << "feature descriptors done" << endl;
+
     vector<vector<int>> matches = featureMatching(im1, im2, feature1, feature2, descriptor1, descriptor2);
     cout << "feature matching done" << endl;
     
